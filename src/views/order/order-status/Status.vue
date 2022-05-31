@@ -3,32 +3,31 @@
     <b-container
       fluid
     >
-      <b-card
-        no-body
-      >
+      <b-card>
         <b-card-header>
-          <b-card-title>Danh sách đơn hàng</b-card-title>
+          <b-card-title>Trạng thái đơn hàng</b-card-title>
           <b-card-sub-title>
             <b-button
               v-ripple.400="'rgba(113, 102, 240, 0.15)'"
               variant="outline-primary"
               style="margin-right: 10px;"
-              href="/orders/create"
+              href="/orders/status/create"
             >
               <feather-icon
                 icon="PlusIcon"
                 class="mr-50"
               />
-              <span class="align-middle">Đơn hàng mới</span>
+              <span class="align-middle">Thêm trạng thái mới</span>
             </b-button>
-             <b-dropdown text="Xuất ra" variant="primary">
+            <b-dropdown
+              text="Xuất ra"
+              variant="primary">
               <b-dropdown-item>In</b-dropdown-item>
               <b-dropdown-item>Excel</b-dropdown-item>
               <b-dropdown-item>CSV</b-dropdown-item>
               <b-dropdown-item>PDF</b-dropdown-item>
             </b-dropdown>
           </b-card-sub-title>
-        
         </b-card-header>
         <vue-good-table
           :columns="orders_columns"
@@ -45,6 +44,10 @@
             clearSelectionText: 'clear',
             disableSelectInfo: true, // disable the select info panel on top
             selectAllByGroup: true, // when used in combination with a grouped table, add a checkbox in the header row to check/uncheck the entire group
+          }"
+          :pagination-options="{
+            enabled: true,
+            perPage:pageLength
           }"
           @on-selected-rows-change="selectionChanged"
         >
@@ -163,8 +166,7 @@
 </template>
 
 <script>
-import {
-  BContainer, BCardTitle, BButton, BCard, BBadge, BDropdown, BDropdownItem, BCardHeader,
+import { BPagination, BFormSelect, BContainer, BCardTitle, BButton, BCard, BBadge, BDropdown, BDropdownItem, BCardHeader,
 } from 'bootstrap-vue'
 import Ripple from 'vue-ripple-directive'
 import { VueGoodTable } from 'vue-good-table'
@@ -173,11 +175,12 @@ import flatPickr from 'flatpickr'
 import 'flatpickr/dist/flatpickr.css'
 import 'flatpickr/dist/themes/material_blue.css'
 
-import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 import fakeData from './fakeStatus'
 
 export default {
   components: {
+    BPagination,
+    BFormSelect, 
     BButton,
     BCardHeader,
     flatPickr,

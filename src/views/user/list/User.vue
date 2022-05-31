@@ -3,9 +3,7 @@
     <b-container
       fluid
     >
-      <b-card
-        no-body
-      >
+      <b-card>
         <b-card-header>
           <b-card-title>Danh sách đơn hàng</b-card-title>
           <b-card-sub-title>
@@ -192,7 +190,7 @@ export default {
   components: {
     BButton,
     BCardHeader,
-    BPagination, 
+    BPagination,
     flatPickr,
     BFormSelect,
     BCardTitle,

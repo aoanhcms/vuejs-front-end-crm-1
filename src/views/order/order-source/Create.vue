@@ -184,13 +184,12 @@
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import { required } from '@validations'
 import {
-  BFormInput, BFormDatepicker, BPagination, BFormTextarea, BFormGroup, BForm, BRow, BCol, BButton, BCard, BFormSelect, BFormSelectOption, BFormCheckbox 
+  BFormInput, BFormDatepicker, BFormTextarea, BFormGroup, BForm, BRow, BCol, BButton, BCard, BFormSelect, BFormSelectOption, BFormCheckbox 
 } from 'bootstrap-vue'
 import { ColorPicker } from 'vue-colour-picker'
 
 export default {
   components: {
-    BPagination,
     ColorPicker,
     BFormTextarea,
     BFormDatepicker,

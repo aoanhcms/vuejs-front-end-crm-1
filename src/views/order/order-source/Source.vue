@@ -3,23 +3,21 @@
     <b-container
       fluid
     >
-      <b-card
-        no-body
-      >
+      <b-card>
         <b-card-header>
-          <b-card-title>Danh sách đơn hàng</b-card-title>
+          <b-card-title>Quản lý nguồn đơn hàng</b-card-title>
           <b-card-sub-title>
             <b-button
               v-ripple.400="'rgba(113, 102, 240, 0.15)'"
               variant="outline-primary"
               style="margin-right: 10px;"
-              href="/orders/create"
+              href="/orders/source/create"
             >
               <feather-icon
                 icon="PlusIcon"
                 class="mr-50"
               />
-              <span class="align-middle">Đơn hàng mới</span>
+              <span class="align-middle">Tạo nguồn hàng mới</span>
             </b-button>
              <b-dropdown text="Xuất ra" variant="primary">
               <b-dropdown-item>In</b-dropdown-item>
@@ -28,7 +26,6 @@
               <b-dropdown-item>PDF</b-dropdown-item>
             </b-dropdown>
           </b-card-sub-title>
-        
         </b-card-header>
         <vue-good-table
           :columns="orders_columns"
@@ -45,6 +42,10 @@
             clearSelectionText: 'clear',
             disableSelectInfo: true, // disable the select info panel on top
             selectAllByGroup: true, // when used in combination with a grouped table, add a checkbox in the header row to check/uncheck the entire group
+          }"
+          :pagination-options="{
+            enabled: true,
+            perPage:pageLength
           }"
           @on-selected-rows-change="selectionChanged"
         >
@@ -69,6 +70,10 @@
               <b-badge :variant="roleVariant(props.row.creater.role)">
                 {{ props.row.creater.name }}
               </b-badge>
+            </span>
+            <span v-else-if="props.column.field === 'date'">
+                <div><FeatherIcon icon="ClockIcon" /> {{ props.row.date.created_at }}</div>
+                <div><FeatherIcon icon="ClockIcon" /> {{ props.row.date.updated_at }}</div>
             </span>
             <!-- Column: Action -->
             <span v-else-if="props.column.field === 'act'">
@@ -164,7 +169,7 @@
 
 <script>
 import {
-  BContainer, BCardTitle, BButton, BCard, BBadge, BDropdown, BDropdownItem, BCardHeader,
+  BContainer, BCardTitle, BPagination, BFormSelect, BButton, BCard, BBadge, BDropdown, BDropdownItem, BCardHeader,
 } from 'bootstrap-vue'
 import Ripple from 'vue-ripple-directive'
 import { VueGoodTable } from 'vue-good-table'
@@ -173,13 +178,14 @@ import flatPickr from 'flatpickr'
 import 'flatpickr/dist/flatpickr.css'
 import 'flatpickr/dist/themes/material_blue.css'
 
-import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
-import fakeData from '../fakeOrder'
+import fakeData from './fakeSource'
 
 export default {
   components: {
     BButton,
     BCardHeader,
+    BPagination,
+    BFormSelect, 
     flatPickr,
     BCardTitle,
     BDropdownItem,
@@ -206,22 +212,12 @@ export default {
       orders_columns: [
         {
           label: 'ID',
-          field: 'orderId',
+          field: 'id',
           width: '100px',
           filterOptions: {
             enabled: true,
-            placeholder: 'Search Id',
+            placeholder: 'Filter Id',
             sortable: true,
-          },
-        },
-        {
-          label: 'Ngày tạo',
-          field: 'date_created',
-          sortable: true,
-          filterOptions: {
-            enabled: true,
-            placeholder: 'Search date',
-            filterFn: this.dateRangeFilter,
           },
         },
         {
@@ -230,60 +226,34 @@ export default {
           sortable: true,
           filterOptions: {
             enabled: true,
-            placeholder: 'Search company',
+            placeholder: 'Filter company',
           },
         },
         {
-          label: 'Nguồn đơn',
-          field: 'order_source',
+          label: 'Tên Nguồn đơn',
+          field: 'order_source_name',
           sortable: true,
-          width: '100px',
           filterOptions: {
             enabled: true,
-            placeholder: 'Search Id',
+            placeholder: 'Filter Id',
           },
         },
         {
-          label: 'Khách hàng',
+          label: 'Level',
           sortable: true,
-          field: 'customer',
+          field: 'level',
           filterOptions: {
             enabled: true,
-            placeholder: 'Search Id',
+            placeholder: 'Filter Level',
           },
         },
         {
-          label: 'Điện thoại',
+          label: 'Vị trí',
           sortable: true,
-          field: 'phone_number',
+          field: 'location',
           filterOptions: {
             enabled: true,
-            placeholder: 'Search phone',
-          },
-        },
-        {
-          label: 'Người tạo',
-          sortable: true,
-          field: 'creater',
-          filterOptions: {
-            enabled: true,
-            placeholder: 'Search creater',
-          },
-        },
-        {
-          label: 'Quốc gia',
-          width: '100px',
-          sortable: true,
-          field: 'country',
-          filterOptions: {
-            enabled: true,
-            placeholder: 'Search Contry',
-            filterDropdownItems: [{
-              value: 'VN', text: 'Việt Nam',
-            },
-            {
-              value: 'THA', text: 'Thái Lan',
-            },],
+            placeholder: 'Filter localtion',
           },
         },
         {
@@ -300,6 +270,16 @@ export default {
             {
               value: 'OFF', text: 'Đang dừng',
             }], // dropdown (with selected values) instead of text input
+          },
+        },
+        {
+          label: 'Ngày tạo',
+          field: 'date',
+          sortable: true,
+          filterOptions: {
+            enabled: true,
+            placeholder: 'Search date',
+            filterFn: this.dateRangeFilter,
           },
         },
         {
@@ -353,64 +333,4 @@ export default {
 
 <style lang="scss" >
 @import '@core/scss/vue/libs/vue-good-table.scss';
-
-@import 'bootstrap/scss/functions';
-@import '~@core/scss/base/bootstrap-extended/variables';
-@import 'bootstrap/scss/variables';
-@import '~@core/scss/base/components/variables-dark';
-
-.card-code {
-  pre[class*='language-'] {
-    margin: 0;
-    max-height: 350px;
-    border-radius: 0.5rem;
-  }
-
-    /* width */
-    ::-webkit-scrollbar {
-      width: 8px;
-      height: 8px;
-      background: #2d2d2d;
-      border-radius: 100%;
-
-      .dark-layout & {
-        background-color: $theme-dark-body-bg !important;
-      }
-    }
-
-    /* Track */
-    ::-webkit-scrollbar-track {
-      background: transparent;
-    }
-
-    /* Handle */
-    ::-webkit-scrollbar-thumb {
-      border-radius: 0.5rem;
-      background: rgba(241,241,241,.4);
-    }
-
-    /* Handle on hover */
-    // ::-webkit-scrollbar-thumb:hover {
-    // }
-
-    ::-webkit-scrollbar-corner {
-      display: none;
-    }
-}
-
-.code-toggler {
-  border-bottom: 1px solid transparent;
-
-  &[aria-expanded='false'] {
-    border-bottom-color: $primary;
-  }
-}
-
-// HTML
-.card {
-  .card-header .heading-elements {
-    position: static;
-    background: red;
-  }
-}
 </style>

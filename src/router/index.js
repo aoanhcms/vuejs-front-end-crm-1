@@ -128,6 +128,20 @@ const router = new VueRouter({
       },
     },
     {
+      path: '/orders/source/create',
+      name: 'orders-source',
+      component: () => import('@/views/order/order-source/Create.vue'),
+      meta: {
+        pageTitle: 'Order',
+        breadcrumb: [
+          {
+            text: 'Nguồn đơn hàng',
+            active: true,
+          },
+        ],
+      },
+    },
+    {
       path: '/orders/create',
       name: 'orders-create',
       component: () => import('@/views/order/Create.vue'),

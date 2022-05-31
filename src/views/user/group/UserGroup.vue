@@ -3,9 +3,7 @@
     <b-container
       fluid
     >
-      <b-card
-        no-body
-      >
+      <b-card>
         <b-card-header>
           <b-card-title>Quản lý nhóm khách hàng</b-card-title>
           <b-card-sub-title>
@@ -44,6 +42,10 @@
             clearSelectionText: 'clear',
             disableSelectInfo: true, // disable the select info panel on top
             selectAllByGroup: true, // when used in combination with a grouped table, add a checkbox in the header row to check/uncheck the entire group
+          }"
+          :pagination-options="{
+            enabled: true,
+            perPage:pageLength
           }"
           @on-selected-rows-change="selectionChanged"
         >
@@ -167,7 +169,7 @@
 
 <script>
 import {
-  BContainer, BCardTitle, BButton, BCard, BBadge, BDropdown, BDropdownItem, BCardHeader,
+  BContainer, BCardTitle, BPagination, BFormSelect, BButton, BCard, BBadge, BDropdown, BDropdownItem, BCardHeader,
 } from 'bootstrap-vue'
 import Ripple from 'vue-ripple-directive'
 import { VueGoodTable } from 'vue-good-table'
@@ -176,11 +178,13 @@ import flatPickr from 'flatpickr'
 import 'flatpickr/dist/flatpickr.css'
 import 'flatpickr/dist/themes/material_blue.css'
 
-import fakeData from './fakeGroup'
 import FeatherIcon from '@/@core/components/feather-icon/FeatherIcon.vue'
+import fakeData from './fakeGroup'
 
 export default {
   components: {
+    BPagination,
+    BFormSelect,
     BButton,
     BCardHeader,
     flatPickr,
