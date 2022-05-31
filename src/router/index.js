@@ -28,7 +28,7 @@ const router = new VueRouter({
       path: '/users',
       name: 'users',
       // eslint-disable-next-line import/no-unresolved
-      component: () => import('@/views/user/User.vue'),
+      component: () => import('@/views/user/list/User.vue'),
       meta: {
         pageTitle: 'Users',
         breadcrumb: [
@@ -40,15 +40,60 @@ const router = new VueRouter({
       },
     },
     {
-      path: '/user-group',
-      name: 'user-group',
+      path: '/users/create',
+      name: 'users-create',
       // eslint-disable-next-line import/no-unresolved
-      component: () => import('@/views/user/User.vue'),
+      component: () => import('@/views/user/list/Create.vue'),
       meta: {
         pageTitle: 'Users',
         breadcrumb: [
           {
-            text: 'User List',
+            text: 'Create new',
+            active: true,
+          },
+        ],
+      },
+    },
+    {
+      path: '/users/edit',
+      name: 'users-edit',
+      // eslint-disable-next-line import/no-unresolved
+      component: () => import('@/views/user/list/Edit.vue'),
+      meta: {
+        pageTitle: 'Users',
+        breadcrumb: [
+          {
+            text: 'Edit',
+            active: true,
+          },
+        ],
+      },
+    },
+    {
+      path: '/users/group',
+      name: 'users-group',
+      // eslint-disable-next-line import/no-unresolved
+      component: () => import('@/views/user/group/UserGroup.vue'),
+      meta: {
+        pageTitle: 'Users',
+        breadcrumb: [
+          {
+            text: 'Group',
+            active: true,
+          },
+        ],
+      },
+    },
+    {
+      path: '/users/group/create',
+      name: 'users-group-create',
+      // eslint-disable-next-line import/no-unresolved
+      component: () => import('@/views/user/group/UserGroupCreate.vue'),
+      meta: {
+        pageTitle: 'Users',
+        breadcrumb: [
+          {
+            text: 'Group',
             active: true,
           },
         ],
@@ -69,14 +114,42 @@ const router = new VueRouter({
       },
     },
     {
+      path: '/orders/source',
+      name: 'orders-source',
+      component: () => import('@/views/order/order-source/Source.vue'),
+      meta: {
+        pageTitle: 'Order',
+        breadcrumb: [
+          {
+            text: 'Nguồn đơn hàng',
+            active: true,
+          },
+        ],
+      },
+    },
+    {
       path: '/orders/create',
-      name: 'create-order',
+      name: 'orders-create',
       component: () => import('@/views/order/Create.vue'),
       meta: {
         pageTitle: 'Order',
         breadcrumb: [
           {
             text: 'Create new',
+            active: true,
+          },
+        ],
+      },
+    },
+    {
+      path: '/orders/status',
+      name: 'orders-status',
+      component: () => import('@/views/order/order-status/Status.vue'),
+      meta: {
+        pageTitle: 'Order',
+        breadcrumb: [
+          {
+            text: 'Trạng thái đơn hàng',
             active: true,
           },
         ],

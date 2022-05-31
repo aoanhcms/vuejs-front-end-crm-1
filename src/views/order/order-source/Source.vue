@@ -28,6 +28,7 @@
               <b-dropdown-item>PDF</b-dropdown-item>
             </b-dropdown>
           </b-card-sub-title>
+        
         </b-card-header>
         <vue-good-table
           :columns="orders_columns"
@@ -173,7 +174,7 @@ import 'flatpickr/dist/flatpickr.css'
 import 'flatpickr/dist/themes/material_blue.css'
 
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
-import fakeData from './fakeUser'
+import fakeData from '../fakeOrder'
 
 export default {
   components: {
@@ -229,7 +230,7 @@ export default {
           sortable: true,
           filterOptions: {
             enabled: true,
-            placeholder: 'Search Id',
+            placeholder: 'Search company',
           },
         },
         {
@@ -335,49 +336,12 @@ export default {
     this.rows = fakeData
   },
   methods: {
-    // in your methods
-    handleCustomFilter(value) {
-      console.log('handleCustomFilter', value)
-      // filtering logic here
-    },
     dateRangeFilter(data, filterString) {
       const dateRange = filterString.split('to')
       const startDate = Date.parse(dateRange[0])
       const endDate = Date.parse(dateRange[1])
       const dataOut = Date.parse(data) >= startDate && Date.parse(data) <= endDate
       return dataOut
-    },
-    onSubmit() {
-      // submit noi dung
-      // console.log('this.selectedProductItems', this.selectedProductItems)
-      if (this.selectedProductItems.length < 1
-        || this.fullname === ''
-        || this.email === ''
-        || this.phone === '') {
-        this.$toast({
-          component: ToastificationContent,
-          position: 'top-right',
-          props: {
-            title: 'Error',
-            icon: 'CoffeeIcon',
-            variant: 'warning',
-            text: 'You have not entered enough information!',
-          },
-        })
-      } else {
-        this.orders.push({
-          products: this.selectedProductItems.map(item => item.productName).join(', '),
-          fullname: this.fullname,
-          email: this.email,
-          phone: this.phone,
-          orderId: Date.now(),
-        })
-        console.log('this.orders', this.orders)
-      }
-    },
-    myFunc(row, col, cellValue) {
-      console.log('search', cellValue)
-      return cellValue === 'my value'
     },
     selectionChanged(rows) {
       // neu thong tin thừa lấy cái đầu tiên

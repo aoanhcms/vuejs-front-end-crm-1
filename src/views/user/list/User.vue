@@ -13,13 +13,13 @@
               v-ripple.400="'rgba(113, 102, 240, 0.15)'"
               variant="outline-primary"
               style="margin-right: 10px;"
-              href="/orders/create"
+              @click="createUserlink"
             >
               <feather-icon
                 icon="PlusIcon"
                 class="mr-50"
               />
-              <span class="align-middle">Đơn hàng mới</span>
+              <span class="align-middle">Khách hàng mới</span>
             </b-button>
              <b-dropdown text="Xuất ra" variant="primary">
               <b-dropdown-item>In</b-dropdown-item>
@@ -28,7 +28,6 @@
               <b-dropdown-item>PDF</b-dropdown-item>
             </b-dropdown>
           </b-card-sub-title>
-        
         </b-card-header>
         <vue-good-table
           :columns="orders_columns"
@@ -46,7 +45,12 @@
             disableSelectInfo: true, // disable the select info panel on top
             selectAllByGroup: true, // when used in combination with a grouped table, add a checkbox in the header row to check/uncheck the entire group
           }"
+          :pagination-options="{
+            enabled: true,
+            perPage:pageLength
+          }"
           @on-selected-rows-change="selectionChanged"
+          @on-column-filter="onColumnFilter"
         >
           <template
             slot="table-row"
@@ -61,8 +65,17 @@
               <span class="text-nowrap">{{ props.row.fullName }}</span>
             </span>
             <span v-else-if="props.column.field === 'status'">
-              <b-badge :variant="statusVariant(props.row.status)">
-                {{ props.row.status }}
+              <b-badge
+                v-if="props.row.status === 'ON'"
+                :variant="statusVariant(props.row.status)"
+              >
+                Đang chạy
+              </b-badge>
+              <b-badge
+                v-else
+                :variant="statusVariant(props.row.status)"
+              >
+                Đang dừng
               </b-badge>
             </span>
             <span v-else-if="props.column.field === 'creater'">
@@ -164,7 +177,7 @@
 
 <script>
 import {
-  BContainer, BCardTitle, BButton, BCard, BBadge, BDropdown, BDropdownItem, BCardHeader,
+  BContainer, BFormSelect, BCardTitle, BPagination, BButton, BCard, BBadge, BDropdown, BDropdownItem, BCardHeader,
 } from 'bootstrap-vue'
 import Ripple from 'vue-ripple-directive'
 import { VueGoodTable } from 'vue-good-table'
@@ -173,14 +186,15 @@ import flatPickr from 'flatpickr'
 import 'flatpickr/dist/flatpickr.css'
 import 'flatpickr/dist/themes/material_blue.css'
 
-import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
-import fakeData from './fakeOrder'
+import fakeData from './fakeUser'
 
 export default {
   components: {
     BButton,
     BCardHeader,
+    BPagination, 
     flatPickr,
+    BFormSelect,
     BCardTitle,
     BDropdownItem,
     BDropdown,
@@ -201,7 +215,7 @@ export default {
   },
   data() {
     return {
-      pageLength: 3,
+      pageLength: 2,
       dir: false,
       orders_columns: [
         {
@@ -215,32 +229,12 @@ export default {
           },
         },
         {
-          label: 'Ngày tạo',
-          field: 'date_created',
-          sortable: true,
-          filterOptions: {
-            enabled: true,
-            placeholder: 'Search date',
-            filterFn: this.dateRangeFilter,
-          },
-        },
-        {
           label: 'Doanh nghiệp',
           field: 'company',
           sortable: true,
           filterOptions: {
             enabled: true,
-            placeholder: 'Search Id',
-          },
-        },
-        {
-          label: 'Nguồn đơn',
-          field: 'order_source',
-          sortable: true,
-          width: '100px',
-          filterOptions: {
-            enabled: true,
-            placeholder: 'Search Id',
+            placeholder: 'Search company',
           },
         },
         {
@@ -249,7 +243,7 @@ export default {
           field: 'customer',
           filterOptions: {
             enabled: true,
-            placeholder: 'Search Id',
+            placeholder: 'Search customer',
           },
         },
         {
@@ -283,7 +277,7 @@ export default {
             },
             {
               value: 'THA', text: 'Thái Lan',
-            },],
+            }],
           },
         },
         {
@@ -300,6 +294,16 @@ export default {
             {
               value: 'OFF', text: 'Đang dừng',
             }], // dropdown (with selected values) instead of text input
+          },
+        },
+        {
+          label: 'Ngày tạo',
+          field: 'created_at',
+          sortable: true,
+          filterOptions: {
+            enabled: true,
+            placeholder: 'Search date',
+            filterFn: this.dateRangeFilter,
           },
         },
         {
@@ -336,10 +340,15 @@ export default {
     this.rows = fakeData
   },
   methods: {
-    // in your methods
-    handleCustomFilter(value) {
-      console.log('handleCustomFilter', value)
-      // filtering logic here
+    createUserlink() {
+      this.$router.push({ name: 'users-create' })
+    },
+    onColumnFilter(params) {
+      console.log('params', params)
+      this.rows = fakeData
+      // params.columnFilters - filter values for each column in the following format:
+      // {field1: 'filterTerm', field3: 'filterTerm2')
+      return []
     },
     dateRangeFilter(data, filterString) {
       const dateRange = filterString.split('to')
@@ -347,38 +356,6 @@ export default {
       const endDate = Date.parse(dateRange[1])
       const dataOut = Date.parse(data) >= startDate && Date.parse(data) <= endDate
       return dataOut
-    },
-    onSubmit() {
-      // submit noi dung
-      // console.log('this.selectedProductItems', this.selectedProductItems)
-      if (this.selectedProductItems.length < 1
-        || this.fullname === ''
-        || this.email === ''
-        || this.phone === '') {
-        this.$toast({
-          component: ToastificationContent,
-          position: 'top-right',
-          props: {
-            title: 'Error',
-            icon: 'CoffeeIcon',
-            variant: 'warning',
-            text: 'You have not entered enough information!',
-          },
-        })
-      } else {
-        this.orders.push({
-          products: this.selectedProductItems.map(item => item.productName).join(', '),
-          fullname: this.fullname,
-          email: this.email,
-          phone: this.phone,
-          orderId: Date.now(),
-        })
-        console.log('this.orders', this.orders)
-      }
-    },
-    myFunc(row, col, cellValue) {
-      console.log('search', cellValue)
-      return cellValue === 'my value'
     },
     selectionChanged(rows) {
       // neu thong tin thừa lấy cái đầu tiên

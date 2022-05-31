@@ -7,19 +7,19 @@
         no-body
       >
         <b-card-header>
-          <b-card-title>Danh sách đơn hàng</b-card-title>
+          <b-card-title>Quản lý nhóm khách hàng</b-card-title>
           <b-card-sub-title>
             <b-button
               v-ripple.400="'rgba(113, 102, 240, 0.15)'"
               variant="outline-primary"
               style="margin-right: 10px;"
-              href="/orders/create"
+              @click="createNewGroup"
             >
               <feather-icon
                 icon="PlusIcon"
                 class="mr-50"
               />
-              <span class="align-middle">Đơn hàng mới</span>
+              <span class="align-middle">Thêm nhóm mới</span>
             </b-button>
              <b-dropdown text="Xuất ra" variant="primary">
               <b-dropdown-item>In</b-dropdown-item>
@@ -68,6 +68,10 @@
               <b-badge :variant="roleVariant(props.row.creater.role)">
                 {{ props.row.creater.name }}
               </b-badge>
+            </span>
+            <span v-else-if="props.column.field === 'date'">
+              <div><FeatherIcon icon="ClockIcon" /> {{ props.row.date.created_at }}</div>
+              <div><FeatherIcon icon="ClockIcon" /> {{ props.row.date.updated_at }}</div>
             </span>
             <!-- Column: Action -->
             <span v-else-if="props.column.field === 'act'">
@@ -172,8 +176,8 @@ import flatPickr from 'flatpickr'
 import 'flatpickr/dist/flatpickr.css'
 import 'flatpickr/dist/themes/material_blue.css'
 
-import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
-import fakeData from './fakeOrder'
+import fakeData from './fakeGroup'
+import FeatherIcon from '@/@core/components/feather-icon/FeatherIcon.vue'
 
 export default {
   components: {
@@ -187,7 +191,8 @@ export default {
     VueGoodTable,
     BCard,
     BBadge,
-  },
+    FeatherIcon
+},
   directives: {
     Ripple,
   },
@@ -205,22 +210,12 @@ export default {
       orders_columns: [
         {
           label: 'ID',
-          field: 'orderId',
+          field: 'id',
           width: '100px',
           filterOptions: {
             enabled: true,
             placeholder: 'Search Id',
             sortable: true,
-          },
-        },
-        {
-          label: 'Ngày tạo',
-          field: 'date_created',
-          sortable: true,
-          filterOptions: {
-            enabled: true,
-            placeholder: 'Search date',
-            filterFn: this.dateRangeFilter,
           },
         },
         {
@@ -233,56 +228,30 @@ export default {
           },
         },
         {
-          label: 'Nguồn đơn',
-          field: 'order_source',
+          label: 'Nhóm Khách hàng',
           sortable: true,
-          width: '100px',
+          field: 'customer_group',
           filterOptions: {
             enabled: true,
-            placeholder: 'Search Id',
+            placeholder: 'Search customer group',
           },
         },
         {
-          label: 'Khách hàng',
+          label: 'Danh mục gốc',
           sortable: true,
-          field: 'customer',
+          field: 'customer_group_root',
           filterOptions: {
             enabled: true,
-            placeholder: 'Search Id',
+            placeholder: 'Search root group',
           },
         },
         {
-          label: 'Điện thoại',
+          label: 'Vị trí',
           sortable: true,
-          field: 'phone_number',
+          field: 'location',
           filterOptions: {
             enabled: true,
-            placeholder: 'Search phone',
-          },
-        },
-        {
-          label: 'Người tạo',
-          sortable: true,
-          field: 'creater',
-          filterOptions: {
-            enabled: true,
-            placeholder: 'Search creater',
-          },
-        },
-        {
-          label: 'Quốc gia',
-          width: '100px',
-          sortable: true,
-          field: 'country',
-          filterOptions: {
-            enabled: true,
-            placeholder: 'Search Contry',
-            filterDropdownItems: [{
-              value: 'VN', text: 'Việt Nam',
-            },
-            {
-              value: 'THA', text: 'Thái Lan',
-            },],
+            placeholder: 'Search location',
           },
         },
         {
@@ -299,6 +268,16 @@ export default {
             {
               value: 'OFF', text: 'Đang dừng',
             }], // dropdown (with selected values) instead of text input
+          },
+        },
+        {
+          label: 'Ngày tạo',
+          field: 'date',
+          sortable: true,
+          filterOptions: {
+            enabled: true,
+            placeholder: 'Search date',
+            filterFn: this.dateRangeFilter,
           },
         },
         {
@@ -335,6 +314,9 @@ export default {
     this.rows = fakeData
   },
   methods: {
+    createNewGroup() {
+      this.$router.push({ name: 'users-group-create' })
+    },
     dateRangeFilter(data, filterString) {
       const dateRange = filterString.split('to')
       const startDate = Date.parse(dateRange[0])

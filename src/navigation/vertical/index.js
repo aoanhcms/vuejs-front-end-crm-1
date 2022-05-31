@@ -14,12 +14,12 @@ export default [
   },
   {
     title: 'Trạng thái đơn hàng',
-    route: 'order-status',
+    route: 'orders-status',
     icon: 'ShoppingCartIcon',
   },
   {
     title: 'Q.lý nguồn đơn hàng',
-    route: 'order-source',
+    route: 'orders-source',
     icon: 'ShoppingCartIcon',
   },
   {
@@ -32,7 +32,7 @@ export default [
   },
   {
     title: 'Nhóm khách hàng',
-    route: 'user_group',
+    route: 'users-group',
     icon: 'UsersIcon',
   },
 ]
