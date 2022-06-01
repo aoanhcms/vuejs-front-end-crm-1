@@ -6,71 +6,24 @@
           <!--  Full name-->
           <b-col md="12">
             <b-form-group
-              label="Group Name"
-              label-for="h-group-name"
+              label="Tên Trạng Thái"
+              label-for="h-status-name"
               label-cols-md="2"
             >
               <validation-provider
                 #default="{ errors }"
                 rules="required"
-                name="Group Name"
+                name="StatusName"
               >
                 <b-col sm="6">
                   <b-form-input
-                    id="h-group-name"
-                    v-model="group_name"
+                    id="h-status-name"
+                    v-model="status_name"
                     :state="errors.length > 0 ? false:null"
-                    placeholder="Group Name"
+                    placeholder="Status Name"
                   />
                 </b-col>
                 <small class="text-danger">{{ errors[0] }}</small>
-              </validation-provider>
-            </b-form-group>
-          </b-col>
-          <b-col md="12">
-            <b-form-group
-              label="Chọn thư mục gốc"
-              label-for="h-choose-group"
-              label-cols-md="2"
-            >
-              <validation-provider
-                #default="{ errors }"
-                rules="required"
-                name="Group"
-              >
-                <b-col sm="6">
-                  <b-form-select
-                    id="h-choose-group"
-                    v-model="group"
-                  >
-                    <b-form-select-option value="">Không chọn</b-form-select-option>
-                    <b-form-select-option value="1">Nhóm test</b-form-select-option>
-                    <b-form-select-option value="2">--- Nhóm test con</b-form-select-option>
-                  </b-form-select>
-                  <small class="text-danger">{{ errors[0] }}</small>
-                </b-col>
-              </validation-provider>
-            </b-form-group>
-          </b-col>
-          <b-col cols="12">
-            <b-form-group
-              label="Tùy Chỉnh Icon"
-              label-for="h-icon"
-              label-cols-md="2"
-            >
-              <validation-provider
-                #default="{ errors }"
-                rules="required"
-                name="Icon"
-              >
-                <b-col sm="6">
-                  <b-form-input
-                    id="h-icon"
-                    v-model="icon"
-                    placeholder="Chọn icon đại diện"
-                  />
-                  <small class="text-danger">{{ errors[0] }}</small>
-                </b-col>
               </validation-provider>
             </b-form-group>
           </b-col>
@@ -120,21 +73,20 @@
           </b-col>
           <b-col cols="12">
             <b-form-group
-              label="Đặt làm mặc định"
-              label-for="setdefault"
+              label="Level"
+              label-for="level"
               label-cols-md="2"
             >
               <validation-provider
                 #default="{ errors }"
-                name="SetDefault"
+                name="Level"
                 rules="required"
               >
                 <b-col cols="6">
-                  <b-form-checkbox
-                    id="setdefault"
-                    v-model="SetDefault"
-                    checked="true"
-                    switch
+                  <b-form-input
+                    id="level"
+                    v-model="level"
+                    type="number"
                   />
                 </b-col>
                 <small class="text-danger">{{ errors[0] }}</small>
@@ -212,10 +164,9 @@ export default {
   },
   data() {
     return {
-      group: '',
-      group_name: '',
+      status_name: '',
       colour: '#000000',
-      icon: '',
+      level: 1,
       location: 1,
       status: true,
       SetDefault: false,

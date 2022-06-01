@@ -1,8 +1,12 @@
 export default {
   users: [
     {
-      name: 'aaaa',
+      name: 'Sinh danh',
       id: 1,
+    },
+    {
+      name: '2 Sinh danh',
+      id: 2,
     },
   ],
 }

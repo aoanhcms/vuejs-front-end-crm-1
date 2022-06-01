@@ -13,7 +13,7 @@
               <validation-provider
                 #default="{ errors }"
                 rules="required"
-                name="Group Name"
+                name="GroupName"
               >
                 <b-col sm="6">
                   <b-form-input
@@ -89,7 +89,6 @@
                   <color-picker
                     v-model="colour"
                     :value="colour"
-                    label="Pick Colour"
                     picker="chrome"
                   />
                   <small class="text-danger">{{ errors[0] }}</small>
@@ -186,7 +185,7 @@ import { required } from '@validations'
 import {
   BFormInput, BFormDatepicker, BPagination, BFormTextarea, BFormGroup, BForm, BRow, BCol, BButton, BCard, BFormSelect, BFormSelectOption, BFormCheckbox 
 } from 'bootstrap-vue'
-import { ColorPicker } from 'vue-colour-picker'
+import ColorPicker from 'vue-colour-picker'
 
 export default {
   components: {

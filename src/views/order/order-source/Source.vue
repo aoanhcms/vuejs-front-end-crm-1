@@ -217,7 +217,7 @@ export default {
   },
   data() {
     return {
-      pageLength: 3,
+      pageLength: 10,
       dir: false,
       orders_columns: [
         {
@@ -275,10 +275,10 @@ export default {
             enabled: true,
             placeholder: 'Select status',
             filterDropdownItems: [{
-              value: 'ON', text: 'Đang chạy',
+              value: true, text: 'Đang chạy',
             },
             {
-              value: 'OFF', text: 'Đang dừng',
+              value: false, text: 'Đang dừng',
             }], // dropdown (with selected values) instead of text input
           },
         },

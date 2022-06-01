@@ -65,7 +65,7 @@
             </span>
             <span v-else-if="props.column.field === 'status'">
               <b-badge
-                v-if="props.row.status === 'ON'"
+                v-if="props.row.status === true"
                 variant="light-success"
               >
                 Đang chạy
@@ -286,10 +286,10 @@ export default {
             enabled: true,
             placeholder: 'Select status',
             filterDropdownItems: [{
-              value: 'ON', text: 'Đang chạy',
+              value: true, text: 'Đang chạy',
             },
             {
-              value: 'OFF', text: 'Đang dừng',
+              value: false, text: 'Đang dừng',
             }], // dropdown (with selected values) instead of text input
           },
         },

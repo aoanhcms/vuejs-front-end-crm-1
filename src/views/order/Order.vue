@@ -217,7 +217,7 @@ export default {
   },
   data() {
     return {
-      pageLength: 3,
+      pageLength: 10,
       dir: false,
       orders_columns: [
         {
@@ -311,11 +311,11 @@ export default {
             enabled: true,
             placeholder: 'Tìm trạng thái',
             filterDropdownItems: [{
-              value: 'ON',
+              value: true,
               text: 'Đang chạy',
             },
             {
-              value: 'OFF',
+              value: false,
               text: 'Đang dừng',
             }],
           },

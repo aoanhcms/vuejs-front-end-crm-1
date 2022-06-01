@@ -218,7 +218,7 @@ export default {
   },
   data() {
     return {
-      pageLength: 3,
+      pageLength: 10,
       dir: false,
       orders_columns: [
         {
@@ -276,10 +276,10 @@ export default {
             enabled: true,
             placeholder: 'Select status',
             filterDropdownItems: [{
-              value: 'ON', text: 'Đang chạy',
+              value: true, text: 'Đang chạy',
             },
             {
-              value: 'OFF', text: 'Đang dừng',
+              value: false, text: 'Đang dừng',
             }], // dropdown (with selected values) instead of text input
           },
         },
@@ -336,63 +336,4 @@ export default {
 <style lang="scss" >
 @import '@core/scss/vue/libs/vue-good-table.scss';
 
-@import 'bootstrap/scss/functions';
-@import '~@core/scss/base/bootstrap-extended/variables';
-@import 'bootstrap/scss/variables';
-@import '~@core/scss/base/components/variables-dark';
-
-.card-code {
-  pre[class*='language-'] {
-    margin: 0;
-    max-height: 350px;
-    border-radius: 0.5rem;
-  }
-
-    /* width */
-    ::-webkit-scrollbar {
-      width: 8px;
-      height: 8px;
-      background: #2d2d2d;
-      border-radius: 100%;
-
-      .dark-layout & {
-        background-color: $theme-dark-body-bg !important;
-      }
-    }
-
-    /* Track */
-    ::-webkit-scrollbar-track {
-      background: transparent;
-    }
-
-    /* Handle */
-    ::-webkit-scrollbar-thumb {
-      border-radius: 0.5rem;
-      background: rgba(241,241,241,.4);
-    }
-
-    /* Handle on hover */
-    // ::-webkit-scrollbar-thumb:hover {
-    // }
-
-    ::-webkit-scrollbar-corner {
-      display: none;
-    }
-}
-
-.code-toggler {
-  border-bottom: 1px solid transparent;
-
-  &[aria-expanded='false'] {
-    border-bottom-color: $primary;
-  }
-}
-
-// HTML
-.card {
-  .card-header .heading-elements {
-    position: static;
-    background: red;
-  }
-}
 </style>

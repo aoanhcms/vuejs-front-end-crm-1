@@ -10,155 +10,177 @@
                   <feather-icon icon="PlusIcon"/>
                   Thêm Khách mới
                 </template>
-                <b-form>
-                  <b-row>
-                    <b-col cols="12">
-                      <b-form-group
-                        label="Họ tên khách hàng"
-                        label-cols-md="3"
+                <b-row>
+                  <b-col cols="12">
+                    <b-form-group
+                      label="Họ tên khách hàng"
+                      label-cols-md="3"
+                    >
+                      <validation-provider
+                        #default="{ errors }"
+                        name="fullname"
+                        rules="required"
                       >
-                        <b-form-input v-model="form.full_name" />
-                      </b-form-group>
-                    </b-col>
-                    <b-col cols="12">
-                      <b-form-group
-                        label="Điện thoại"
-                        label-cols-md="3"
-                      >
-                        <b-row>
-                          <b-col cols="6">
+                        <b-form-input
+                          v-model="form.full_name"
+                          :state="errors.length > 0 ? false:null"
+                        />
+                        <small class="text-danger">{{ errors[0] }}</small>
+                      </validation-provider>
+                    </b-form-group>
+                  </b-col>
+                  <b-col cols="12">
+                    <b-form-group
+                      label="Điện thoại"
+                      label-cols-md="3"
+                    >
+                      <b-row>
+                        <b-col cols="6">
+                          <validation-provider
+                            #default="{ errors }"
+                            name="phone_number"
+                            rules="required"
+                          >
                             <b-input-group class="input-group-merge">
                               <b-input-group-prepend is-text>
                                 <feather-icon icon="SmartphoneIcon" />
                               </b-input-group-prepend>
                               <b-form-input
                                 id="hi-number"
+                                v-model="form.phone_number"
                                 type="number"
                                 placeholder="Số điện thoại chính"
-                                v-model="form.phone_number"
+                                :state="errors.length > 0 ? false:null"
                               />
                             </b-input-group>
-                          </b-col>
-                          <b-col cols="6">
+                            <small class="text-danger">{{ errors[0] }}</small>
+                          </validation-provider>
+                        </b-col>
+                        <b-col cols="6">
+                          <validation-provider
+                            #default="{ errors }"
+                            name="phone_number2"
+                            rules="required"
+                          >
                             <b-input-group class="input-group-merge">
                               <b-input-group-prepend is-text>
                                 <feather-icon icon="SmartphoneIcon" />
                               </b-input-group-prepend>
                               <b-form-input
                                 id="hi-number"
+                                v-model="form.phone_number2"
                                 type="number"
                                 placeholder="Số điện thoại phụ"
-                                v-model="form.phone_number2"
+                                :state="errors.length > 0 ? false:null"
                               />
                             </b-input-group>
-                          </b-col>
-                        </b-row>
-                      </b-form-group>
-                    </b-col>
-                    <b-col cols="12">
-                      <b-form-group
-                        label="Ngày sinh"
-                        label-cols-md="3"
-                      >
-                        <b-row>
-                          <b-col cols="6">
-                            <b-form-datepicker placeholder="Ngày sinh" v-model="form.birthday" />
-                          </b-col>
-                          <b-col cols="6">
-                            <b-form-select v-model="form.gender" placeholder="Chon giới tính">
-                              <b-form-select-option disabled :selected="true">Chọn giới tính</b-form-select-option>
-                              <b-form-select-option value="male">Nam</b-form-select-option>
-                              <b-form-select-option value="female">Nữ</b-form-select-option>
-                              <b-form-select-option value="none">Không xác định</b-form-select-option>
-                            </b-form-select>
-                          </b-col>
-                        </b-row>
-                      </b-form-group>
-                    </b-col>
-                    <b-col cols="12">
-                      <b-form-group
-                        label="Email"
-                        label-cols-md="3"
-                      ><b-form-input v-model="form.email" /></b-form-group>
-                    </b-col>
-                    <b-col cols="12">
-                      <b-form-group
-                        label="Địa chỉ"
-                        label-cols-md="3"
-                      ><b-form-input v-model="form.address"/></b-form-group>
-                    </b-col>
-                    <b-col cols="12">
-                      <b-form-group
-                        label="Tên tuổi, của trẻ"
-                        label-cols-md="3"
-                      >
-                        <b-row>
-                          <b-col cols="9">
-                            <b-form-input placeholder="Tên" v-model="form.children_name" />
-                          </b-col>
-                          <b-col cols="3">
-                            <b-form-input placeholder="Tuổi" v-model="form.children_age" type="number" />
-                          </b-col>
-                        </b-row>
-                      </b-form-group>
-                    </b-col>
-                    <b-col cols="12">
-                      <b-form-group
-                        label="Quốc gia"
-                        label-cols-md="3"
-                      >
-                        <b-form-select v-model="form.country">
-                          <b-form-select-option value="VN">Việt Nam</b-form-select-option>
-                          <b-form-select-option value="THA">Thái Lan</b-form-select-option>
-                          <b-form-select-option value="SIN">Singapo</b-form-select-option>
-                        </b-form-select>
-                      </b-form-group>
-                    </b-col>
-                    <b-col cols="12">
-                      <b-form-group
-                        label="Ghi chú"
-                        label-cols-md="3"
-                      ><b-form-input v-model="form.note" /></b-form-group>
-                    </b-col>
-                    <b-col cols="12">
-                      <b-form-group
-                        label="Id bài post, id fan page"
-                        label-cols-md="3"
-                      >
-                        <b-row>
-                          <b-col cols="6">
-                            <b-form-input v-model="form.id_post" placeholder="Id bài post" />
-                          </b-col>
-                          <b-col cols="6">
-                            <b-form-input v-model="form.id_fanpage" placeholder="id fan page" />
-                          </b-col>
-                        </b-row>
-                      </b-form-group>
-                    </b-col>
-                    <b-col cols="12">
-                      <b-form-group
-                        label="Id fb khách"
-                        label-cols-md="3"
-                      ><b-form-input v-model="form.id_fb" /></b-form-group>
-                    </b-col>
-                  </b-row>
-                </b-form>
+                            <small class="text-danger">{{ errors[0] }}</small>
+                          </validation-provider>
+                        </b-col>
+                      </b-row>
+                    </b-form-group>
+                  </b-col>
+                  <b-col cols="12">
+                    <b-form-group
+                      label="Ngày sinh"
+                      label-cols-md="3"
+                    >
+                      <b-row>
+                        <b-col cols="6">
+                          <b-form-datepicker placeholder="Ngày sinh" v-model="form.birthday" />
+                        </b-col>
+                        <b-col cols="6">
+                          <b-form-select v-model="form.gender" placeholder="Chon giới tính">
+                            <b-form-select-option disabled :selected="true">Chọn giới tính</b-form-select-option>
+                            <b-form-select-option value="male">Nam</b-form-select-option>
+                            <b-form-select-option value="female">Nữ</b-form-select-option>
+                            <b-form-select-option value="none">Không xác định</b-form-select-option>
+                          </b-form-select>
+                        </b-col>
+                      </b-row>
+                    </b-form-group>
+                  </b-col>
+                  <b-col cols="12">
+                    <b-form-group
+                      label="Email"
+                      label-cols-md="3"
+                    ><b-form-input v-model="form.email" /></b-form-group>
+                  </b-col>
+                  <b-col cols="12">
+                    <b-form-group
+                      label="Địa chỉ"
+                      label-cols-md="3"
+                    ><b-form-input v-model="form.address"/></b-form-group>
+                  </b-col>
+                  <b-col cols="12">
+                    <b-form-group
+                      label="Tên tuổi, của trẻ"
+                      label-cols-md="3"
+                    >
+                      <b-row>
+                        <b-col cols="9">
+                          <b-form-input placeholder="Tên" v-model="form.children_name" />
+                        </b-col>
+                        <b-col cols="3">
+                          <b-form-input placeholder="Tuổi" v-model="form.children_age" type="number" />
+                        </b-col>
+                      </b-row>
+                    </b-form-group>
+                  </b-col>
+                  <b-col cols="12">
+                    <b-form-group
+                      label="Quốc gia"
+                      label-cols-md="3"
+                    >
+                      <b-form-select v-model="form.country">
+                        <b-form-select-option value="VN">Việt Nam</b-form-select-option>
+                        <b-form-select-option value="THA">Thái Lan</b-form-select-option>
+                        <b-form-select-option value="SIN">Singapo</b-form-select-option>
+                      </b-form-select>
+                    </b-form-group>
+                  </b-col>
+                  <b-col cols="12">
+                    <b-form-group
+                      label="Ghi chú"
+                      label-cols-md="3"
+                    ><b-form-input v-model="form.note" /></b-form-group>
+                  </b-col>
+                  <b-col cols="12">
+                    <b-form-group
+                      label="Id bài post, id fan page"
+                      label-cols-md="3"
+                    >
+                      <b-row>
+                        <b-col cols="6">
+                          <b-form-input v-model="form.id_post" placeholder="Id bài post" />
+                        </b-col>
+                        <b-col cols="6">
+                          <b-form-input v-model="form.id_fanpage" placeholder="id fan page" />
+                        </b-col>
+                      </b-row>
+                    </b-form-group>
+                  </b-col>
+                  <b-col cols="12">
+                    <b-form-group
+                      label="Id fb khách"
+                      label-cols-md="3"
+                    ><b-form-input v-model="form.id_fb" /></b-form-group>
+                  </b-col>
+                </b-row>
               </b-tab>
               <b-tab>
                 <template #title>
                   <feather-icon icon="SearchIcon"/>
                   Tìm khách cũ
                 </template>
-                <b-form>
-                  <b-row>
-                    <b-col cols="12">
-                      <b-form-group
-                        label="Tìm khách hàng"
-                        label-cols-md="4"
-                      ><b-form-input /></b-form-group>
-                    </b-col>
-                  </b-row>
-                </b-form>
+                <b-row>
+                  <b-col cols="12">
+                    <b-form-group
+                      label="Tìm khách hàng"
+                      label-cols-md="4"
+                    ><b-form-input /></b-form-group>
+                  </b-col>
+                </b-row>
               </b-tab>
 
             </b-tabs>
@@ -288,7 +310,24 @@
               </b-col>
             </b-row>
           </b-card>
-          <b-card title="Phiếu thu">
+          <b-card>
+            <b-card-header>
+              <b-card-title>Phiếu Thu</b-card-title>
+              <b-card-sub-title>
+                <b-button
+                  v-b-modal.modal-2
+                  size="sm"
+                  variant="outline-primary"
+                  style="margin-right: 10px;"
+                >
+                  <feather-icon
+                    icon="PlusIcon"
+                    class="mr-50"
+                  />
+                  <span class="align-middle">Thanh toán</span>
+                </b-button>
+              </b-card-sub-title>
+          </b-card-header>
             <b-row>
               <b-col cols="12">
                 <b-form-group
@@ -323,7 +362,6 @@
               <b-card-title>Thông Tin Lớp Học</b-card-title>
               <b-card-sub-title>
                 <b-button
-                  v-ripple.400="'rgba(113, 102, 240, 0.15)'"
                   variant="outline-primary"
                   style="margin-right: 10px;"
                   :to="{name: 'orders-create'}"
@@ -442,7 +480,7 @@
                   label="Giới tính của Bé"
                 >
                   <div class="form-label-group">
-                    <b-form-select>
+                    <b-form-select v-model="form.class_gender">
                       <b-form-select-option value="male">Name</b-form-select-option>
                       <b-form-select-option value="female">Nữ</b-form-select-option>
                       <b-form-select-option value="none">Không xác định</b-form-select-option>
@@ -456,7 +494,7 @@
                   label="Ghi chú"
                 >
                   <div class="form-label-group">
-                    <b-form-textarea />
+                    <b-form-textarea v-model="form.class_note"/>
                   </div>
                 </b-form-group>
               </b-col>
@@ -469,12 +507,12 @@
               <b-col cols="12">
                 <b-form-group
                   label="Chọn ngày"
-                  label-for="date"
+                  label-for="Appointment"
                   label-cols-md="4"
                 >
                   <b-form-datepicker
-                    id="date"
-                    v-model="date"
+                    id="Appointment"
+                    v-model="form.appointment"
                     class="mb-1"
                   />
                 </b-form-group>
@@ -487,32 +525,34 @@
         <b-col>
           <b-card style="text-align: right">
             <b-button
-              v-ripple.400="'rgba(255, 255, 255, 0.15)'"
               type="submit"
               variant="primary"
               class="mr-1"
+              @click.prevent="submitCreateOrder"
             >
               Submit
             </b-button>
           </b-card>
-      </b-col>
+        </b-col>
       </b-row>
     </b-form>
     <edit-status @onChooseLevel="onChooseLevel" />
+    <pay-bill />
   </validation-observer>
 </template>
 
 <script>
 
-import { BCardHeader, BInputGroupPrepend, BInputGroup, BFormDatepicker, BFormSelect, BFormSelectOption, BRow, BCol, BTab, BTabs, BCard, BFormGroup, BFormInput, BFormTextarea, BButton } from 'bootstrap-vue'
+import { BForm,BCardTitle, BCardSubTitle, BCardHeader, BInputGroupPrepend, BInputGroup, BFormDatepicker, BFormSelect, BFormSelectOption, BRow, BCol, BTab, BTabs, BCard, BFormGroup, BFormInput, BFormTextarea, BButton } from 'bootstrap-vue'
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 
-// import { required, email } from '@validations'
+import { required, email } from '@validations'
 
 import FeatherIcon from '@/@core/components/feather-icon/FeatherIcon.vue'
 
 import dataFake from './fakeDataCreateOrder'
 import EditStatus from './modal/EditStatus.vue'
+import PayBill from './modal/PayBill.vue'
 
 export default {
   created () {
@@ -521,6 +561,8 @@ export default {
   data() {
     return {
       form: {
+        class_note: '',
+        appointment: '',
         full_name: '',
         phone_number: '',
         phone_number2: '',
@@ -535,12 +577,17 @@ export default {
         note: '',
         children_name: '',
         children_age: 1,
-
       },
+      required,
+      email,
       users: dataFake.users,
     }
   },
   components: {
+    PayBill,
+    BForm,
+    BCardTitle,
+    BCardSubTitle,
     EditStatus,
     BCardHeader,
     BInputGroupPrepend,
@@ -565,6 +612,14 @@ export default {
     onChooseLevel(e) {
       this.form.status = e.name
       console.log('chosse', e)
+    },
+    submitCreateOrder() {
+      this.$refs.createOrder.validate().then(success => {
+        if (success) {
+          // eslint-disable-next-line
+          alert('form submitted!')
+        }
+      })
     },
   },
 }

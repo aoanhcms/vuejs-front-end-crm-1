@@ -6,7 +6,7 @@
     hide-footer
   >
     <b-container fluid>
-      <b-row style="height: 200px">
+      <b-row>
         <b-col
           v-for="level in levels"
           :key="level.level"
@@ -16,7 +16,7 @@
           sm="6"
           class="col-item-level"
         >
-          <div class="iitem">
+          <b-card class="iitem">
             <div class="name">Level {{ level.level }}</div>
             <div
               v-for="lvOrder in level.data"
@@ -27,9 +27,9 @@
                 class="item"
                 @click="lvFunc(lvOrder)"
                 :value="lvOrder.id"
-              ><span><feather-icon icon="CheckIcon" />{{ lvOrder.name }}</span></div>
+              ><span><feather-icon icon="CheckIcon" size="30" />{{ lvOrder.name }}</span></div>
             </div>
-          </div>
+          </b-card>
         </b-col>
     </b-row>
     </b-container>
@@ -37,10 +37,12 @@
 </template>
 
 <script>
-import { BRow, BCol, BModal, BCard } from 'bootstrap-vue'
+import { BContainer, BRow, BCol, BModal, BCard } from 'bootstrap-vue'
 import FeatherIcon from '@/@core/components/feather-icon/FeatherIcon.vue'
 
 export default {
+  watch: {
+  },
   methods: {
     lvFunc(val) {
       this.$emit('onChooseLevel', val)
@@ -107,6 +109,7 @@ export default {
     }
   },
   components: {
+    BContainer,
     BRow,
     BCol,
     BModal,
@@ -117,26 +120,24 @@ export default {
 </script>
 
 <style>
-  .item:hover {
-    background-color: blueviolet;
-    color: white;
-  }
-  .item {
-    cursor: pointer; padding: 5px;
-  }
-  #modal-1 .row {
-      display: table;
-  }
-  #modal-1 [class*="col-"] {
-    float: none;
-    display: table-cell;
-    vertical-align: top;
+.modal-title {
+  font-size: 30px;
+}
+.modal-body {
+  padding-bottom: 30px;
+}
+.item:hover {
+  background-color: blueviolet;
+  color: white;
+}
+.item {
+  cursor: pointer; padding: 5px;
 }
 .iitem {
   border: 2px solid green;
   height: 100%;
-  width: 208px;
-  font-size: 26px;
+  font-size: 20px;
+  padding-bottom: 10px;
   text-align: center;
 }
 .col-item-level {
@@ -144,32 +145,5 @@ export default {
 }
 .iitem .name {
   font-size: 30px;
-}
-@media screen and (max-width: 990px) {
-  .iitem {
-    width: 100%;
-    font-size: 10px;
-  }
-  .iitem .name {
-    font-size: 15px;
-  }
-}
-@media screen and (max-width: 760px) {
-  .iitem {
-    width: 100%;
-    font-size: 13px;
-  }
-  .iitem .name {
-    font-size: 12px;
-  }
-}
-@media screen and (max-width: 460px) {
-  .iitem {
-    width: 100%;
-    font-size: 9px;
-  }
-  .iitem .name {
-    font-size: 10px;
-  }
 }
 </style>
