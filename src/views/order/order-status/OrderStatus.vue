@@ -63,6 +63,19 @@
             >
               <span class="text-nowrap">{{ props.row.fullName }}</span>
             </span>
+            <span
+              v-else-if="props.column.field === 'order_status_name'"
+              class="text-nowrap"
+            >
+              <span class="text-nowrap">{{ props.row.order_status_name }}</span>
+            </span>
+            <span
+              v-else-if="props.column.field === 'color'"
+              class="text-nowrap"
+            >
+            <span class="text-nowrap" :style="'background-color:' + props.row.color+ ';padding: 5px'"></span>
+              <span class="text-nowrap" :style="'color:' + props.row.color+ ';font-weight:bold'">{{ props.row.color }}</span>
+            </span>
             <span v-else-if="props.column.field === 'status'">
               <b-badge
                 v-if="props.row.status === true"
@@ -180,7 +193,7 @@
 </template>
 
 <script>
-import { BPagination, BFormSelect, BContainer, BCardTitle, BButton, BCard, BBadge, BDropdown, BDropdownItem, BCardHeader,
+import { BCardSubTitle, BPagination, BFormSelect, BContainer, BCardTitle, BButton, BCard, BBadge, BDropdown, BDropdownItem, BCardHeader,
 } from 'bootstrap-vue'
 import Ripple from 'vue-ripple-directive'
 import { VueGoodTable } from 'vue-good-table'
@@ -193,6 +206,7 @@ import fakeData from './fakeStatus'
 
 export default {
   components: {
+    BCardSubTitle,
     BPagination,
     BFormSelect,
     BButton,

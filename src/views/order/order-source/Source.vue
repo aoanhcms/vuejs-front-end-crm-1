@@ -179,7 +179,7 @@
 
 <script>
 import {
-  BContainer, BCardTitle, BPagination, BFormSelect, BButton, BCard, BBadge, BDropdown, BDropdownItem, BCardHeader,
+  BCardSubTitle, BContainer, BCardTitle, BPagination, BFormSelect, BButton, BCard, BBadge, BDropdown, BDropdownItem, BCardHeader,
 } from 'bootstrap-vue'
 import Ripple from 'vue-ripple-directive'
 import { VueGoodTable } from 'vue-good-table'
@@ -192,6 +192,7 @@ import fakeData from './fakeSource'
 
 export default {
   components: {
+    BCardSubTitle,
     BButton,
     BCardHeader,
     BPagination,
