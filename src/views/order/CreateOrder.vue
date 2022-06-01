@@ -318,145 +318,149 @@
           </b-card>
         </b-col>
         <b-col cols="9">
-          <b-card title="Thông tin lớp học">
-            <b-form>
-              <b-row>
-                <b-col md="6">
-                  <b-form-group
-                    label="Chọn Lớp"
-                    label-for="choose-class"
+          <b-card >
+            <b-card-header>
+              <b-card-title>Thông Tin Lớp Học</b-card-title>
+              <b-card-sub-title>
+                <b-button
+                  v-ripple.400="'rgba(113, 102, 240, 0.15)'"
+                  variant="outline-primary"
+                  style="margin-right: 10px;"
+                  :to="{name: 'orders-create'}"
+                >
+                  <feather-icon
+                    icon="PlusIcon"
+                    class="mr-50"
+                  />
+                  <span class="align-middle">Thêm lớp học</span>
+                </b-button>
+              </b-card-sub-title>
+          </b-card-header>
+            <b-row>
+              <b-col md="6">
+                <b-form-group
+                  label="Chọn Lớp"
+                  label-for="choose-class"
+                >
+                  <b-form-select
+                    id="choose-class"
                   >
+                    <b-form-select-option>1</b-form-select-option>
+                  </b-form-select>
+                </b-form-group>
+              </b-col>
+              <b-col md="6">
+                <b-form-group
+                  label="Học Phí"
+                  label-for="mc-fee"
+                >
+                  <b-form-input
+                    id="mc-fee"
+                    placeholder="Học Phí"
+                  />
+                </b-form-group>
+              </b-col>
+              <b-col md="6">
+                <b-form-group
+                  label="Giá Khuyến Mại"
+                  label-for="mc-sale"
+                >
+                  <b-form-input
+                    id="mc-sale"
+                    placeholder="Giá Khuyến Mại"
+                  />
+                </b-form-group>
+              </b-col>
+              <b-col md="6">
+                <b-form-group
+                  label="Số Tháng"
+                  label-for="mc-month"
+                >
+                  <b-form-input
+                    id="mc-month"
+                    placeholder="số tháng"
+                  />
+                </b-form-group>
+              </b-col>
+              <b-col md="6">
+                <b-form-group
+                  label="Thành Tiền"
+                  label-for="mc-price"
+                >
+                  <div class="form-label-group">
+                    <b-form-input
+                      id="mc-price"
+                      placeholder="tiền"
+                    />
+                  </div>
+                </b-form-group>
+              </b-col>
+              <b-col md="6">
+                <b-form-group
+                  label-for="mc-choose-student"
+                  label="Chọn Học Sinh"
+                >
+                  <div class="form-label-group">
                     <b-form-select
-                      id="choose-class"
+                      id="mc-choose-student"
                     >
                       <b-form-select-option>1</b-form-select-option>
                     </b-form-select>
-                  </b-form-group>
-                </b-col>
-                <b-col md="6">
-                  <b-form-group
-                    label="Học Phí"
-                    label-for="mc-fee"
-                  >
-                    <b-form-input
-                      id="mc-fee"
-                      placeholder="Học Phí"
-                    />
-                  </b-form-group>
-                </b-col>
-                <b-col md="6">
-                  <b-form-group
-                    label="Giá Khuyến Mại"
-                    label-for="mc-sale"
-                  >
-                    <b-form-input
-                      id="mc-sale"
-                      placeholder="Giá Khuyến Mại"
-                    />
-                  </b-form-group>
-                </b-col>
-                <b-col md="6">
-                  <b-form-group
-                    label="Số Tháng"
-                    label-for="mc-month"
-                  >
-                    <b-form-input
-                      id="mc-month"
-                      placeholder="số tháng"
-                    />
-                  </b-form-group>
-                </b-col>
-                <b-col md="6">
-                  <b-form-group
-                    label="Thành Tiền"
-                    label-for="mc-price"
-                  >
-                    <div class="form-label-group">
-                      <b-form-input
-                        id="mc-price"
-                        placeholder="tiền"
-                      />
-                    </div>
-                  </b-form-group>
-                </b-col>
-                <b-col md="6">
-                  <b-form-group
-                    label-for="mc-choose-student"
-                    label="Chọn Học Sinh"
-                  >
-                    <div class="form-label-group">
-                      <b-form-select
-                        id="mc-choose-student"
-                      >
-                        <b-form-select-option>1</b-form-select-option>
-                      </b-form-select>
-                    </div>
-                  </b-form-group>
-                </b-col>
+                  </div>
+                </b-form-group>
+              </b-col>
 
-                <b-col md="6">
-                  <b-form-group
-                    label-for="mc-name-student"
-                    label="Tên Bé"
-                  >
-                    <div class="form-label-group">
-                      <b-form-input
-                        id="mc-price"
-                        placeholder="Họ tên đầy đủ"
-                      />
-                    </div>
-                  </b-form-group>
-                </b-col>
-                <b-col md="6">
-                  <b-form-group
-                    label-for="mc-age-student"
-                    label="Tuổi của Bé"
-                  >
-                    <div class="form-label-group">
-                      <b-form-input
-                        id="mc-age-student"
-                        placeholder="Tuổi"
-                      />
-                    </div>
-                  </b-form-group>
-                </b-col>
-                <b-col md="6">
-                  <b-form-group
-                    label-for="mc-gender-student"
-                    label="Giới tính của Bé"
-                  >
-                    <div class="form-label-group">
-                      <b-form-select>
-                        <b-form-select-option value="male">Name</b-form-select-option>
-                        <b-form-select-option value="female">Nữ</b-form-select-option>
-                        <b-form-select-option value="none">Không xác định</b-form-select-option>
-                      </b-form-select>
-                    </div>
-                  </b-form-group>
-                </b-col>
-                <b-col md="6">
-                  <b-form-group
-                    label-for="mc-gender-student"
-                    label="Ghi chú"
-                  >
-                    <div class="form-label-group">
-                      <b-form-textarea />
-                    </div>
-                  </b-form-group>
-                </b-col>
-                <!-- submit and reset -->
-                <b-col>
-                  <b-button
-                    v-ripple.400="'rgba(255, 255, 255, 0.15)'"
-                    type="submit"
-                    variant="primary"
-                    class="mr-1"
-                  >
-                    Submit
-                  </b-button>
-                </b-col>
-              </b-row>
-            </b-form>
+              <b-col md="6">
+                <b-form-group
+                  label-for="mc-name-student"
+                  label="Tên Bé"
+                >
+                  <div class="form-label-group">
+                    <b-form-input
+                      id="mc-price"
+                      placeholder="Họ tên đầy đủ"
+                    />
+                  </div>
+                </b-form-group>
+              </b-col>
+              <b-col md="6">
+                <b-form-group
+                  label-for="mc-age-student"
+                  label="Tuổi của Bé"
+                >
+                  <div class="form-label-group">
+                    <b-form-input
+                      id="mc-age-student"
+                      placeholder="Tuổi"
+                    />
+                  </div>
+                </b-form-group>
+              </b-col>
+              <b-col md="6">
+                <b-form-group
+                  label-for="mc-gender-student"
+                  label="Giới tính của Bé"
+                >
+                  <div class="form-label-group">
+                    <b-form-select>
+                      <b-form-select-option value="male">Name</b-form-select-option>
+                      <b-form-select-option value="female">Nữ</b-form-select-option>
+                      <b-form-select-option value="none">Không xác định</b-form-select-option>
+                    </b-form-select>
+                  </div>
+                </b-form-group>
+              </b-col>
+              <b-col md="6">
+                <b-form-group
+                  label-for="mc-gender-student"
+                  label="Ghi chú"
+                >
+                  <div class="form-label-group">
+                    <b-form-textarea />
+                  </div>
+                </b-form-group>
+              </b-col>
+            </b-row>
           </b-card>
         </b-col>
         <b-col cols="3">
@@ -479,6 +483,20 @@
           </b-card>
         </b-col>
       </b-row>
+      <b-row>
+        <b-col>
+          <b-card style="text-align: right">
+            <b-button
+              v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+              type="submit"
+              variant="primary"
+              class="mr-1"
+            >
+              Submit
+            </b-button>
+          </b-card>
+      </b-col>
+      </b-row>
     </b-form>
     <edit-status @onChooseLevel="onChooseLevel" />
   </validation-observer>
@@ -486,7 +504,7 @@
 
 <script>
 
-import { BInputGroupPrepend, BInputGroup, BFormDatepicker, BFormSelect, BFormSelectOption, BRow, BCol, BTab, BTabs, BCard, BFormGroup, BFormInput, BFormTextarea, BButton } from 'bootstrap-vue'
+import { BCardHeader, BInputGroupPrepend, BInputGroup, BFormDatepicker, BFormSelect, BFormSelectOption, BRow, BCol, BTab, BTabs, BCard, BFormGroup, BFormInput, BFormTextarea, BButton } from 'bootstrap-vue'
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 
 // import { required, email } from '@validations'
@@ -524,6 +542,7 @@ export default {
   },
   components: {
     EditStatus,
+    BCardHeader,
     BInputGroupPrepend,
     BInputGroup,
     ValidationProvider,

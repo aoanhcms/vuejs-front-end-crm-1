@@ -5,25 +5,34 @@
     title="Chọn trạng thái đơn hàng"
     hide-footer
   >
-    <b-row style="height: 200px;">
-      <b-col
-        cols="2"
-        v-for="level in levels"
-        :key="level.level"
-      >
-        <b-card body-border-variant="success">
-          <template>
-            <b-card-sub-title><b>Level {{ level.level }}</b></b-card-sub-title>
-          </template>
-          <div style="padding-top: 30px;"
-            v-for="lvOrder in level.data"
-            :key="lvOrder.id"
-          >
-            <div class="item" @click="lvFunc(lvOrder)" :value="lvOrder.id"><span><feather-icon icon="CheckIcon" />{{ lvOrder.name }}</span></div>
+    <b-container fluid>
+      <b-row style="height: 200px">
+        <b-col
+          v-for="level in levels"
+          :key="level.level"
+          cols="2"
+          lg="2"
+          md="3"
+          sm="6"
+          class="col-item-level"
+        >
+          <div class="iitem">
+            <div class="name">Level {{ level.level }}</div>
+            <div
+              v-for="lvOrder in level.data"
+              :key="lvOrder.id"
+              style="padding-top: 30px;"
+            >
+              <div
+                class="item"
+                @click="lvFunc(lvOrder)"
+                :value="lvOrder.id"
+              ><span><feather-icon icon="CheckIcon" />{{ lvOrder.name }}</span></div>
+            </div>
           </div>
-        </b-card>
-      </b-col>
+        </b-col>
     </b-row>
+    </b-container>
   </b-modal>
 </template>
 
@@ -115,5 +124,52 @@ export default {
   .item {
     cursor: pointer; padding: 5px;
   }
-
+  #modal-1 .row {
+      display: table;
+  }
+  #modal-1 [class*="col-"] {
+    float: none;
+    display: table-cell;
+    vertical-align: top;
+}
+.iitem {
+  border: 2px solid green;
+  height: 100%;
+  width: 208px;
+  font-size: 26px;
+  text-align: center;
+}
+.col-item-level {
+  padding-left: 2px;padding-right: 2px;
+}
+.iitem .name {
+  font-size: 30px;
+}
+@media screen and (max-width: 990px) {
+  .iitem {
+    width: 100%;
+    font-size: 10px;
+  }
+  .iitem .name {
+    font-size: 15px;
+  }
+}
+@media screen and (max-width: 760px) {
+  .iitem {
+    width: 100%;
+    font-size: 13px;
+  }
+  .iitem .name {
+    font-size: 12px;
+  }
+}
+@media screen and (max-width: 460px) {
+  .iitem {
+    width: 100%;
+    font-size: 9px;
+  }
+  .iitem .name {
+    font-size: 10px;
+  }
+}
 </style>

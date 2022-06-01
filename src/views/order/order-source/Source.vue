@@ -99,7 +99,7 @@
                     />
                   </template>
                   <b-dropdown-item
-                    :to="{name: 'orders-source-edit', param: { id: props.row.id}}"
+                    :to="{name: 'orders-source-edit', params: { id: props.row.id}}"
                   >
                     <feather-icon
                       icon="Edit2Icon"

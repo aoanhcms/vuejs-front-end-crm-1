@@ -6,7 +6,7 @@
           <!--  Full name-->
           <b-col md="12">
             <b-form-group
-              label="Tên trạng thái"
+              label="Tên"
               label-for="h-status-name"
               label-cols-md="2"
             >
@@ -20,7 +20,6 @@
                     id="h-status-name"
                     v-model="status_name"
                     :state="errors.length > 0 ? false:null"
-                    placeholder="Status Name"
                   />
                 </b-col>
                 <small class="text-danger">{{ errors[0] }}</small>

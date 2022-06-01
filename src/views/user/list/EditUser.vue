@@ -252,7 +252,6 @@ export default {
   },
   props: ['id'],
   components: {
-    EditStatus,
     BFormTextarea,
     BFormDatepicker,
     BFormSelect,
@@ -300,4 +299,3 @@ export default {
   },
 }
 </script>
- 
