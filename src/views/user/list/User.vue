@@ -11,7 +11,7 @@
               v-ripple.400="'rgba(113, 102, 240, 0.15)'"
               variant="outline-primary"
               style="margin-right: 10px;"
-              @click="createUserlink"
+              :to="{name: 'users-create'}"
             >
               <feather-icon
                 icon="PlusIcon"
@@ -54,7 +54,6 @@
             slot="table-row"
             slot-scope="props"
           >
-
             <!-- Column: Name -->
             <span
               v-if="props.column.field === 'fullName'"
@@ -64,14 +63,14 @@
             </span>
             <span v-else-if="props.column.field === 'status'">
               <b-badge
-                v-if="props.row.status === 'ON'"
-                :variant="statusVariant(props.row.status)"
+                v-if="props.row.status === true"
+                variant="light-success"
               >
                 Đang chạy
               </b-badge>
               <b-badge
                 v-else
-                :variant="statusVariant(props.row.status)"
+                variant="light-danger"
               >
                 Đang dừng
               </b-badge>
@@ -80,6 +79,10 @@
               <b-badge :variant="roleVariant(props.row.creater.role)">
                 {{ props.row.creater.name }}
               </b-badge>
+            </span>
+            <span v-else-if="props.column.field === 'date'">
+              <div><feather-icon icon="ClockIcon" /> {{ props.row.date.created_at }}</div>
+              <div><feather-icon icon="ClockIcon" /> {{ props.row.date.created_at }}</div>
             </span>
             <!-- Column: Action -->
             <span v-else-if="props.column.field === 'act'">
@@ -96,7 +99,9 @@
                       class="text-body align-middle mr-25"
                     />
                   </template>
-                  <b-dropdown-item>
+                  <b-dropdown-item
+                    :to="{name: 'users-edit', params: { id: props.row.id}}"
+                  >
                     <feather-icon
                       icon="Edit2Icon"
                       class="mr-50"
@@ -107,6 +112,7 @@
                     <feather-icon
                       icon="TrashIcon"
                       class="mr-50"
+                      @click="deleteRow"
                     />
                     <span>Delete</span>
                   </b-dropdown-item>
@@ -184,7 +190,8 @@ import flatPickr from 'flatpickr'
 import 'flatpickr/dist/flatpickr.css'
 import 'flatpickr/dist/themes/material_blue.css'
 
-import fakeData from './fakeUser'
+import FeatherIcon from '@/@core/components/feather-icon/FeatherIcon.vue'
+import fakeData from '../fakeUser'
 
 export default {
   components: {
@@ -200,7 +207,8 @@ export default {
     VueGoodTable,
     BCard,
     BBadge,
-  },
+    FeatherIcon,
+},
   directives: {
     Ripple,
   },
@@ -213,12 +221,12 @@ export default {
   },
   data() {
     return {
-      pageLength: 2,
+      pageLength: 10,
       dir: false,
       orders_columns: [
         {
           label: 'ID',
-          field: 'orderId',
+          field: 'id',
           width: '100px',
           filterOptions: {
             enabled: true,
@@ -232,7 +240,7 @@ export default {
           sortable: true,
           filterOptions: {
             enabled: true,
-            placeholder: 'Search company',
+            placeholder: 'Tìm công ty',
           },
         },
         {
@@ -241,7 +249,7 @@ export default {
           field: 'customer',
           filterOptions: {
             enabled: true,
-            placeholder: 'Search customer',
+            placeholder: 'Tìm khách hàng',
           },
         },
         {
@@ -250,7 +258,7 @@ export default {
           field: 'phone_number',
           filterOptions: {
             enabled: true,
-            placeholder: 'Search phone',
+            placeholder: 'Tìm số phone',
           },
         },
         {
@@ -259,7 +267,7 @@ export default {
           field: 'creater',
           filterOptions: {
             enabled: true,
-            placeholder: 'Search creater',
+            placeholder: 'Tìm người tạo',
           },
         },
         {
@@ -269,7 +277,7 @@ export default {
           field: 'country',
           filterOptions: {
             enabled: true,
-            placeholder: 'Search Contry',
+            placeholder: 'Tìm quốc gia',
             filterDropdownItems: [{
               value: 'VN', text: 'Việt Nam',
             },
@@ -285,18 +293,18 @@ export default {
           field: 'status',
           filterOptions: {
             enabled: true,
-            placeholder: 'Select status',
+            placeholder: 'Tìm trạng thái',
             filterDropdownItems: [{
-              value: 'ON', text: 'Đang chạy',
+              value: true, text: 'Đang chạy',
             },
             {
-              value: 'OFF', text: 'Đang dừng',
+              value: false, text: 'Đang dừng',
             }], // dropdown (with selected values) instead of text input
           },
         },
         {
           label: 'Ngày tạo',
-          field: 'created_at',
+          field: 'date',
           sortable: true,
           filterOptions: {
             enabled: true,
@@ -315,15 +323,6 @@ export default {
     }
   },
   computed: {
-    statusVariant() {
-      const statusColor = {
-        /* eslint-disable key-spacing */
-        ON  : 'light-success',
-        OFF : 'light-danger',
-        /* eslint-enable key-spacing */
-      }
-      return status => statusColor[status]
-    },
     roleVariant() {
       const roleColor = {
         /* eslint-disable key-spacing */
@@ -338,8 +337,8 @@ export default {
     this.rows = fakeData
   },
   methods: {
-    createUserlink() {
-      this.$router.push({ name: 'users-create' })
+    deleteRow() {
+      console.log('delete row')
     },
     onColumnFilter(params) {
       console.log('params', params)
@@ -365,58 +364,6 @@ export default {
 
 <style lang="scss" >
 @import '@core/scss/vue/libs/vue-good-table.scss';
-
-@import 'bootstrap/scss/functions';
-@import '~@core/scss/base/bootstrap-extended/variables';
-@import 'bootstrap/scss/variables';
-@import '~@core/scss/base/components/variables-dark';
-
-.card-code {
-  pre[class*='language-'] {
-    margin: 0;
-    max-height: 350px;
-    border-radius: 0.5rem;
-  }
-
-    /* width */
-    ::-webkit-scrollbar {
-      width: 8px;
-      height: 8px;
-      background: #2d2d2d;
-      border-radius: 100%;
-
-      .dark-layout & {
-        background-color: $theme-dark-body-bg !important;
-      }
-    }
-
-    /* Track */
-    ::-webkit-scrollbar-track {
-      background: transparent;
-    }
-
-    /* Handle */
-    ::-webkit-scrollbar-thumb {
-      border-radius: 0.5rem;
-      background: rgba(241,241,241,.4);
-    }
-
-    /* Handle on hover */
-    // ::-webkit-scrollbar-thumb:hover {
-    // }
-
-    ::-webkit-scrollbar-corner {
-      display: none;
-    }
-}
-
-.code-toggler {
-  border-bottom: 1px solid transparent;
-
-  &[aria-expanded='false'] {
-    border-bottom-color: $primary;
-  }
-}
 
 // HTML
 .card {

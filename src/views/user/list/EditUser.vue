@@ -1,20 +1,19 @@
 <template>
   <b-card>
-    <validation-observer ref="simpleRules">
+    <validation-observer ref="createUser">
       <b-form>
         <b-row>
-
-          <!--  This field is required-->
+          <!--  Full name-->
           <b-col md="6">
             <b-form-group>
-              <label>Họ và tên</label>
+              <label>Họ và tên Khách hàng</label>
               <validation-provider
                 #default="{ errors }"
                 rules="required"
                 name="Full Name"
               >
                 <b-form-input
-                  v-model="name"
+                  v-model="form.customer"
                   :state="errors.length > 0 ? false:null"
                   placeholder="Full Name"
                 />
@@ -23,92 +22,83 @@
             </b-form-group>
           </b-col>
 
-          <!--Enter Number between 10 & 20 -->
+          <!-- group -->
           <b-col md="6">
             <b-form-group>
               <label>Nhóm khách hàng</label>
-              <validation-provider
-                #default="{ errors }"
-                rules="required|between:10,20"
-                name="Number between"
-              >
-                <b-form-input
-                  v-model="numberRange"
-                  :state="errors.length > 0 ? false:null"
-                  placeholder="Enter Number between 10 & 20"
-                />
-                <small class="text-danger">{{ errors[0] }}</small>
-              </validation-provider>
+              <b-form-checkbox>Nhóm Group</b-form-checkbox>
+              <b-form-checkbox>--- Nhóm Group con</b-form-checkbox>
             </b-form-group>
           </b-col>
 
-          <!-- Must only consist of numbers-->
+          <!-- Phone -->
           <b-col md="6">
             <b-form-group>
               <label>Điện thoại</label>
               <validation-provider
                 #default="{ errors }"
-                rules="required|integer"
-                name="Number"
+                rules="required"
+                name="Phone"
               >
                 <b-form-input
-                  v-model="number"
+                  v-model="form.phone_number"
                   :state="errors.length > 0 ? false:null"
-                  placeholder="Enter Number Only"
+                  placeholder="Nhập số điện thoại"
                 />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
           </b-col>
-<!-- Must only consist of numbers-->
+<!-- Order phone-->
           <b-col md="6">
             <b-form-group>
               <label>Điện thoại phụ</label>
               <validation-provider
                 #default="{ errors }"
-                rules="required|integer"
-                name="Number"
+                rules="required"
+                name="OrderPhone"
               >
                 <b-form-input
-                  v-model="number"
+                  v-model="form.orderphone"
                   :state="errors.length > 0 ? false:null"
-                  placeholder="Enter Number Only"
+                  placeholder="Enter phone number"
                 />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
           </b-col>
-          <!-- Must match the specified regular expression : ^([0-9]+)$ - numbers only -->
+          <!-- birthday -->
           <b-col md="6">
             <b-form-group>
               <label>Ngày sinh</label>
               <validation-provider
                 #default="{ errors }"
-                rules="required|regex:^([0-9]+)$"
-                name="Regex"
+                rules="required"
+                name="Birthday"
               >
-                <b-form-input
-                  v-model="numberRegx"
+                <b-form-datepicker
+                  id="datepicker-full-width"
+                  v-model="form.birthday"
+                  menu-class="w-100"
+                  calendar-width="100%"
                   :state="errors.length > 0 ? false:null"
-                  placeholder="Enter Specified regular expression"
+                  class="mb-2"
                 />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
           </b-col>
-
-
-          <!-- Length should not be less than the specified length : 3 -->
+          <!-- Gender -->
           <b-col md="6">
             <b-form-group>
               <label>Giới Tính</label>
               <validation-provider
                 #default="{ errors }"
-                rules="required|min:3"
-                name="Min Character"
+                rules="required"
+                name="Gender"
               >
                 <b-form-select
-                  v-model="digitValue"
+                  v-model="form.gender"
                   :state="errors.length > 0 ? false:null"
                 >
                   <b-form-select-option value="male">Nam</b-form-select-option>
@@ -120,96 +110,18 @@
             </b-form-group>
           </b-col>
 
-          <!--Password Input Field -->
+          <!--Email -->
           <b-col md="6">
             <b-form-group>
               <label>Email</label>
               <validation-provider
                 #default="{ errors }"
-                rules="required|password"
-                name="password"
-                vid="password"
-              >
-                <b-form-input
-                  v-model="passwordValue"
-                  type="password"
-                  :state="errors.length > 0 ? false:null"
-                  placeholder="Password"
-                />
-                <small class="text-danger">{{ errors[0] }}</small>
-              </validation-provider>
-            </b-form-group>
-          </b-col>
-
-          <!-- The digits field must be numeric and exactly contain 3 digits -->
-          <b-col md="6">
-            <b-form-group>
-              <label>Địa Chỉ</label>
-              <validation-provider
-                #default="{ errors }"
-                rules="required|digits:3"
-                name="Numeric"
-              >
-                <b-form-input
-                  v-model="digitValue2"
-                  :state="errors.length > 0 ? false:null"
-                  placeholder="Enter Exactyly 3 digit"
-                />
-                <small class="text-danger">{{ errors[0] }}</small>
-              </validation-provider>
-            </b-form-group>
-          </b-col>
-
-          <!--Repeat password must match  -->
-          <b-col md="6">
-            <b-form-group>
-              <label>Quốc Gia</label>
-              <validation-provider
-                #default="{ errors }"
-                rules="required|confirmed:password"
-                name="Confirm Password"
-              >
-                <b-form-input
-                  v-model="passwordCon"
-                  type="password"
-                  :state="errors.length > 0 ? false:null"
-                  placeholder="Repeat Password"
-                />
-                <small class="text-danger">{{ errors[0] }}</small>
-              </validation-provider>
-            </b-form-group>
-          </b-col>
-
-          <!--Only alphabetic characters, numbers, dashes or underscores -->
-          <b-col md="6">
-            <b-form-group>
-              <label>UID</label>
-              <validation-provider
-                #default="{ errors }"
-                rules="required|alpha-dash"
-                name="All Character"
-              >
-                <b-form-input
-                  v-model="character"
-                  :state="errors.length > 0 ? false:null"
-                  placeholder="Enter Character, Numbers, Dash, Underscores"
-                />
-                <small class="text-danger">{{ errors[0] }}</small>
-              </validation-provider>
-            </b-form-group>
-          </b-col>
-
-          <!-- Must be a valid email -->
-          <b-col md="6">
-            <b-form-group>
-              <label>Ghi Chú</label>
-              <validation-provider
-                #default="{ errors }"
-                name="Email"
                 rules="required|email"
+                name="Email"
               >
                 <b-form-input
-                  v-model="emailValue"
+                  v-model="form.user_email"
+                  type="email"
                   :state="errors.length > 0 ? false:null"
                   placeholder="Email"
                 />
@@ -218,25 +130,94 @@
             </b-form-group>
           </b-col>
 
-          <!--Must be a valid url  -->
+          <!-- Address -->
           <b-col md="6">
             <b-form-group>
-              <label>Trạng thái</label>
+              <label>Địa Chỉ</label>
               <validation-provider
                 #default="{ errors }"
-                name="URL"
-                rules="required|url"
+                rules="required"
+                name="Address"
               >
                 <b-form-input
-                  v-model="URL"
+                  v-model="form.address"
                   :state="errors.length > 0 ? false:null"
-                  placeholder="Enter Valid URL"
+                  placeholder="Nhập địa chỉ"
                 />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
           </b-col>
 
+          <!--Country  -->
+          <b-col md="6">
+            <b-form-group>
+              <label>Quốc Gia</label>
+              <validation-provider
+                #default="{ errors }"
+                rules="required"
+                name="Country"
+              >
+                <b-form-input
+                  v-model="form.country"
+                  :state="errors.length > 0 ? false:null"
+                  placeholder="Quốc gia lãnh thổ"
+                />
+                <small class="text-danger">{{ errors[0] }}</small>
+              </validation-provider>
+            </b-form-group>
+          </b-col>
+
+          <!--Uid -->
+          <b-col md="6">
+            <b-form-group>
+              <label>UID</label>
+              <validation-provider
+                #default="{ errors }"
+                rules="required"
+                name="Uid"
+              >
+                <b-form-input
+                  v-model="form.uid"
+                  :state="errors.length > 0 ? false:null"
+                  placeholder="Nhập thông tin UID"
+                />
+                <small class="text-danger">{{ errors[0] }}</small>
+              </validation-provider>
+            </b-form-group>
+          </b-col>
+<!-- status -->
+          <b-col md="6">
+            <b-form-group>
+              <b-form-checkbox
+                v-model="form.status"
+                style="padding-top: 30px;"
+                checked="true"
+                switch
+                inline
+              >
+                Bật tắt trạng thái
+              </b-form-checkbox>
+            </b-form-group>
+          </b-col>
+          <!-- note -->
+          <b-col md="6">
+            <b-form-group>
+              <label>Ghi Chú</label>
+              <validation-provider
+                #default="{ errors }"
+                name="Note"
+                rules="required"
+              >
+                <b-form-textarea
+                  v-model="form.note"
+                  :state="errors.length > 0 ? false:null"
+                  placeholder="Note"
+                />
+                <small class="text-danger">{{ errors[0] }}</small>
+              </validation-provider>
+            </b-form-group>
+          </b-col>
           <!-- submit button -->
           <b-col cols="12">
             <b-button
@@ -256,18 +237,27 @@
 <script>
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import {
-  BFormInput, BFormGroup, BForm, BRow, BCol, BButton, BCard, BFormSelect, BFormSelectOption, BFormCheckbox, BFormCheckboxGroup,
+  BFormInput, BFormDatepicker, BFormTextarea, BFormGroup, BForm, BRow, BCol, BButton, BCard, BFormSelect, BFormSelectOption, BFormCheckbox 
 } from 'bootstrap-vue'
-import {
-  required, email, confirmed, url, between, alpha, integer, password, min, digits, alphaDash, length,
-} from '@validations'
+import { required, email } from '@validations'
+import fakeUser from '../fakeUser'
 
 export default {
+  created() {
+    if (typeof this.id !== 'undefined') {
+      // edit
+      const data = fakeUser.find(u => u.id === Number(this.id))
+      this.form = { ...data }
+    }
+  },
+  props: ['id'],
   components: {
+    EditStatus,
+    BFormTextarea,
+    BFormDatepicker,
     BFormSelect,
     BFormSelectOption,
     BFormCheckbox,
-    BFormCheckboxGroup,
     ValidationProvider,
     ValidationObserver,
     BFormInput,
@@ -280,37 +270,27 @@ export default {
   },
   data() {
     return {
-      fullname: '',
-      phone: '',
-      orderphone: '',
-      birthday: '',
-      NewEmail: '',
-      country: '',
-
-      note: '',
-      groups: [],
-      URL: '',
-      Alphabetic: '',
-      digitValue: '',
-      digitValue2: '',
-      character: '',
+      form: {
+        full_name: '',
+        address: '',
+        gender: '',
+        phone_number: '',
+        orderphone: '',
+        birthday: '',
+        user_email: '',
+        country: '',
+        uid: '',
+        note: '',
+        groups: [],
+        status: true, // trang thái
+      },
       required,
-      confirmed,
-      password,
       email,
-      min,
-      integer,
-      url,
-      alpha,
-      between,
-      digits,
-      length,
-      alphaDash,
     }
   },
   methods: {
     validationForm() {
-      this.$refs.simpleRules.validate().then(success => {
+      this.$refs.createUser.validate().then(success => {
         if (success) {
           // eslint-disable-next-line
           alert('form submitted!')

@@ -12,7 +12,7 @@
               v-ripple.400="'rgba(113, 102, 240, 0.15)'"
               variant="outline-primary"
               style="margin-right: 10px;"
-              href="/orders/create"
+              :to="{name: 'orders-create'}"
             >
               <feather-icon
                 icon="PlusIcon"
@@ -63,14 +63,26 @@
               <span class="text-nowrap">{{ props.row.fullName }}</span>
             </span>
             <span v-else-if="props.column.field === 'status'">
-              <b-badge :variant="statusVariant(props.row.status)">
-                {{ props.row.status }}
+              <b-badge
+                v-if="props.row.status === true"
+                variant="light-success"
+              >
+                Đang chạy
+              </b-badge>
+              <b-badge
+                v-else
+                variant="light-danger">
+                Đang dừng
               </b-badge>
             </span>
             <span v-else-if="props.column.field === 'creater'">
               <b-badge :variant="roleVariant(props.row.creater.role)">
                 {{ props.row.creater.name }}
               </b-badge>
+            </span>
+            <span v-else-if="props.column.field === 'date'">
+              <div><feather-icon icon="ClockIcon" /> {{ props.row.date.created_at }}</div>
+              <div><feather-icon icon="ClockIcon" /> {{ props.row.date.updated_at }}</div>
             </span>
             <!-- Column: Action -->
             <span v-else-if="props.column.field === 'act'">
@@ -87,7 +99,8 @@
                       class="text-body align-middle mr-25"
                     />
                   </template>
-                  <b-dropdown-item>
+                  <b-dropdown-item
+                    :to="{name: 'orders-edit', params: { id: props.row.id}}">
                     <feather-icon
                       icon="Edit2Icon"
                       class="mr-50"
@@ -121,7 +134,7 @@
                 </span>
                 <b-form-select
                   v-model="pageLength"
-                  :options="['3','5','10']"
+                  :options="['10', '20']"
                   class="mx-1"
                   @input="(value)=>props.perPageChanged({currentPerPage:value})"
                 />
@@ -182,7 +195,8 @@ export default {
     BButton,
     BCardHeader,
     flatPickr,
-    BPagination, BFormSelect, 
+    BPagination,
+    BFormSelect,
     BCardTitle,
     BDropdownItem,
     BDropdown,
@@ -208,7 +222,7 @@ export default {
       orders_columns: [
         {
           label: 'ID',
-          field: 'orderId',
+          field: 'id',
           width: '100px',
           filterOptions: {
             enabled: true,
@@ -218,7 +232,7 @@ export default {
         },
         {
           label: 'Ngày tạo',
-          field: 'date_created',
+          field: 'date',
           sortable: true,
           filterOptions: {
             enabled: true,
@@ -232,7 +246,7 @@ export default {
           sortable: true,
           filterOptions: {
             enabled: true,
-            placeholder: 'Search Id',
+            placeholder: 'Tìm công ty',
           },
         },
         {
@@ -242,7 +256,7 @@ export default {
           width: '100px',
           filterOptions: {
             enabled: true,
-            placeholder: 'Search Id',
+            placeholder: 'Tìm nguồn đơn',
           },
         },
         {
@@ -251,7 +265,7 @@ export default {
           field: 'customer',
           filterOptions: {
             enabled: true,
-            placeholder: 'Search Id',
+            placeholder: 'Tìm khách hàng',
           },
         },
         {
@@ -260,7 +274,7 @@ export default {
           field: 'phone_number',
           filterOptions: {
             enabled: true,
-            placeholder: 'Search phone',
+            placeholder: 'Tìm số điện thoại',
           },
         },
         {
@@ -269,7 +283,7 @@ export default {
           field: 'creater',
           filterOptions: {
             enabled: true,
-            placeholder: 'Search creater',
+            placeholder: 'Tìm người tạo',
           },
         },
         {
@@ -279,13 +293,13 @@ export default {
           field: 'country',
           filterOptions: {
             enabled: true,
-            placeholder: 'Search Contry',
+            placeholder: 'Tìm quốc gia',
             filterDropdownItems: [{
               value: 'VN', text: 'Việt Nam',
             },
             {
               value: 'THA', text: 'Thái Lan',
-            },],
+            }],
           },
         },
         {
@@ -295,13 +309,15 @@ export default {
           field: 'status',
           filterOptions: {
             enabled: true,
-            placeholder: 'Select status',
+            placeholder: 'Tìm trạng thái',
             filterDropdownItems: [{
-              value: 'ON', text: 'Đang chạy',
+              value: 'ON',
+              text: 'Đang chạy',
             },
             {
-              value: 'OFF', text: 'Đang dừng',
-            }], // dropdown (with selected values) instead of text input
+              value: 'OFF',
+              text: 'Đang dừng',
+            }],
           },
         },
         {
@@ -315,15 +331,6 @@ export default {
     }
   },
   computed: {
-    statusVariant() {
-      const statusColor = {
-        /* eslint-disable key-spacing */
-        ON  : 'light-success',
-        OFF : 'light-danger',
-        /* eslint-enable key-spacing */
-      }
-      return status => statusColor[status]
-    },
     roleVariant() {
       const roleColor = {
         /* eslint-disable key-spacing */

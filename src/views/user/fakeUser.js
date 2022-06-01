@@ -1,0 +1,25 @@
+export default [{
+  id: 1,
+  company: 'AAAA',
+  customer: 'Sinh danh',
+  phone_number: '096998555',
+  order_phone_number: '0969985552',
+  country: 'VN',
+  groups: [{ id: 1, name: 'group' }],
+  user_email: 'mmo@gmail.com',
+  creater: {
+    role: 'Admin',
+    name: 'Danh Sinh',
+  },
+  gender: 'male',
+  birthday: '2002-09-12',
+  address: 'thới quản gò quao kiên giang',
+  uid: '112222',
+  note: 'xin chào',
+  status: true,
+  date: {
+    created_at: '09-12-2002',
+    updated_at: '09-12-2002',
+  },
+},
+]

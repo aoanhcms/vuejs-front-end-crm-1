@@ -86,10 +86,9 @@
                 name="Colour"
               >
                 <b-col sm="6">
-                  <color-picker
+                  <colour-picker
                     v-model="colour"
                     :value="colour"
-                    label="Pick Colour"
                     picker="chrome"
                   />
                   <small class="text-danger">{{ errors[0] }}</small>
@@ -183,16 +182,16 @@
 <script>
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import { required } from '@validations'
+
+import ColourPicker from 'vue-colour-picker'
 import {
-  BFormInput, BFormDatepicker, BFormTextarea, BFormGroup, BForm, BRow, BCol, BButton, BCard, BFormSelect, BFormSelectOption, BFormCheckbox 
+  BFormInput, BFormGroup, BForm, BRow, BCol, BButton, BCard, BFormSelect, BFormSelectOption, BFormCheckbox 
 } from 'bootstrap-vue'
-import { ColorPicker } from 'vue-colour-picker'
 
 export default {
+  props: ['id'],
   components: {
-    ColorPicker,
-    BFormTextarea,
-    BFormDatepicker,
+    'colour-picker': ColourPicker,
     BFormSelect,
     BFormSelectOption,
     BFormCheckbox,
@@ -227,5 +226,7 @@ export default {
 </script>
 
 <style>
-
+.color-input {
+  width: 50%;
+}
 </style>

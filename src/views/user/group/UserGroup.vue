@@ -11,7 +11,7 @@
               v-ripple.400="'rgba(113, 102, 240, 0.15)'"
               variant="outline-primary"
               style="margin-right: 10px;"
-              @click="createNewGroup"
+              :to="{ name: 'users-group-create'}"
             >
               <feather-icon
                 icon="PlusIcon"
@@ -62,8 +62,16 @@
               <span class="text-nowrap">{{ props.row.fullName }}</span>
             </span>
             <span v-else-if="props.column.field === 'status'">
-              <b-badge :variant="statusVariant(props.row.status)">
-                {{ props.row.status }}
+              <b-badge
+                v-if="props.row.status === true"
+                variant="light-success"
+              >
+                Đang chạy
+              </b-badge>
+              <b-badge
+                v-else
+                variant="light-danger">
+                Đang dừng
               </b-badge>
             </span>
             <span v-else-if="props.column.field === 'creater'">
@@ -72,8 +80,8 @@
               </b-badge>
             </span>
             <span v-else-if="props.column.field === 'date'">
-              <div><FeatherIcon icon="ClockIcon" /> {{ props.row.date.created_at }}</div>
-              <div><FeatherIcon icon="ClockIcon" /> {{ props.row.date.updated_at }}</div>
+              <div><feather-icon icon="ClockIcon" /> {{ props.row.date.created_at }}</div>
+              <div><feather-icon icon="ClockIcon" /> {{ props.row.date.updated_at }}</div>
             </span>
             <!-- Column: Action -->
             <span v-else-if="props.column.field === 'act'">
@@ -90,7 +98,8 @@
                       class="text-body align-middle mr-25"
                     />
                   </template>
-                  <b-dropdown-item>
+                  <b-dropdown-item
+                    :to="{name: 'users-group-edit', params: { id: props.row.id}}" >
                     <feather-icon
                       icon="Edit2Icon"
                       class="mr-50"
@@ -295,15 +304,6 @@ export default {
     }
   },
   computed: {
-    statusVariant() {
-      const statusColor = {
-        /* eslint-disable key-spacing */
-        ON  : 'light-success',
-        OFF : 'light-danger',
-        /* eslint-enable key-spacing */
-      }
-      return status => statusColor[status]
-    },
     roleVariant() {
       const roleColor = {
         /* eslint-disable key-spacing */
@@ -318,9 +318,6 @@ export default {
     this.rows = fakeData
   },
   methods: {
-    createNewGroup() {
-      this.$router.push({ name: 'users-group-create' })
-    },
     dateRangeFilter(data, filterString) {
       const dateRange = filterString.split('to')
       const startDate = Date.parse(dateRange[0])

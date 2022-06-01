@@ -1,7 +1,10 @@
 export default [
   {
-    orderId: 1,
-    date_created: '20-03-2018 to 02-10-2018',
+    id: 1,
+    date: {
+      created_at: '20-03-2022',
+      updated_at: '20-04-2022',
+    },
     company: 'DDD Company',
     order_source: 0,
     customer: 'Danh Sinh',

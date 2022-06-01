@@ -11,7 +11,7 @@
               v-ripple.400="'rgba(113, 102, 240, 0.15)'"
               variant="outline-primary"
               style="margin-right: 10px;"
-              href="/orders/status/create"
+              :to="{ name: 'orders-status-create'}"
             >
               <feather-icon
                 icon="PlusIcon"
@@ -64,14 +64,26 @@
               <span class="text-nowrap">{{ props.row.fullName }}</span>
             </span>
             <span v-else-if="props.column.field === 'status'">
-              <b-badge :variant="statusVariant(props.row.status)">
-                {{ props.row.status }}
+              <b-badge
+                v-if="props.row.status === 'ON'"
+                variant="light-success"
+              >
+                Đang chạy
+              </b-badge>
+              <b-badge
+                v-else
+                variant="light-danger">
+                Đang dừng
               </b-badge>
             </span>
             <span v-else-if="props.column.field === 'creater'">
               <b-badge :variant="roleVariant(props.row.creater.role)">
                 {{ props.row.creater.name }}
               </b-badge>
+            </span>
+            <span v-else-if="props.column.field === 'date'">
+              <div><feather-icon icon="ClockIcon" /> {{ props.row.date.created_at }}</div>
+              <div><feather-icon icon="ClockIcon" /> {{ props.row.date.updated_at }}</div>
             </span>
             <!-- Column: Action -->
             <span v-else-if="props.column.field === 'act'">
@@ -88,7 +100,9 @@
                       class="text-body align-middle mr-25"
                     />
                   </template>
-                  <b-dropdown-item>
+                  <b-dropdown-item
+                    :to="{name: 'orders-status-edit', params: { id: props.row.id}}"
+                  >
                     <feather-icon
                       icon="Edit2Icon"
                       class="mr-50"
@@ -122,7 +136,7 @@
                 </span>
                 <b-form-select
                   v-model="pageLength"
-                  :options="['3','5','10']"
+                  :options="['10', '20']"
                   class="mx-1"
                   @input="(value)=>props.perPageChanged({currentPerPage:value})"
                 />
@@ -180,7 +194,7 @@ import fakeData from './fakeStatus'
 export default {
   components: {
     BPagination,
-    BFormSelect, 
+    BFormSelect,
     BButton,
     BCardHeader,
     flatPickr,
@@ -204,7 +218,7 @@ export default {
   },
   data() {
     return {
-      pageLength: 3,
+      pageLength: 10,
       dir: false,
       orders_columns: [
         {
@@ -223,7 +237,7 @@ export default {
           sortable: true,
           filterOptions: {
             enabled: true,
-            placeholder: 'Search Id',
+            placeholder: 'Search company',
           },
         },
         {
@@ -281,7 +295,7 @@ export default {
         },
         {
           label: 'Ngày tạo',
-          field: 'created_at',
+          field: 'date',
           sortable: true,
           filterOptions: {
             enabled: true,
@@ -300,15 +314,6 @@ export default {
     }
   },
   computed: {
-    statusVariant() {
-      const statusColor = {
-        /* eslint-disable key-spacing */
-        ON  : 'light-success',
-        OFF : 'light-danger',
-        /* eslint-enable key-spacing */
-      }
-      return status => statusColor[status]
-    },
     roleVariant() {
       const roleColor = {
         /* eslint-disable key-spacing */
@@ -340,59 +345,6 @@ export default {
 
 <style lang="scss" >
 @import '@core/scss/vue/libs/vue-good-table.scss';
-
-@import 'bootstrap/scss/functions';
-@import '~@core/scss/base/bootstrap-extended/variables';
-@import 'bootstrap/scss/variables';
-@import '~@core/scss/base/components/variables-dark';
-
-.card-code {
-  pre[class*='language-'] {
-    margin: 0;
-    max-height: 350px;
-    border-radius: 0.5rem;
-  }
-
-    /* width */
-    ::-webkit-scrollbar {
-      width: 8px;
-      height: 8px;
-      background: #2d2d2d;
-      border-radius: 100%;
-
-      .dark-layout & {
-        background-color: $theme-dark-body-bg !important;
-      }
-    }
-
-    /* Track */
-    ::-webkit-scrollbar-track {
-      background: transparent;
-    }
-
-    /* Handle */
-    ::-webkit-scrollbar-thumb {
-      border-radius: 0.5rem;
-      background: rgba(241,241,241,.4);
-    }
-
-    /* Handle on hover */
-    // ::-webkit-scrollbar-thumb:hover {
-    // }
-
-    ::-webkit-scrollbar-corner {
-      display: none;
-    }
-}
-
-.code-toggler {
-  border-bottom: 1px solid transparent;
-
-  &[aria-expanded='false'] {
-    border-bottom-color: $primary;
-  }
-}
-
 // HTML
 .card {
   .card-header .heading-elements {
