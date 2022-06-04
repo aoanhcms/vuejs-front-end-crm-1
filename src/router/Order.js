@@ -21,7 +21,7 @@ export default [
       pageTitle: 'Đơn hàng',
       breadcrumb: [
         {
-          text: 'Nguồn đơn hàng',
+          text: 'Danh sách Nguồn đơn hàng',
           active: true,
         },
       ],
@@ -34,6 +34,10 @@ export default [
     meta: {
       pageTitle: 'Đơn hàng',
       breadcrumb: [
+        {
+          text: 'Danh sách đơn hàng',
+          to: {name: 'orders'}
+        },
         {
           text: 'Tạo mới',
           active: true,
@@ -49,6 +53,10 @@ export default [
       pageTitle: 'Đơn hàng',
       breadcrumb: [
         {
+          text: 'Danh sách đơn hàng',
+          to: {name: 'orders'}
+        },
+        {
           text: 'Sửa',
           active: true,
         },
@@ -63,11 +71,12 @@ export default [
       pageTitle: 'Đơn hàng',
       breadcrumb: [
         {
-          text: 'Nguồn đơn hàng',
-          active: true,
+          text: 'Danh sách Nguồn đơn hàng',
+          to: { name: 'orders-source'}
         },
         {
           text: 'Tạo mới',
+          active: true,
         },
       ],
     },
@@ -80,7 +89,8 @@ export default [
       pageTitle: 'Đơn hàng',
       breadcrumb: [
         {
-          text: 'Nguồn đơn hàng',
+          text: 'Danh sách Nguồn đơn hàng',
+          to: { name: 'orders-source'},
         },
         {
           text: 'Sửa',
@@ -111,6 +121,7 @@ export default [
       breadcrumb: [
         {
           text: 'Trạng thái đơn hàng',
+          to: { name: 'orders-status'},
         },
         {
           text: 'Tạo mới',
@@ -128,7 +139,8 @@ export default [
       pageTitle: 'Đơn hàng',
       breadcrumb: [
         {
-          text: 'Trạng thái đơn hàng',
+          text: 'Danh sách Trạng thái đơn hàng',
+          to: { name: 'order-status'},
         },
         {
           text: 'Sửa',

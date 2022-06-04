@@ -37,6 +37,30 @@
         </b-col>
       </b-row>
     </b-col>
+    <!-- Content Right -->
+    <b-col
+      class="content-header-right text-md-right d-md-block d-none mb-1"
+      md="3"
+      cols="12"
+    >
+      <b-dropdown
+        variant="link"
+        no-caret
+        toggle-class="p-0"
+        right
+      >
+        <template v-if="$route.meta.back" #button-content>
+          <b-button
+            v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+            variant="primary"
+            class="btn-icon"
+            :to="{ name: $route.meta.back}"
+          >
+            <feather-icon icon="ArrowLeftIcon" />
+          </b-button>
+        </template>
+      </b-dropdown>
+    </b-col>
   </b-row>
 </template>
 

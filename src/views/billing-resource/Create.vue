@@ -240,7 +240,9 @@ import {
   BFormInput, BFormDatepicker, BFormTextarea, BFormGroup, BForm, BRow, BCol, BButton, BCard, BFormSelect, BFormSelectOption, BFormCheckbox 
 } from 'bootstrap-vue'
 import { required, email } from '@validations'
-import fakeUser from '@core/fakeData/fakeUser'
+//import fakeUser from '../fakeUser'
+
+const fakeUser = []
 
 export default {
   created() {

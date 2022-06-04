@@ -4,6 +4,16 @@ import UserRoutes from './User'
 
 import OrderRoutes from './Order'
 
+import ClassRoutes from './class-and-teacher'
+import BusinessRoutes from './Business'
+import authRoutes from './auth'
+
+import marketingRoutes from './Marketing'
+
+import reportRoutes from './Report'
+
+import staffRoutes from './Staff'
+
 Vue.use(VueRouter)
 
 const router = new VueRouter({
@@ -13,30 +23,28 @@ const router = new VueRouter({
     return { x: 0, y: 0 }
   },
   routes: [
-    ...OrderRoutes,
-    ...UserRoutes,
     {
       path: '/',
-      name: 'home',
+      name: 'dashboard',
       component: () => import('@/views/Home.vue'),
       meta: {
-        pageTitle: 'Home',
+        pageTitle: 'Dashboard',
         breadcrumb: [
           {
-            text: 'Home',
+            text: 'Dashboard',
             active: true,
           },
         ],
       },
     },
-    {
-      path: '/login',
-      name: 'login',
-      component: () => import('@/views/Login.vue'),
-      meta: {
-        layout: 'full',
-      },
-    },
+    ...ClassRoutes,
+    ...BusinessRoutes,
+    ...OrderRoutes,
+    ...UserRoutes,
+    ...authRoutes,
+    ...marketingRoutes,
+    ...reportRoutes,
+    ...staffRoutes,
     {
       path: '/error-404',
       name: 'error-404',

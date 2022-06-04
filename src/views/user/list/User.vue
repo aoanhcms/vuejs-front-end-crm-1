@@ -80,9 +80,9 @@
                 {{ props.row.creater.name }}
               </b-badge>
             </span>
-            <span v-else-if="props.column.field === 'date'">
-              <div><feather-icon icon="ClockIcon" /> {{ props.row.date.created_at }}</div>
-              <div><feather-icon icon="ClockIcon" /> {{ props.row.date.created_at }}</div>
+            <span v-else-if="props.column.field === 'created_at'">
+              <div><feather-icon icon="ClockIcon" /> {{ props.row.created_at }}</div>
+              <div><feather-icon icon="ClockIcon" /> {{ props.row.created_at }}</div>
             </span>
             <!-- Column: Action -->
             <span v-else-if="props.column.field === 'act'">
@@ -191,7 +191,7 @@ import 'flatpickr/dist/flatpickr.css'
 import 'flatpickr/dist/themes/material_blue.css'
 
 import FeatherIcon from '@/@core/components/feather-icon/FeatherIcon.vue'
-import fakeData from '../fakeUser'
+import fakeData from '@core/fakeData/fakeUser'
 
 export default {
   components: {
@@ -215,7 +215,7 @@ export default {
   },
   mounted() {
     flatPickr('input[placeholder="Search date"]', {
-      dateFormat: 'm-d-Y',
+      dateFormat: 'd-m-Y',
       mode: 'range',
       allowInput: true,
     })
@@ -305,7 +305,7 @@ export default {
         },
         {
           label: 'Ngày tạo',
-          field: 'date',
+          field: 'created_at',
           sortable: true,
           filterOptions: {
             enabled: true,

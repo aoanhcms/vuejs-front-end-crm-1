@@ -3,30 +3,16 @@
     <b-container
       fluid
     >
-      <b-card>
+      <b-card
+      >
         <b-card-header>
-          <b-card-title>Trạng thái đơn hàng</b-card-title>
+          <b-card-title>Quản lý Platform marketing</b-card-title>
           <b-card-sub-title>
-            <b-button
-              v-ripple.400="'rgba(113, 102, 240, 0.15)'"
-              variant="outline-primary"
-              style="margin-right: 10px;"
-              :to="{ name: 'orders-status-create'}"
-            >
-              <feather-icon
-                icon="PlusIcon"
-                class="mr-50"
-              />
-              <span class="align-middle">Thêm trạng thái mới</span>
-            </b-button>
-            <b-dropdown
-              text="Xuất ra"
-              variant="primary">
-              <b-dropdown-item>In</b-dropdown-item>
-              <b-dropdown-item>Excel</b-dropdown-item>
-              <b-dropdown-item>CSV</b-dropdown-item>
-              <b-dropdown-item>PDF</b-dropdown-item>
-            </b-dropdown>
+            <nav-table
+              :to="{ name: 'platform-marketing-create'}"
+              name="Thêm số liệu marketing"
+              :exports="[]"
+            />
           </b-card-sub-title>
         </b-card-header>
         <vue-good-table
@@ -56,31 +42,20 @@
             slot-scope="props"
           >
 
+            <!-- Column: Name -->
             <span
-              v-if="props.column.field === 'order_status_name'"
+              v-if="props.column.field === 'fullName'"
               class="text-nowrap"
             >
-              <span class="text-nowrap">{{ props.row.order_status_name }}</span>
+              <span class="text-nowrap">{{ props.row.fullName }}</span>
             </span>
-            <span
-              v-else-if="props.column.field === 'color'"
-              class="text-nowrap"
-            >
-            <span class="text-nowrap" :style="'background-color:' + props.row.color+ ';padding: 5px'"></span>
-              <span class="text-nowrap" :style="'color:' + props.row.color+ ';font-weight:bold'">{{ props.row.color }}</span>
+            <span v-else-if="props.column.field === 'infomation'">
+              <div>Người tạo: Vương Minh</div>
+              <div>Marketing: None</div>
+              <div>NV phụ trách: Vương Minh</div>
             </span>
             <span v-else-if="props.column.field === 'status'">
-              <b-badge
-                v-if="props.row.status === true"
-                variant="light-success"
-              >
-                Đang chạy
-              </b-badge>
-              <b-badge
-                v-else
-                variant="light-danger">
-                Đang dừng
-              </b-badge>
+              <col-status :status="props.row.status" />
             </span>
             <span v-else-if="props.column.field === 'creater'">
               <b-badge :variant="roleVariant(props.row.creater.role)">
@@ -93,39 +68,13 @@
             </span>
             <!-- Column: Action -->
             <span v-else-if="props.column.field === 'act'">
-              <span>
-                <b-dropdown
-                  variant="link"
-                  toggle-class="text-decoration-none"
-                  no-caret
-                >
-                  <template v-slot:button-content>
-                    <feather-icon
-                      icon="MoreVerticalIcon"
-                      size="16"
-                      class="text-body align-middle mr-25"
-                    />
-                  </template>
-                  <b-dropdown-item
-                    :to="{name: 'orders-status-edit', params: { id: props.row.id}}"
-                  >
-                    <feather-icon
-                      icon="Edit2Icon"
-                      class="mr-50"
-                    />
-                    <span>Edit</span>
-                  </b-dropdown-item>
-                  <b-dropdown-item>
-                    <feather-icon
-                      icon="TrashIcon"
-                      class="mr-50"
-                    />
-                    <span>Delete</span>
-                  </b-dropdown-item>
-                </b-dropdown>
-              </span>
+              <col-action
+                :row="props.row.id"
+                :to="{ name: 'classes-edit', params: { id: props.row.id}}"
+                @click="this.delete(props.row.id)"
+              />
+              <!-- Column: Common -->
             </span>
-            <!-- Column: Common -->
             <span v-else>
               {{ props.formattedRow[props.column.field] }}
             </span>
@@ -186,28 +135,33 @@
 </template>
 
 <script>
-import { BCardSubTitle, BPagination, BFormSelect, BContainer, BCardTitle, BButton, BCard, BBadge, BDropdown, BDropdownItem, BCardHeader,
+import {
+  BCardSubTitle, BContainer, BCardTitle, BPagination, BFormSelect, BCard, BBadge, BCardHeader,
 } from 'bootstrap-vue'
 import Ripple from 'vue-ripple-directive'
 import { VueGoodTable } from 'vue-good-table'
+import NavTable from '@core/components/datatable/NavTable.vue'
+import ColStatus from '@core/components/datatable/ColStatus.vue'
+import ColAction from '@core/components/datatable/ColAction.vue'
+
 import flatPickr from 'flatpickr'
 
 import 'flatpickr/dist/flatpickr.css'
 import 'flatpickr/dist/themes/material_blue.css'
 
-import fakeData from '@core/fakeData/fakeStatus'
+import fakeData from '@core/fakeData/maketing-platform.js'
 
 export default {
   components: {
+    ColAction,
+    ColStatus,
+    NavTable,
     BCardSubTitle,
-    BPagination,
-    BFormSelect,
-    BButton,
     BCardHeader,
     flatPickr,
+    BPagination,
+    BFormSelect,
     BCardTitle,
-    BDropdownItem,
-    BDropdown,
     BContainer,
     VueGoodTable,
     BCard,
@@ -222,6 +176,10 @@ export default {
       mode: 'range',
       allowInput: true,
     })
+    flatPickr('input[placeholder="Tìm báo cáo"]', {
+      dateFormat: 'd-m-Y',
+      allowInput: true,
+    })
   },
   data() {
     return {
@@ -234,54 +192,53 @@ export default {
           width: '100px',
           filterOptions: {
             enabled: true,
-            placeholder: 'Search Id',
+            placeholder: 'Tìm Id',
             sortable: true,
           },
         },
         {
           label: 'Doanh nghiệp',
-          field: 'company',
+          field: 'business',
           sortable: true,
           filterOptions: {
             enabled: true,
-            placeholder: 'Search company',
+            placeholder: 'Tìm công ty',
           },
         },
         {
-          label: 'Tên trạng thái',
-          field: 'order_status_name',
+          label: 'Thông tin',
+          field: 'infomation',
           sortable: true,
-          width: '100px',
           filterOptions: {
             enabled: true,
-            placeholder: 'Search Status Name',
+            placeholder: 'Tìm Thông tin',
           },
         },
         {
-          label: 'Color',
+          label: 'Số CMT+INBOX',
           sortable: true,
-          field: 'color',
+          field: 'comment_inbox_count',
           filterOptions: {
             enabled: true,
-            placeholder: 'Search Color',
+            placeholder: 'Tìm số lượt CMT + IB',
           },
         },
         {
-          label: 'Level',
+          label: 'Số học viên',
           sortable: true,
-          field: 'level',
+          field: 'student_count',
           filterOptions: {
             enabled: true,
-            placeholder: 'Search level',
+            placeholder: 'Tìm số học viên',
           },
         },
         {
-          label: 'Vị trí',
+          label: 'Ngày báo cáo',
           sortable: true,
-          field: 'location',
+          field: 'date_report',
           filterOptions: {
             enabled: true,
-            placeholder: 'Search location',
+            placeholder: 'Tìm báo cáo',
           },
         },
         {
@@ -291,13 +248,15 @@ export default {
           field: 'status',
           filterOptions: {
             enabled: true,
-            placeholder: 'Select status',
+            placeholder: 'Tìm trạng thái',
             filterDropdownItems: [{
-              value: true, text: 'Đang chạy',
+              value: true,
+              text: 'Đang chạy',
             },
             {
-              value: false, text: 'Đang dừng',
-            }], // dropdown (with selected values) instead of text input
+              value: false,
+              text: 'Đang dừng',
+            }],
           },
         },
         {
@@ -335,6 +294,10 @@ export default {
     this.rows = fakeData
   },
   methods: {
+    delete(id) {
+      // delete row
+      console.log('delete', id)
+    },
     dateRangeFilter(data, filterString) {
       const dateRange = filterString.split('to')
       const startDate = Date.parse(dateRange[0])
@@ -352,6 +315,8 @@ export default {
 
 <style lang="scss" >
 @import '@core/scss/vue/libs/vue-good-table.scss';
+
+
 // HTML
 .card {
   .card-header .heading-elements {

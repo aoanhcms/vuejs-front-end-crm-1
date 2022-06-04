@@ -23,6 +23,10 @@ export default [
       pageTitle: 'Khách hàng',
       breadcrumb: [
         {
+          text: 'Danh sách khách hàng',
+          to: { name: 'users' },
+        },
+        {
           text: 'Tạo mới người dùng',
           active: true,
         },
@@ -40,6 +44,7 @@ export default [
       breadcrumb: [
         {
           text: 'Danh sách khách hàng',
+          to: { name: 'users' },
         },
         {
           text: 'Chỉnh sửa',
@@ -54,10 +59,10 @@ export default [
     // eslint-disable-next-line import/no-unresolved
     component: () => import('@/views/user/group/UserGroup.vue'),
     meta: {
-      pageTitle: 'Khách hàng',
+      pageTitle: 'Nhóm Khách hàng',
       breadcrumb: [
         {
-          text: 'Group',
+          text: 'Nhóm khách hàng',
           active: true,
         },
       ],
@@ -69,10 +74,14 @@ export default [
     // eslint-disable-next-line import/no-unresolved
     component: () => import('@/views/user/group/UserGroupCreate.vue'),
     meta: {
-      pageTitle: 'Khách hàng',
+      pageTitle: 'Nhóm Khách hàng',
       breadcrumb: [
         {
-          text: 'Group',
+          text: 'Danh sách Nhóm Khách Hàng',
+          to: {name: 'users-group' }
+        },
+        {
+          text: 'Tạo Nhóm Mới',
           active: true,
         },
       ],
@@ -84,10 +93,14 @@ export default [
     // eslint-disable-next-line import/no-unresolved
     component: () => import('@/views/user/group/Edit.vue'),
     meta: {
-      pageTitle: 'Khách hàng',
+      pageTitle: 'Nhóm Khách hàng',
       breadcrumb: [
         {
-          text: 'Edit',
+          text: 'Danh sách Nhóm Khách Hàng',
+          to: { name: 'users-group'},
+        },
+        {
+          text: 'Chỉnh sửa',
           active: true,
         },
       ],
