@@ -139,6 +139,23 @@ export default {
       rows: [],
       orders: [],
       searchTermOrder: '',
+      selectedProductItems: [],
+      exports_row: [{
+        name: 'PRINT',
+        fn: this.exportPrint,
+      },
+      {
+        name: 'CSV',
+        fn: this.exportPrint,
+      },
+      {
+        name: 'EXCEL',
+        fn: this.exportPrint,
+      },
+      {
+        name: 'PDF',
+        fn: this.exportPrint,
+      }],
     }
   },
   created() {

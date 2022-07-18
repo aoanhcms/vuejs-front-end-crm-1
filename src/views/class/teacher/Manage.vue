@@ -11,7 +11,9 @@
             <nav-table
               :to="{ name: 'teacher-create'}"
               name="Tạo giáo viên mới"
-              :exports="[]"
+              :exports="exports_row"
+              :selectedChanged="selectedProductItems"
+              @confirmDeleteSelected="confirmDeleteSelected"
             />
           </b-card-sub-title>
         </b-card-header>
@@ -81,42 +83,17 @@
                 {{ props.row.creater.name }}
               </b-badge>
             </span>
-            <span v-else-if="props.column.field === 'created_at'">
+            <span v-else-if="props.column.field === 'date'">
               <div><feather-icon icon="ClockIcon" /> {{ props.row.created_at }}</div>
               <div><feather-icon icon="ClockIcon" /> {{ props.row.updated_at }}</div>
             </span>
             <!-- Column: Action -->
             <span v-else-if="props.column.field === 'act'">
-              <span>
-                <b-dropdown
-                  variant="link"
-                  toggle-class="text-decoration-none"
-                  no-caret
-                >
-                  <template v-slot:button-content>
-                    <feather-icon
-                      icon="MoreVerticalIcon"
-                      size="16"
-                      class="text-body align-middle mr-25"
-                    />
-                  </template>
-                  <b-dropdown-item
-                    :to="{name: 'orders-edit', params: { id: props.row.id}}">
-                    <feather-icon
-                      icon="Edit2Icon"
-                      class="mr-50"
-                    />
-                    <span>Edit</span>
-                  </b-dropdown-item>
-                  <b-dropdown-item>
-                    <feather-icon
-                      icon="TrashIcon"
-                      class="mr-50"
-                    />
-                    <span>Delete</span>
-                  </b-dropdown-item>
-                </b-dropdown>
-              </span>
+              <col-action
+                :row="props.row.id"
+                :to="{ name: 'classes-edit', params: { id: props.row.id}}"
+                 @delete="showMsgBoxConfirmDelete"
+              />
             </span>
             <!-- Column: Common -->
             <span v-else>
@@ -218,7 +195,7 @@ export default {
   },
   mounted() {
     flatPickr('input[placeholder="Search date"]', {
-      dateFormat: 'd-m-Y',
+      dateFormat: 'm-d-Y',
       mode: 'range',
       allowInput: true,
     })
@@ -301,7 +278,7 @@ export default {
         },
         {
           label: 'Ngày tạo',
-          field: 'created_at',
+          field: 'date',
           sortable: true,
           filterOptions: {
             enabled: true,
@@ -335,6 +312,23 @@ export default {
       rows: [],
       orders: [],
       searchTermOrder: '',
+      selectedProductItems: [],
+      exports_row: [{
+        name: 'PRINT',
+        fn: this.exportPrint,
+      },
+      {
+        name: 'CSV',
+        fn: this.exportPrint,
+      },
+      {
+        name: 'EXCEL',
+        fn: this.exportPrint,
+      },
+      {
+        name: 'PDF',
+        fn: this.exportPrint,
+      }],
     }
   },
   computed: {

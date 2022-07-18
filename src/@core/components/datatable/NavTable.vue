@@ -1,6 +1,19 @@
 <template>
   <div>
     <b-button
+      v-if="selectedChanged.length > 0"
+      v-ripple.400="'rgba(113, 102, 240, 0.15)'"
+      variant="danger"
+      style="margin-right: 10px;"
+      @click="deleteRows"
+    >
+      <feather-icon
+        icon="DeleteIcon"
+        class="mr-50"
+      />
+      <span class="align-middle">Xóa {{ selectedChanged.length }} dòng</span>
+    </b-button>
+    <b-button
       v-ripple.400="'rgba(113, 102, 240, 0.15)'"
       variant="outline-primary"
       style="margin-right: 10px;"
@@ -20,6 +33,7 @@
         v-for="ep in exports"
         :key="ep.id"
         :to="ep.to"
+        @click="ep.fn(ep.name)"
       >
         {{ ep.name }}
       </b-dropdown-item>
@@ -28,11 +42,11 @@
 </template>
 <script>
 import Ripple from 'vue-ripple-directive'
-import { BButton, BDropdownItem, BDropdown} from 'bootstrap-vue'
+import { BButton, BDropdownItem, BDropdown } from 'bootstrap-vue'
 import FeatherIcon from '@core/components/feather-icon/FeatherIcon.vue'
 
 export default {
-  props: ['to', 'name', 'exports'],
+  props: ['to', 'name', 'exports', 'selectedChanged'],
   components: {
     FeatherIcon,
     BButton,
@@ -41,6 +55,11 @@ export default {
   },
   directives: {
     Ripple,
+  },
+  methods: {
+    deleteRows() {
+      this.$emit('confirmDeleteSelected', this.selectedChanged)
+    },
   },
 }
 

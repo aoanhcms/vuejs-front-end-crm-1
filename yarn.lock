@@ -7937,6 +7937,11 @@ pbkdf2@^3.0.3:
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
 
+pc-vn@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/pc-vn/-/pc-vn-1.0.1.tgz#e3e1dfe933d5215f0a9798cf3d890256450ca182"
+  integrity sha512-P6hfrjITql7DDZKCvh4++RyhME826eXd0v78awwojrX2lZwDLQOqpL57SO49+FuOkQClvkPJIXw6RzCVKg+hLg==
+
 performance-now@^2.1.0:
   version "2.1.0"
   resolved "https://registry.npmjs.org/performance-now/-/performance-now-2.1.0.tgz"
@@ -10392,6 +10397,13 @@ vue-demi@latest:
   resolved "https://registry.npmjs.org/vue-demi/-/vue-demi-0.12.5.tgz"
   integrity sha512-BREuTgTYlUr0zw0EZn3hnhC3I6gPWv+Kwh4MCih6QcAeaTlaIX0DwOVN0wHej7hSvDPecz4jygy/idsgKfW58Q==
 
+vue-drag-sortable@^0.2.2:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/vue-drag-sortable/-/vue-drag-sortable-0.2.2.tgz#f595fdda03075eaf0730f0f75d16b87dd0b591a9"
+  integrity sha512-8PRgFZvqMspCSeIwbDu2U7Ylm1ROZbFuTpZsRaTwIdyZFmr3oikd2SejzHy0kfmRR261v8W4dxmWjWjRz1i/iQ==
+  dependencies:
+    vue "^2.5.11"
+
 vue-echarts@5.0.0-beta.0:
   version "5.0.0-beta.0"
   resolved "https://registry.npmjs.org/vue-echarts/-/vue-echarts-5.0.0-beta.0.tgz"
@@ -10518,6 +10530,11 @@ vue-router@3.4.9:
   resolved "https://registry.npmjs.org/vue-router/-/vue-router-3.4.9.tgz"
   integrity sha512-CGAKWN44RqXW06oC+u4mPgHLQQi2t6vLD/JbGRDAXm0YpMv0bgpKuU5bBd7AvMgfTz9kXVRIWKHqRwGEb8xFkA==
 
+vue-select-ar@^0.2.6:
+  version "0.2.6"
+  resolved "https://registry.yarnpkg.com/vue-select-ar/-/vue-select-ar-0.2.6.tgz#6fecf87990ee6ac2efb89e996e3bd555d07bd667"
+  integrity sha512-Dy8chu4GoUSq+bYPUj8nVqN7fcrIF1xb8MSAAnasaKSNcxs8WIFsjEGJdZhTsdTVkGFQCmbN8OB1vfPYXSTjtQ==
+
 vue-select@3.11.2:
   version "3.11.2"
   resolved "https://registry.npmjs.org/vue-select/-/vue-select-3.11.2.tgz"
@@ -10586,7 +10603,7 @@ vue2-leaflet@2.5.2:
   resolved "https://registry.npmjs.org/vue2-leaflet/-/vue2-leaflet-2.5.2.tgz"
   integrity sha512-9eN0TxqCkyXbaI7waO3u+n0OAezkxjb811tstG6gRLAZy/ocXlNLC3JqTWE0FwBUlqBbMpyzsIk6LrEhs8oVBQ==
 
-vue@2.x, vue@^2.2.1, vue@^2.4.4, vue@^2.6.10:
+vue@2.x, vue@^2.2.1, vue@^2.4.4, vue@^2.5.11, vue@^2.6.10:
   version "2.6.14"
   resolved "https://registry.npmjs.org/vue/-/vue-2.6.14.tgz"
   integrity sha512-x2284lgYvjOMj3Za7kqzRcUSxBboHqtgRE2zlos1qWaOye5yUmHn42LB1250NJBLRwEcdrB0JRwyPTEPhfQjiQ==

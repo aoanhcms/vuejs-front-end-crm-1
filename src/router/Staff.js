@@ -5,6 +5,7 @@ export default [
     // eslint-disable-next-line import/no-unresolved
     component: () => import('@/views/staffs/Manage.vue'),
     meta: {
+      redirectIfLoggedIn: true,
       pageTitle: 'Nhân Viên',
       breadcrumb: [
         {
@@ -20,6 +21,7 @@ export default [
     // eslint-disable-next-line import/no-unresolved
     component: () => import('@/views/staffs/Create.vue'),
     meta: {
+      redirectIfLoggedIn: true,
       pageTitle: 'Nhân Viên',
       breadcrumb: [
         {
@@ -40,6 +42,7 @@ export default [
     component: () => import('@/views/staffs/Create.vue'),
     props: true,
     meta: {
+      redirectIfLoggedIn: true,
       pageTitle: 'Nhân Viên',
       breadcrumb: [
         {
@@ -59,6 +62,7 @@ export default [
     // eslint-disable-next-line import/no-unresolved
     component: () => import('@/views/group/Manage.vue'),
     meta: {
+      redirectIfLoggedIn: true,
       pageTitle: 'Quản lý Nhóm',
       breadcrumb: [
         {
@@ -74,6 +78,7 @@ export default [
     // eslint-disable-next-line import/no-unresolved
     component: () => import('@/views/group/Create.vue'),
     meta: {
+      redirectIfLoggedIn: true,
       pageTitle: 'Quản lýNhóm',
       breadcrumb: [
         {
@@ -94,6 +99,7 @@ export default [
     // eslint-disable-next-line import/no-unresolved
     component: () => import('@/views/group/Create.vue'),
     meta: {
+      redirectIfLoggedIn: true,
       pageTitle: 'Quản lý Nhóm',
       breadcrumb: [
         {

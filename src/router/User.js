@@ -5,6 +5,7 @@ export default [
     // eslint-disable-next-line import/no-unresolved
     component: () => import('@/views/user/list/User.vue'),
     meta: {
+      redirectIfLoggedIn: true,
       pageTitle: 'Khách hàng',
       breadcrumb: [
         {
@@ -20,6 +21,7 @@ export default [
     // eslint-disable-next-line import/no-unresolved
     component: () => import('@/views/user/list/EditUser.vue'),
     meta: {
+      redirectIfLoggedIn: true,
       pageTitle: 'Khách hàng',
       breadcrumb: [
         {
@@ -40,6 +42,7 @@ export default [
     component: () => import('@/views/user/list/EditUser.vue'),
     props: true,
     meta: {
+      redirectIfLoggedIn: true,
       pageTitle: 'Khách hàng',
       breadcrumb: [
         {
@@ -59,6 +62,7 @@ export default [
     // eslint-disable-next-line import/no-unresolved
     component: () => import('@/views/user/group/UserGroup.vue'),
     meta: {
+      redirectIfLoggedIn: true,
       pageTitle: 'Nhóm Khách hàng',
       breadcrumb: [
         {
@@ -74,6 +78,7 @@ export default [
     // eslint-disable-next-line import/no-unresolved
     component: () => import('@/views/user/group/UserGroupCreate.vue'),
     meta: {
+      redirectIfLoggedIn: true,
       pageTitle: 'Nhóm Khách hàng',
       breadcrumb: [
         {
@@ -93,6 +98,7 @@ export default [
     // eslint-disable-next-line import/no-unresolved
     component: () => import('@/views/user/group/Edit.vue'),
     meta: {
+      redirectIfLoggedIn: true,
       pageTitle: 'Nhóm Khách hàng',
       breadcrumb: [
         {

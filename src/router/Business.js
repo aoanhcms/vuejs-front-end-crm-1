@@ -5,6 +5,7 @@ export default [
     // eslint-disable-next-line import/no-unresolved
     component: () => import('@/views/business/Manage.vue'),
     meta: {
+      redirectIfLoggedIn: true,
       pageTitle: 'Doanh nghiệp',
       breadcrumb: [
         {
@@ -20,6 +21,7 @@ export default [
     // eslint-disable-next-line import/no-unresolved
     component: () => import('@/views/business/Create.vue'),
     meta: {
+      redirectIfLoggedIn: true,
       pageTitle: 'Doanh nghiệp',
       breadcrumb: [
         {
@@ -40,6 +42,7 @@ export default [
     // eslint-disable-next-line import/no-unresolved
     component: () => import('@/views/business/Create.vue'),
     meta: {
+      redirectIfLoggedIn: true,
       pageTitle: 'Doanh nghiệp',
       breadcrumb: [
         {

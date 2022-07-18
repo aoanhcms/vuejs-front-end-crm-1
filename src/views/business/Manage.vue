@@ -10,9 +10,9 @@
             <nav-table
               :to="{ name: 'business-create'}"
               name="Thêm Doanh Nghiệp mới"
-              :exports="[
-                { name: 'In', to: '/'}
-              ]"
+              :exports="exports_row"
+              :selectedChanged="selectedProductItems"
+              @confirmDeleteSelected="confirmDeleteSelected"
             />
           </b-card-sub-title>
         </b-card-header>
@@ -58,42 +58,17 @@
                 {{ props.row.creater.name }}
               </b-badge>
             </span>
-            <span v-else-if="props.column.field === 'created_at'">
+            <span v-else-if="props.column.field === 'date'">
               <div><feather-icon icon="ClockIcon" /> {{ props.row.created_at }}</div>
               <div><feather-icon icon="ClockIcon" /> {{ props.row.updated_at }}</div>
             </span>
             <!-- Column: Action -->
             <span v-else-if="props.column.field === 'act'">
-              <span>
-                <b-dropdown
-                  variant="link"
-                  toggle-class="text-decoration-none"
-                  no-caret
-                >
-                  <template v-slot:button-content>
-                    <feather-icon
-                      icon="MoreVerticalIcon"
-                      size="16"
-                      class="text-body align-middle mr-25"
-                    />
-                  </template>
-                  <b-dropdown-item
-                    :to="{name: 'business-edit', params: { id: props.row.id}}">
-                    <feather-icon
-                      icon="Edit2Icon"
-                      class="mr-50"
-                    />
-                    <span>Edit</span>
-                  </b-dropdown-item>
-                  <b-dropdown-item>
-                    <feather-icon
-                      icon="TrashIcon"
-                      class="mr-50"
-                    />
-                    <span>Delete</span>
-                  </b-dropdown-item>
-                </b-dropdown>
-              </span>
+              <col-action
+                :row="props.row.id"
+                :to="{ name: 'business-edit', params: { id: props.row.id}}"
+                @delete="showMsgBoxConfirmDelete"
+              />
             </span>
             <!-- Column: Common -->
             <span v-else>
@@ -157,7 +132,7 @@
 
 <script>
 import {
-  BCardSubTitle, BContainer, BCardTitle, BPagination, BFormSelect, BButton, BCard, BBadge, BDropdown, BDropdownItem, BCardHeader,
+  BCardSubTitle, BContainer, BCardTitle, BPagination, BFormSelect, BCard, BBadge, BDropdown, BDropdownItem, BCardHeader,
 } from 'bootstrap-vue'
 import Ripple from 'vue-ripple-directive'
 import { VueGoodTable } from 'vue-good-table'
@@ -179,7 +154,6 @@ export default {
     ColStatus,
     ColAction,
     BCardSubTitle,
-    BButton,
     BCardHeader,
     flatPickr,
     BPagination,
@@ -197,7 +171,7 @@ export default {
   },
   mounted() {
     flatPickr('input[placeholder="Search date"]', {
-      dateFormat: 'd-m-Y',
+      dateFormat: 'm-d-Y',
       mode: 'range',
       allowInput: true,
     })
@@ -256,7 +230,7 @@ export default {
         },
         {
           label: 'Ngày tạo',
-          field: 'created_at',
+          field: 'date',
           sortable: true,
           filterOptions: {
             enabled: true,
@@ -290,6 +264,23 @@ export default {
       rows: [],
       orders: [],
       searchTermOrder: '',
+      selectedProductItems: [],
+      exports_row: [{
+        name: 'PRINT',
+        fn: this.exportPrint,
+      },
+      {
+        name: 'CSV',
+        fn: this.exportPrint,
+      },
+      {
+        name: 'EXCEL',
+        fn: this.exportPrint,
+      },
+      {
+        name: 'PDF',
+        fn: this.exportPrint,
+      }],
     }
   },
   computed: {
@@ -314,9 +305,51 @@ export default {
       const dataOut = Date.parse(data) >= startDate && Date.parse(data) <= endDate
       return dataOut
     },
+    exportPrint(t) {
+      console.log('type', t)
+    },
+    showMsgBoxConfirmDelete(id) {
+      // delete row
+      this.$bvModal
+        .msgBoxConfirm(`Có phải bạn muốn xóa dòng ${id} không?`, {
+          title: 'Xác nhận',
+          size: 'sm',
+          okVariant: 'primary',
+          okTitle: 'Yes',
+          cancelTitle: 'No',
+          cancelVariant: 'outline-secondary',
+          hideHeaderClose: false,
+          centered: true,
+        })
+        .then(value => {
+          if (value === true) {
+            // xóa dòng
+            this.rows = this.rows.filter(r => r.id !== id)
+          }
+        })
+    },
     selectionChanged(rows) {
       // neu thong tin thừa lấy cái đầu tiên
-      this.selectedProductItems = rows.selectedRows
+      this.selectedProductItems = rows.selectedRows.map(row => row.id)
+    },
+    confirmDeleteSelected(rows) {
+      this.$bvModal
+        .msgBoxConfirm(`Có phải bạn muốn xóa dòng ${rows.length} không?`, {
+          title: 'Xác nhận',
+          size: 'sm',
+          okVariant: 'primary',
+          okTitle: 'Yes',
+          cancelTitle: 'No',
+          cancelVariant: 'outline-secondary',
+          hideHeaderClose: false,
+          centered: true,
+        })
+        .then(value => {
+          if (value === true) {
+            // xóa c dòng
+            this.rows = this.rows.filter(item => !rows.includes(item.id))
+          }
+        })
     },
   },
 }

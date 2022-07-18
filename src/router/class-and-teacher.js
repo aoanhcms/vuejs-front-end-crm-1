@@ -5,6 +5,7 @@ export default [
     // eslint-disable-next-line import/no-unresolved
     component: () => import('@/views/class/class/Manage.vue'),
     meta: {
+      redirectIfLoggedIn: true,
       pageTitle: 'Quản lý Lớp Học',
       breadcrumb: [
         {
@@ -20,6 +21,7 @@ export default [
     // eslint-disable-next-line import/no-unresolved
     component: () => import('@/views/class/class/Create.vue'),
     meta: {
+      redirectIfLoggedIn: true,
       pageTitle: 'Lớp Học',
       breadcrumb: [
         {
@@ -40,6 +42,7 @@ export default [
     // eslint-disable-next-line import/no-unresolved
     component: () => import('@/views/class/class/Create.vue'),
     meta: {
+      redirectIfLoggedIn: true,
       pageTitle: 'Lớp Học',
       breadcrumb: [
         {
@@ -60,6 +63,7 @@ export default [
     // eslint-disable-next-line import/no-unresolved
     component: () => import('@/views/class/teacher/Manage.vue'),
     meta: {
+      redirectIfLoggedIn: true,
       pageTitle: 'Quản lý Giáo Viên',
       breadcrumb: [
         {
@@ -76,6 +80,7 @@ export default [
     // eslint-disable-next-line import/no-unresolved
     component: () => import('@/views/class/teacher/Create.vue'),
     meta: {
+      redirectIfLoggedIn: true,
       pageTitle: 'Quản lý Giáo Viên',
       breadcrumb: [
         {
@@ -95,6 +100,7 @@ export default [
     // eslint-disable-next-line import/no-unresolved
     component: () => import('@/views/class/teacher/Create.vue'),
     meta: {
+      redirectIfLoggedIn: true,
       pageTitle: 'Quản lý Giáo Viên',
       breadcrumb: [
         {

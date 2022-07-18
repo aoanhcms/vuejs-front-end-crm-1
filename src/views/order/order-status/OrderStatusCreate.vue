@@ -137,15 +137,13 @@ import { required } from '@validations'
 
 import ColourPicker from 'vue-colour-picker'
 import {
-  BFormInput, BFormGroup, BForm, BRow, BCol, BButton, BCard, BFormSelect, BFormSelectOption, BFormCheckbox 
+  BFormInput, BFormGroup, BForm, BRow, BCol, BButton, BCard, BFormCheckbox 
 } from 'bootstrap-vue'
 
 export default {
   props: ['id'],
   components: {
     'colour-picker': ColourPicker,
-    BFormSelect,
-    BFormSelectOption,
     BFormCheckbox,
     ValidationProvider,
     ValidationObserver,

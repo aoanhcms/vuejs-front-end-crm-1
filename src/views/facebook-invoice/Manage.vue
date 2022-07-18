@@ -11,7 +11,9 @@
             <nav-table
               :to="{ name: 'facebook-invoice-create'}"
               name="Thêm Hóa Đơn Mới"
-              :exports="[]"
+              :exports="exports_row"
+              :selectedChanged="selectedProductItems"
+              @confirmDeleteSelected="confirmDeleteSelected"
             />
           </b-card-sub-title>
         </b-card-header>
@@ -57,7 +59,7 @@
                 {{ props.row.creater.name }}
               </b-badge>
             </span>
-            <span v-else-if="props.column.field === 'created_at'">
+            <span v-else-if="props.column.field === 'date'">
               <div><feather-icon icon="ClockIcon" /> {{ props.row.created_at }}</div>
               <div><feather-icon icon="ClockIcon" /> {{ props.row.updated_at }}</div>
             </span>
@@ -66,7 +68,7 @@
               <col-action
                 :row="props.row.id"
                 :to="{ name: 'classes-edit', params: { id: props.row.id}}"
-                @click="this.delete(props.row.id)"
+                 @delete="showMsgBoxConfirmDelete"
               />
               <!-- Column: Common -->
             </span>
@@ -167,12 +169,12 @@ export default {
   },
   mounted() {
     flatPickr('input[placeholder="Search date"]', {
-      dateFormat: 'd-m-Y',
+      dateFormat: 'm-d-Y',
       mode: 'range',
       allowInput: true,
     })
     flatPickr('input[placeholder="Search Ngày lập Hóa Đơn"]', {
-      dateFormat: 'd-m-Y',
+      dateFormat: 'm-d-Y',
       allowInput: true,
     })
   },
@@ -247,7 +249,7 @@ export default {
         },
         {
           label: 'Ngày tạo',
-          field: 'created_at',
+          field: 'date',
           sortable: true,
           filterOptions: {
             enabled: true,
@@ -263,6 +265,23 @@ export default {
       rows: [],
       orders: [],
       searchTermOrder: '',
+      selectedProductItems: [],
+      exports_row: [{
+        name: 'PRINT',
+        fn: this.exportPrint,
+      },
+      {
+        name: 'CSV',
+        fn: this.exportPrint,
+      },
+      {
+        name: 'EXCEL',
+        fn: this.exportPrint,
+      },
+      {
+        name: 'PDF',
+        fn: this.exportPrint,
+      }],
     }
   },
   computed: {
@@ -280,9 +299,15 @@ export default {
     this.rows = fakeData
   },
   methods: {
-    delete(id) {
-      // delete row
-      console.log('delete', id)
+    deleteRow() {
+      console.log('delete row')
+    },
+    onColumnFilter(params) {
+      console.log('params', params)
+      this.rows = fakeData
+      // params.columnFilters - filter values for each column in the following format:
+      // {field1: 'filterTerm', field3: 'filterTerm2')
+      return []
     },
     dateRangeFilter(data, filterString) {
       const dateRange = filterString.split('to')
@@ -291,9 +316,51 @@ export default {
       const dataOut = Date.parse(data) >= startDate && Date.parse(data) <= endDate
       return dataOut
     },
+    exportPrint(t) {
+      console.log('type', t)
+    },
+    showMsgBoxConfirmDelete(id) {
+      // delete row
+      this.$bvModal
+        .msgBoxConfirm(`Có phải bạn muốn xóa dòng ${id} không?`, {
+          title: 'Xác nhận',
+          size: 'sm',
+          okVariant: 'primary',
+          okTitle: 'Yes',
+          cancelTitle: 'No',
+          cancelVariant: 'outline-secondary',
+          hideHeaderClose: false,
+          centered: true,
+        })
+        .then(value => {
+          if (value === true) {
+            // xóa dòng
+            this.rows = this.rows.filter(r => r.id !== id)
+          }
+        })
+    },
     selectionChanged(rows) {
       // neu thong tin thừa lấy cái đầu tiên
-      this.selectedProductItems = rows.selectedRows
+      this.selectedProductItems = rows.selectedRows.map(row => row.id)
+    },
+    confirmDeleteSelected(rows) {
+      this.$bvModal
+        .msgBoxConfirm(`Có phải bạn muốn xóa dòng ${rows.length} không?`, {
+          title: 'Xác nhận',
+          size: 'sm',
+          okVariant: 'primary',
+          okTitle: 'Yes',
+          cancelTitle: 'No',
+          cancelVariant: 'outline-secondary',
+          hideHeaderClose: false,
+          centered: true,
+        })
+        .then(value => {
+          if (value === true) {
+            // xóa c dòng
+            this.rows = this.rows.filter(item => !rows.includes(item.id))
+          }
+        })
     },
   },
 }

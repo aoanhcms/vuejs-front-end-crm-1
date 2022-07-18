@@ -117,7 +117,7 @@ export default {
         },
         {
           label: 'Ngày tạo',
-          field: 'created_at',
+          field: 'date',
           sortable: true,
           filterOptions: {
             enabled: true,

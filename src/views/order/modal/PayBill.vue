@@ -117,7 +117,7 @@
 </template>
 
 <script>
-import { BFormSelect, BFormSelectOption, BContainer, BForm, BRow, BCol, BModal, BCard, BButton, BFormGroup, BFormInput, } from 'bootstrap-vue'
+import { BFormSelect, BFormSelectOption, BContainer, BForm, BRow, BCol, BModal, BButton, BFormGroup, BFormInput } from 'bootstrap-vue'
 import FeatherIcon from '@/@core/components/feather-icon/FeatherIcon.vue'
 
 import { heightTransition } from '@core/mixins/ui/transition'
@@ -130,7 +130,6 @@ export default {
     BContainer,
     FeatherIcon,
     BModal,
-    BCard,
     BForm,
     BRow,
     BCol,

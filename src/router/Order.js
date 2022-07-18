@@ -2,8 +2,9 @@ export default [
   {
     path: '/orders',
     name: 'orders',
-    component: () => import('@/views/order/Order.vue'),
+    component: () => import('@/views/order/order/Order.vue'),
     meta: {
+      redirectIfLoggedIn: true,
       pageTitle: 'Đơn hàng',
       breadcrumb: [
         {
@@ -18,6 +19,7 @@ export default [
     name: 'orders-source',
     component: () => import('@/views/order/order-source/Source.vue'),
     meta: {
+      redirectIfLoggedIn: true,
       pageTitle: 'Đơn hàng',
       breadcrumb: [
         {
@@ -30,8 +32,9 @@ export default [
   {
     path: '/orders/create',
     name: 'orders-create',
-    component: () => import('@/views/order/CreateOrder.vue'),
+    component: () => import('@/views/order/order/CreateOrder.vue'),
     meta: {
+      redirectIfLoggedIn: true,
       pageTitle: 'Đơn hàng',
       breadcrumb: [
         {
@@ -48,8 +51,9 @@ export default [
   {
     path: '/orders/edit/:id',
     name: 'orders-edit',
-    component: () => import('@/views/order/CreateOrder.vue'),
+    component: () => import('@/views/order/order/CreateOrder.vue'),
     meta: {
+      redirectIfLoggedIn: true,
       pageTitle: 'Đơn hàng',
       breadcrumb: [
         {
@@ -68,6 +72,7 @@ export default [
     name: 'orders-source-create',
     component: () => import('@/views/order/order-source/CreateSource.vue'),
     meta: {
+      redirectIfLoggedIn: true,
       pageTitle: 'Đơn hàng',
       breadcrumb: [
         {
@@ -86,6 +91,7 @@ export default [
     name: 'orders-source-edit',
     component: () => import('@/views/order/order-source/CreateSource.vue'),
     meta: {
+      redirectIfLoggedIn: true,
       pageTitle: 'Đơn hàng',
       breadcrumb: [
         {
@@ -103,6 +109,7 @@ export default [
     name: 'orders-status',
     component: () => import('@/views/order/order-status/OrderStatus.vue'),
     meta: {
+      redirectIfLoggedIn: true,
       pageTitle: 'Đơn hàng',
       breadcrumb: [
         {
@@ -117,6 +124,7 @@ export default [
     name: 'orders-status-create',
     component: () => import('@/views/order/order-status/OrderStatusCreate.vue'),
     meta: {
+      redirectIfLoggedIn: true,
       pageTitle: 'Đơn hàng',
       breadcrumb: [
         {
@@ -136,6 +144,7 @@ export default [
     props: true,
     component: () => import('@/views/order/order-status/OrderStatusCreate.vue'),
     meta: {
+      redirectIfLoggedIn: true,
       pageTitle: 'Đơn hàng',
       breadcrumb: [
         {

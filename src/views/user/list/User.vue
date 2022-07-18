@@ -7,24 +7,13 @@
         <b-card-header>
           <b-card-title>Danh sách đơn hàng</b-card-title>
           <b-card-sub-title>
-            <b-button
-              v-ripple.400="'rgba(113, 102, 240, 0.15)'"
-              variant="outline-primary"
-              style="margin-right: 10px;"
-              :to="{name: 'users-create'}"
-            >
-              <feather-icon
-                icon="PlusIcon"
-                class="mr-50"
-              />
-              <span class="align-middle">Khách hàng mới</span>
-            </b-button>
-             <b-dropdown text="Xuất ra" variant="primary">
-              <b-dropdown-item>In</b-dropdown-item>
-              <b-dropdown-item>Excel</b-dropdown-item>
-              <b-dropdown-item>CSV</b-dropdown-item>
-              <b-dropdown-item>PDF</b-dropdown-item>
-            </b-dropdown>
+            <nav-table
+              :to="{ name: 'users-create'}"
+              name="Thêm khách hàng mới"
+              :exports="exports_row"
+              :selectedChanged="selectedProductItems"
+              @confirmDeleteSelected="confirmDeleteSelected"
+            />
           </b-card-sub-title>
         </b-card-header>
         <vue-good-table
@@ -54,26 +43,8 @@
             slot="table-row"
             slot-scope="props"
           >
-            <!-- Column: Name -->
-            <span
-              v-if="props.column.field === 'fullName'"
-              class="text-nowrap"
-            >
-              <span class="text-nowrap">{{ props.row.fullName }}</span>
-            </span>
-            <span v-else-if="props.column.field === 'status'">
-              <b-badge
-                v-if="props.row.status === true"
-                variant="light-success"
-              >
-                Đang chạy
-              </b-badge>
-              <b-badge
-                v-else
-                variant="light-danger"
-              >
-                Đang dừng
-              </b-badge>
+            <span v-if="props.column.field === 'status'">
+              <col-status :status="props.row.status" />
             </span>
             <span v-else-if="props.column.field === 'creater'">
               <b-badge :variant="roleVariant(props.row.creater.role)">
@@ -86,38 +57,11 @@
             </span>
             <!-- Column: Action -->
             <span v-else-if="props.column.field === 'act'">
-              <span>
-                <b-dropdown
-                  variant="link"
-                  toggle-class="text-decoration-none"
-                  no-caret
-                >
-                  <template v-slot:button-content>
-                    <feather-icon
-                      icon="MoreVerticalIcon"
-                      size="16"
-                      class="text-body align-middle mr-25"
-                    />
-                  </template>
-                  <b-dropdown-item
-                    :to="{name: 'users-edit', params: { id: props.row.id}}"
-                  >
-                    <feather-icon
-                      icon="Edit2Icon"
-                      class="mr-50"
-                    />
-                    <span>Edit</span>
-                  </b-dropdown-item>
-                  <b-dropdown-item>
-                    <feather-icon
-                      icon="TrashIcon"
-                      class="mr-50"
-                      @click="deleteRow"
-                    />
-                    <span>Delete</span>
-                  </b-dropdown-item>
-                </b-dropdown>
-              </span>
+              <col-action
+                :row="props.row.id"
+                :to="{ name: 'users-edit', params: { id: props.row.id}}"
+                @delete="showMsgBoxConfirmDelete"
+              />
             </span>
             <!-- Column: Common -->
             <span v-else>
@@ -181,12 +125,15 @@
 
 <script>
 import {
-  BCardSubTitle, BContainer, BFormSelect, BCardTitle, BPagination, BButton, BCard, BBadge, BDropdown, BDropdownItem, BCardHeader,
+  BCardSubTitle, BContainer, BFormSelect, BCardTitle, BPagination, BCard, BBadge, BCardHeader,
 } from 'bootstrap-vue'
 import Ripple from 'vue-ripple-directive'
 import { VueGoodTable } from 'vue-good-table'
 import flatPickr from 'flatpickr'
 
+import NavTable from '@core/components/datatable/NavTable.vue'
+import ColStatus from '@core/components/datatable/ColStatus.vue'
+import ColAction from '@core/components/datatable/ColAction.vue'
 import 'flatpickr/dist/flatpickr.css'
 import 'flatpickr/dist/themes/material_blue.css'
 
@@ -195,15 +142,15 @@ import fakeData from '@core/fakeData/fakeUser'
 
 export default {
   components: {
+    ColAction,
+    ColStatus,
+    NavTable,
     BCardSubTitle,
-    BButton,
     BCardHeader,
     BPagination,
     flatPickr,
     BFormSelect,
     BCardTitle,
-    BDropdownItem,
-    BDropdown,
     BContainer,
     VueGoodTable,
     BCard,
@@ -321,6 +268,23 @@ export default {
       rows: [],
       orders: [],
       searchTermOrder: '',
+      selectedProductItems: [],
+      exports_row: [{
+        name: 'PRINT',
+        fn: this.exportPrint,
+      },
+      {
+        name: 'CSV',
+        fn: this.exportPrint,
+      },
+      {
+        name: 'EXCEL',
+        fn: this.exportPrint,
+      },
+      {
+        name: 'PDF',
+        fn: this.exportPrint,
+      }],
     }
   },
   computed: {
@@ -355,9 +319,51 @@ export default {
       const dataOut = Date.parse(data) >= startDate && Date.parse(data) <= endDate
       return dataOut
     },
+    exportPrint(t) {
+      console.log('type', t)
+    },
+    showMsgBoxConfirmDelete(id) {
+      // delete row
+      this.$bvModal
+        .msgBoxConfirm(`Có phải bạn muốn xóa dòng ${id} không?`, {
+          title: 'Xác nhận',
+          size: 'sm',
+          okVariant: 'primary',
+          okTitle: 'Yes',
+          cancelTitle: 'No',
+          cancelVariant: 'outline-secondary',
+          hideHeaderClose: false,
+          centered: true,
+        })
+        .then(value => {
+          if (value === true) {
+            // xóa dòng
+            this.rows = this.rows.filter(r => r.id !== id)
+          }
+        })
+    },
     selectionChanged(rows) {
       // neu thong tin thừa lấy cái đầu tiên
-      this.selectedProductItems = rows.selectedRows
+      this.selectedProductItems = rows.selectedRows.map(row => row.id)
+    },
+    confirmDeleteSelected(rows) {
+      this.$bvModal
+        .msgBoxConfirm(`Có phải bạn muốn xóa dòng ${rows.length} không?`, {
+          title: 'Xác nhận',
+          size: 'sm',
+          okVariant: 'primary',
+          okTitle: 'Yes',
+          cancelTitle: 'No',
+          cancelVariant: 'outline-secondary',
+          hideHeaderClose: false,
+          centered: true,
+        })
+        .then(value => {
+          if (value === true) {
+            // xóa c dòng
+            this.rows = this.rows.filter(item => !rows.includes(item.id))
+          }
+        })
     },
   },
 }

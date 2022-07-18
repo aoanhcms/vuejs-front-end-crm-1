@@ -5,6 +5,7 @@ export default [
     // eslint-disable-next-line import/no-unresolved
     component: () => import('@/views/platform-marketing/Manage.vue'),
     meta: {
+      redirectIfLoggedIn: true,
       pageTitle: 'Platform Marketing',
       breadcrumb: [
         {
@@ -20,6 +21,7 @@ export default [
     // eslint-disable-next-line import/no-unresolved
     component: () => import('@/views/platform-marketing/Create.vue'),
     meta: {
+      redirectIfLoggedIn: true,
       pageTitle: 'Platform Marketing',
       breadcrumb: [
         {
@@ -40,6 +42,7 @@ export default [
     // eslint-disable-next-line import/no-unresolved
     component: () => import('@/views/platform-marketing/Create.vue'),
     meta: {
+      redirectIfLoggedIn: true,
       pageTitle: 'Platform Marketing',
       breadcrumb: [
         {
@@ -59,6 +62,7 @@ export default [
     // eslint-disable-next-line import/no-unresolved
     component: () => import('@/views/facebook-invoice/Manage.vue'),
     meta: {
+      redirectIfLoggedIn: true,
       pageTitle: 'Quản lý Hoá Đơn',
       breadcrumb: [
         {
@@ -74,6 +78,7 @@ export default [
     // eslint-disable-next-line import/no-unresolved
     component: () => import('@/views/facebook-invoice/Create.vue'),
     meta: {
+      redirectIfLoggedIn: true,
       pageTitle: 'Quản lý Hoá Đơn',
       breadcrumb: [
         {
@@ -94,6 +99,7 @@ export default [
     // eslint-disable-next-line import/no-unresolved
     component: () => import('@/views/facebook-invoice/Create.vue'),
     meta: {
+      redirectIfLoggedIn: true,
       pageTitle: 'Quản lý Hoá Đơn',
       breadcrumb: [
         {
@@ -113,6 +119,7 @@ export default [
     // eslint-disable-next-line import/no-unresolved
     component: () => import('@/views/billing-resource/Manage.vue'),
     meta: {
+      redirectIfLoggedIn: true,
       pageTitle: 'Chi phí Tài Nguyên',
       breadcrumb: [
         {
@@ -128,6 +135,7 @@ export default [
     // eslint-disable-next-line import/no-unresolved
     component: () => import('@/views/billing-resource/Create.vue'),
     meta: {
+      redirectIfLoggedIn: true,
       pageTitle: 'Chi phí Tài Nguyên',
       breadcrumb: [
         {
@@ -147,6 +155,7 @@ export default [
     // eslint-disable-next-line import/no-unresolved
     component: () => import('@/views/billing-resource/Create.vue'),
     meta: {
+      redirectIfLoggedIn: true,
       pageTitle: 'Chi phí Tài Nguyên',
       breadcrumb: [
         {

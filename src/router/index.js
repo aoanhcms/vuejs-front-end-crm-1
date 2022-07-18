@@ -1,5 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+
+// import { canNavigate } from '@/libs/acl/routeProtection'
+import { isUserLoggedIn } from '@/auth/utils'
+
 import UserRoutes from './User'
 
 import OrderRoutes from './Order'
@@ -28,6 +32,7 @@ const router = new VueRouter({
       name: 'dashboard',
       component: () => import('@/views/Home.vue'),
       meta: {
+        redirectIfLoggedIn: true,
         pageTitle: 'Dashboard',
         breadcrumb: [
           {
@@ -60,6 +65,15 @@ const router = new VueRouter({
   ],
 })
 
+router.beforeEach((to, _, next) => {
+  const isLoggedIn = isUserLoggedIn()
+  // Redirect if logged in
+  if (to.meta.redirectIfLoggedIn && isLoggedIn === null) {
+    next({ name: 'login' })
+  }
+
+  return next()
+})
 // ? For splash screen
 // Remove afterEach hook if you are not using splash screen
 router.afterEach(() => {

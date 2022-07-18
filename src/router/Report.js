@@ -5,6 +5,7 @@ export default [
     // eslint-disable-next-line import/no-unresolved
     component: () => import('@/views/report/revenue.vue'),
     meta: {
+      redirectIfLoggedIn: true,
       pageTitle: 'Quản lý Báo Cáo Doanh Số',
       breadcrumb: [
         {
@@ -20,6 +21,7 @@ export default [
     // eslint-disable-next-line import/no-unresolved
     component: () => import('@/views/report/class.vue'),
     meta: {
+      redirectIfLoggedIn: true,
       pageTitle: 'Quản lý Báo Cáo Q.Lý Lớp',
       breadcrumb: [
         {
@@ -35,6 +37,7 @@ export default [
     // eslint-disable-next-line import/no-unresolved
     component: () => import('@/views/report/sale.vue'),
     meta: {
+      redirectIfLoggedIn: true,
       pageTitle: 'Quản lý Báo Cáo CarePage',
       breadcrumb: [
         {
@@ -50,6 +53,7 @@ export default [
     // eslint-disable-next-line import/no-unresolved
     component: () => import('@/views/report/marketing.vue'),
     meta: {
+      redirectIfLoggedIn: true,
       pageTitle: 'Quản lý Báo Cáo Marketing',
       breadcrumb: [
         {
@@ -65,6 +69,7 @@ export default [
     // eslint-disable-next-line import/no-unresolved
     component: () => import('@/views/report/teacher.vue'),
     meta: {
+      redirectIfLoggedIn: true,
       pageTitle: 'Quản lý Báo Cáo Teacher',
       breadcrumb: [
         {
@@ -80,6 +85,7 @@ export default [
     // eslint-disable-next-line import/no-unresolved
     component: () => import('@/views/report/report.vue'),
     meta: {
+      redirectIfLoggedIn: true,
       pageTitle: 'Quản lý Báo Cáo Report',
       breadcrumb: [
         {
