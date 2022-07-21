@@ -3,269 +3,215 @@
     <b-container
       fluid
     >
-      <b-card>
-        <b-card-header>
-          <b-card-title>Trạng thái đơn hàng</b-card-title>
-          <b-card-sub-title>
-            <nav-table
-              :to="{ name: 'orders-status-create'}"
-              name="Thêm Trạng thái mới"
-              :exports="exports_row"
-              :selectedChanged="selectedProductItems"
-              @confirmDeleteSelected="confirmDeleteSelected"
-            />
-          </b-card-sub-title>
-        </b-card-header>
-        <vue-good-table
-          :columns="orders_columns"
-          :rows="rows"
-          :search-options="{
-            enabled: false,
-            externalQuery: searchTermOrder,
-          }"
-          :select-options="{
-            enabled: true,
-            selectOnCheckboxOnly: true, // only select when checkbox is clicked instead of the row
-            selectionInfoClass: 'custom-class',
-            selectionText: 'rows selected',
-            clearSelectionText: 'clear',
-            disableSelectInfo: true, // disable the select info panel on top
-            selectAllByGroup: true, // when used in combination with a grouped table, add a checkbox in the header row to check/uncheck the entire group
-          }"
-          :pagination-options="{
-            enabled: true,
-            perPage:pageLength
-          }"
-          @on-selected-rows-change="selectionChanged"
-        >
-          <template
-            slot="table-row"
-            slot-scope="props"
-          >
-
-            <span
-              v-if="props.column.field === 'order_status_name'"
-              class="text-nowrap"
+      <b-card-save-action
+        title="Quản lý trạng thái đơn hàng"
+        navbar-button-variant="success"
+        button-title="Lưu"
+        @buttonSave="onSubmit"
+      >
+        <b-row>
+          <b-col cols="6">
+            <vue-good-table
+              :columns="orders_columns"
+              :rows="rows"
+              :pagination-options="{
+                enabled: false,
+                perPage:pageLength
+              }"
+              @on-selected-rows-change="selectionChanged"
             >
-              <span class="text-nowrap">{{ props.row.order_status_name }}</span>
-            </span>
-            <span
-              v-else-if="props.column.field === 'color'"
-              class="text-nowrap"
-            >
-            <span class="text-nowrap" :style="'background-color:' + props.row.color+ ';padding: 5px'"></span>
-              <span class="text-nowrap" :style="'color:' + props.row.color+ ';font-weight:bold'">{{ props.row.color }}</span>
-            </span>
-            <span v-else-if="props.column.field === 'status'">
-              <col-status :status="props.row.status" />
-            </span>
-            <span v-else-if="props.column.field === 'creater'">
-              <b-badge :variant="roleVariant(props.row.creater.role)">
-                {{ props.row.creater.name }}
-              </b-badge>
-            </span>
-            <span v-else-if="props.column.field === 'created_at'">
-              <div><feather-icon icon="ClockIcon" /> {{ props.row.created_at }}</div>
-              <div><feather-icon icon="ClockIcon" /> {{ props.row.updated_at }}</div>
-            </span>
-            <!-- Column: Action -->
-            <span v-else-if="props.column.field === 'act'">
-              <col-action
-                :row="props.row.id"
-                :to="{ name: 'orders-status-edit', params: { id: props.row.id}}"
-                @delete="showMsgBoxConfirmDelete"
-              />
-            </span>
-            <!-- Column: Common -->
-            <span v-else>
-              {{ props.formattedRow[props.column.field] }}
-            </span>
-          </template>
-          <!-- pagination -->
-          <template
-            slot="pagination-bottom"
-            slot-scope="props"
-          >
-            <div class="d-flex justify-content-between flex-wrap">
-              <div class="d-flex align-items-center mb-0 mt-1">
-                <span class="text-nowrap">
-                  Showing 1 to
-                </span>
-                <b-form-select
-                  v-model="pageLength"
-                  :options="['10', '20']"
-                  class="mx-1"
-                  @input="(value)=>props.perPageChanged({currentPerPage:value})"
-                />
-                <span class="text-nowrap "> of {{ props.total }} entries </span>
-              </div>
-              <div>
-                <b-pagination
-                  :value="1"
-                  :total-rows="props.total"
-                  :per-page="pageLength"
-                  first-number
-                  last-number
-                  align="right"
-                  prev-class="prev-item"
-                  next-class="next-item"
-                  class="mt-1 mb-0"
-                  @input="(value)=>props.pageChanged({currentPage:value})"
+              <template
+                slot="table-row"
+                slot-scope="props"
+              >
+                <span
+                  v-if="props.column.field === 'order_status_name'"
+                  class="text-nowrap"
                 >
-                  <template #prev-text>
-                    <feather-icon
-                      icon="ChevronLeftIcon"
-                      size="18"
-                    />
-                  </template>
-                  <template #next-text>
-                    <feather-icon
-                      icon="ChevronRightIcon"
-                      size="18"
-                    />
-                  </template>
-                </b-pagination>
-              </div>
-            </div>
-          </template>
-          <!--<template slot="column-filter" slot-scope="props">
-          </template>-->
-        </vue-good-table>
-      </b-card>
+                  <span class="text-nowrap">{{ props.row.order_status_name }}</span>
+                </span>
+                <span
+                  v-else-if="props.column.field === 'color'"
+                  class="text-nowrap"
+                >
+                  <colour-picker
+                    picker="chrome"
+                    :color="props.row.color"
+                    v-model="props.row.color"
+                  />
+                </span>
+                <span v-else-if="props.column.field === 'status'">
+                  <col-status :status="props.row.status" />
+                </span>
+                <span v-else-if="props.column.field === 'created_at'">
+                  <div><feather-icon icon="ClockIcon" /> {{ props.row.created_at }}</div>
+                  <div><feather-icon icon="ClockIcon" /> {{ props.row.updated_at }}</div>
+                </span>
+                <!-- Column: Action -->
+                <span v-else-if="props.column.field === 'act'">
+                  <col-action
+                    :row="props.row.id"
+                    :to="{ name: 'orders-status-edit', params: { id: props.row.id}}"
+                    @delete="showMsgBoxConfirmDelete"
+                  />
+                </span>
+                <!-- Column: Common -->
+                <span v-else>
+                  {{ props.formattedRow[props.column.field] }}
+                </span>
+              </template>
+              <!--<template slot="column-filter" slot-scope="props">
+              </template>-->
+            </vue-good-table>
+          </b-col>
+          <b-col cols="6">
+            <b-card-header>
+              <b-card-sub-title>Chỉnh sửa trạng thái của shop</b-card-sub-title>
+              <b-button @click="addStatus">Thêm</b-button>
+            </b-card-header>
+            <vue-good-table
+              :columns="orders_columns"
+              :rows="userStatus"
+              :search-options="{
+                enabled: false,
+                externalQuery: searchTermOrder,
+              }"
+              :select-options="{
+                enabled: false,
+                selectOnCheckboxOnly: true, // only select when checkbox is clicked instead of the row
+                selectionInfoClass: 'custom-class',
+                selectionText: 'rows selected',
+                clearSelectionText: 'clear',
+                disableSelectInfo: true, // disable the select info panel on top
+                selectAllByGroup: true, // when used in combination with a grouped table, add a checkbox in the header row to check/uncheck the entire group
+              }"
+              :pagination-options="{
+                enabled: false,
+                perPage:pageLength
+              }"
+              @on-selected-rows-change="selectionChanged"
+            >
+              <template
+                slot="table-row"
+                slot-scope="props"
+              >
+                <span
+                  v-if="props.column.field === 'order_status_name'"
+                  class="text-nowrap"
+                >
+                  <span class="text-nowrap">{{ props.row.order_status_name }}</span>
+                </span>
+                <span
+                  v-else-if="props.column.field === 'color'"
+                  class="text-nowrap"
+                >
+                  <colour-picker
+                    picker="chrome"
+                  />
+                </span>
+                <span v-else-if="props.column.field === 'status'">
+                  <col-status :status="props.row.status" />
+                </span>
+                <span v-else-if="props.column.field === 'created_at'">
+                  <div><feather-icon icon="ClockIcon" /> {{ props.row.created_at }}</div>
+                  <div><feather-icon icon="ClockIcon" /> {{ props.row.updated_at }}</div>
+                </span>
+                <!-- Column: Action -->
+                <span v-else-if="props.column.field === 'act'">
+                  <col-action
+                    :row="props.row.id"
+                    :to="{ name: 'orders-status-edit', params: { id: props.row.id}}"
+                    @delete="showMsgBoxConfirmDelete"
+                  />
+                </span>
+                <!-- Column: Common -->
+                <span v-else>
+                  {{ props.formattedRow[props.column.field] }}
+                </span>
+              </template>
+              <!--<template slot="column-filter" slot-scope="props">
+              </template>-->
+            </vue-good-table>
+          </b-col>
+        </b-row>
+      </b-card-save-action>
     </b-container>
   </div>
 </template>
 
 <script>
-import { BCardSubTitle, BPagination, BFormSelect, BContainer, BCardTitle, BCard, BBadge, BCardHeader,
+import { BButton, BRow, BCol, BCardSubTitle, BContainer, BCardHeader,
 } from 'bootstrap-vue'
 import Ripple from 'vue-ripple-directive'
 import { VueGoodTable } from 'vue-good-table'
-import flatPickr from 'flatpickr'
 
-import NavTable from '@core/components/datatable/NavTable.vue'
 import ColAction from '@core/components/datatable/ColAction.vue'
 import ColStatus from '@core/components/datatable/ColStatus.vue'
-import 'flatpickr/dist/flatpickr.css'
-import 'flatpickr/dist/themes/material_blue.css'
+import BCardSaveAction from '@/@core/components/global/BCardSaveAction.vue'
 
-import fakeData from '@core/fakeData/fakeStatus'
+import ColourPicker from 'vue-colour-picker'
 
 export default {
   components: {
+    'colour-picker': ColourPicker,
+    BRow,
+    BCol,
     ColAction,
     ColStatus,
-    NavTable,
     BCardSubTitle,
-    BPagination,
-    BFormSelect,
     BCardHeader,
-    flatPickr,
-    BCardTitle,
     BContainer,
     VueGoodTable,
-    BCard,
-    BBadge,
-  },
+    BButton,
+    BCardSaveAction,
+},
   directives: {
     Ripple,
   },
-  mounted() {
-    flatPickr('input[placeholder="Search date"]', {
-      dateFormat: 'd-m-Y',
-      mode: 'range',
-      allowInput: true,
-    })
-  },
   data() {
     return {
+      userStatus: [],
       pageLength: 10,
       dir: false,
       orders_columns: [
         {
-          label: 'ID',
-          field: 'id',
-          width: '100px',
-          filterOptions: {
-            enabled: true,
-            placeholder: 'Search Id',
-            sortable: true,
-          },
-        },
-        {
-          label: 'Doanh nghiệp',
-          field: 'company',
-          sortable: true,
-          filterOptions: {
-            enabled: true,
-            placeholder: 'Search company',
-          },
-        },
-        {
           label: 'Tên trạng thái',
-          field: 'order_status_name',
+          field: 'name',
           sortable: true,
-          width: '100px',
-          filterOptions: {
-            enabled: true,
-            placeholder: 'Search Status Name',
-          },
         },
         {
-          label: 'Color',
+          label: 'Không tiếp cận',
           sortable: true,
-          field: 'color',
-          filterOptions: {
-            enabled: true,
-            placeholder: 'Search Color',
-          },
+          width: '100px',
+          field: 'approach',
+        },
+        {
+          label: 'Không tính doanh thu',
+          sortable: true,
+          width: '100px',
+          field: 'tiep_can',
+        },
+        {
+          label: 'Vị trí',
+          width: '100px',
+          sortable: true,
+          field: 'location',
         },
         {
           label: 'Level',
           sortable: true,
-          field: 'level',
-          filterOptions: {
-            enabled: true,
-            placeholder: 'Search level',
-          },
-        },
-        {
-          label: 'Vị trí',
-          sortable: true,
-          field: 'location',
-          filterOptions: {
-            enabled: true,
-            placeholder: 'Search location',
-          },
-        },
-        {
-          label: 'Trạng thái',
           width: '100px',
-          sortable: true,
-          field: 'status',
-          filterOptions: {
-            enabled: true,
-            placeholder: 'Select status',
-            filterDropdownItems: [{
-              value: true, text: 'Đang chạy',
-            },
-            {
-              value: false, text: 'Đang dừng',
-            }], // dropdown (with selected values) instead of text input
-          },
+          field: 'level',
         },
         {
-          label: 'Ngày tạo',
-          field: 'created_at',
+          label: 'Color',
           sortable: true,
-          filterOptions: {
-            enabled: true,
-            placeholder: 'Search date',
-            filterFn: this.dateRangeFilter,
-          },
+          width: '200px',
+          field: 'color',
         },
         {
           label: 'Tác vụ',
+          width: '100px',
           field: 'act',
         },
       ],
@@ -291,27 +237,29 @@ export default {
       }],
     }
   },
-  computed: {
-    roleVariant() {
-      const roleColor = {
-        /* eslint-disable key-spacing */
-        Admin  : 'light-success',
-        Member : 'light-info',
-        /* eslint-enable key-spacing */
-      }
-      return role => roleColor[role]
-    },
-  },
   created() {
-    this.rows = fakeData
+    this.rows = [
+      { name: 'Khai thác lại', approach: false, location: 1, level: 1, color: '#ff0000', status: false },
+      { name: 'Chưa xác nhận', approach: false, location: 2, level: 1, color: '#ff0000', status: false },
+      { name: 'Hủy', approach: false, location: 4, color: '#ff0000', status: false },
+      { name: 'Gọi máy bận', approach: false, location: 3, color: '#ff0000', status: false },
+      { name: 'Không nghe điện', approach: false, location: 5, color: '#ff0000', status: false },
+      { name: 'Kế toán mặc định', approach: false, location: 6, color: '#ff0000', status: false },
+      { name: 'Xác Nhận - Chốt đơn', approach: false, location: 7, color: '#ff0000', status: false },
+      { name: 'Chuyển hàng', approach: false, location: 8, color: '#ff0000', status: false },
+      { name: 'Chuyển hoàn', approach: false, location: 9, color: '#ff0000', status: false },
+      { name: 'Đã thu tiền', approach: false, location: 10, color: '#ff0000', status: false },
+      { name: 'Đã trả hàng về kho', approach: false, location: 11, color: '#ff0000', status: false },
+      { name: 'Thành công', approach: false, location: 12, color: '#ff0000', status: false },
+      
+    ]
   },
   methods: {
-    dateRangeFilter(data, filterString) {
-      const dateRange = filterString.split('to')
-      const startDate = Date.parse(dateRange[0])
-      const endDate = Date.parse(dateRange[1])
-      const dataOut = Date.parse(data) >= startDate && Date.parse(data) <= endDate
-      return dataOut
+    onSubmit() {
+      console.log('button Save')
+    },
+    addStatus() {
+      this.userStatus.push({})
     },
     exportPrint(t) {
       console.log('type', t)
@@ -371,5 +319,10 @@ export default {
     position: static;
     background: red;
   }
+}
+.color-picker > input{
+  width: 77%;
+  border: 1px solid #f0e2e2;
+  height: 40px;
 }
 </style>

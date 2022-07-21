@@ -46,7 +46,6 @@ import PrePay from '@/@core/components/order/PrePay.vue'
 import Book from '@/@core/components/order/Book.vue'
 import { required, email } from '@validations'
 import CreateCustomerVue from '@core/components/order/createCustomer.vue'
-import dataFake from './fakeDataCreateOrder'
 import PayBill from '../modal/PayBill.vue'
 
 export default {
@@ -75,7 +74,6 @@ export default {
       },
       required,
       email,
-      users: dataFake.users,
     }
   },
   components: {

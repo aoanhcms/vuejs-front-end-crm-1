@@ -6,66 +6,69 @@
       <b-card>
         <b-card-header>
           <b-card-title>Quản lý nguồn đơn hàng</b-card-title>
-          <b-card-sub-title>
-            <nav-table
-              :to="{ name: 'orders-source-create'}"
-              name="Thêm Nguồn đơn mới"
-              :exports="exports_row"
-              :selectedChanged="selectedProductItems"
-              @confirmDeleteSelected="confirmDeleteSelected"
-            />
-          </b-card-sub-title>
         </b-card-header>
-        <vue-good-table
-          :columns="orders_columns"
-          :rows="rows"
-          :search-options="{
-            enabled: false,
-            externalQuery: searchTermOrder,
-          }"
-          :select-options="{
-            enabled: false,
-            selectOnCheckboxOnly: true, // only select when checkbox is clicked instead of the row
-            selectionInfoClass: 'custom-class',
-            selectionText: 'rows selected',
-            clearSelectionText: 'clear',
-            disableSelectInfo: true, // disable the select info panel on top
-            selectAllByGroup: true, // when used in combination with a grouped table, add a checkbox in the header row to check/uncheck the entire group
-          }"
-          :pagination-options="{
-            enabled: false,
-            perPage:pageLength
-          }"
-          @on-selected-rows-change="selectionChanged"
-        >
-          <template
-            slot="table-row"
-            slot-scope="props"
-          >
-            <span v-if="props.column.field === 'default'">
-              <col-status :status="props.row.status" />
-            </span>
-            <span v-else-if="props.column.field === 'created_at'">
-              <div><FeatherIcon icon="ClockIcon" /> {{ props.row.created_at }}</div>
-              <div><FeatherIcon icon="ClockIcon" /> {{ props.row.updated_at }}</div>
-            </span>
-            <!-- Column: Action -->
-            <span v-else-if="props.column.field === 'act'">
-              <col-action
-                :row="props.row.id"
-                :to="{ name: 'orders-source-edit', params: { id: props.row.id}}"
-                @delete="showMsgBoxConfirmDelete"
-              />
-            </span>
-            <!-- Column: Common -->
-            <span v-else>
-              {{ props.formattedRow[props.column.field] }}
-            </span>
-          </template>
-          <!-- pagination -->
-          <!--<template slot="column-filter" slot-scope="props">
-          </template>-->
-        </vue-good-table>
+        <b-row no-gutters>
+          <b-col cols="2">
+            <b-form-input placeholder="Mã vận đơn" />
+          </b-col>
+          <b-col cols="2">
+            <b-form-input />
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col>
+            <vue-good-table
+              :columns="orders_columns"
+              :rows="rows"
+              :search-options="{
+                enabled: false,
+                externalQuery: searchTermOrder,
+              }"
+              :select-options="{
+                enabled: false,
+                selectOnCheckboxOnly: true, // only select when checkbox is clicked instead of the row
+                selectionInfoClass: 'custom-class',
+                selectionText: 'rows selected',
+                clearSelectionText: 'clear',
+                disableSelectInfo: true, // disable the select info panel on top
+                selectAllByGroup: true, // when used in combination with a grouped table, add a checkbox in the header row to check/uncheck the entire group
+              }"
+              :pagination-options="{
+                enabled: false,
+                perPage:pageLength
+              }"
+              @on-selected-rows-change="selectionChanged"
+            >
+              <template
+                slot="table-row"
+                slot-scope="props"
+              >
+                <span v-if="props.column.field === 'default'">
+                  <col-status :status="props.row.status" />
+                </span>
+                <span v-else-if="props.column.field === 'created_at'">
+                  <div><FeatherIcon icon="ClockIcon" /> {{ props.row.created_at }}</div>
+                  <div><FeatherIcon icon="ClockIcon" /> {{ props.row.updated_at }}</div>
+                </span>
+                <!-- Column: Action -->
+                <span v-else-if="props.column.field === 'act'">
+                  <col-action
+                    :row="props.row.id"
+                    :to="{ name: 'orders-source-edit', params: { id: props.row.id}}"
+                    @delete="showMsgBoxConfirmDelete"
+                  />
+                </span>
+                <!-- Column: Common -->
+                <span v-else>
+                  {{ props.formattedRow[props.column.field] }}
+                </span>
+              </template>
+              <!-- pagination -->
+              <!--<template slot="column-filter" slot-scope="props">
+              </template>-->
+            </vue-good-table>
+          </b-col>
+        </b-row>
       </b-card>
     </b-container>
   </div>
@@ -73,13 +76,12 @@
 
 <script>
 import {
-  BCardSubTitle, BContainer, BCardTitle, BPagination, BFormSelect, BCard, BBadge, BCardHeader,
+  BFormInput, BRow, BCol, BContainer, BCardTitle, BPagination, BFormSelect, BCard, BBadge, BCardHeader,
 } from 'bootstrap-vue'
 import Ripple from 'vue-ripple-directive'
 import { VueGoodTable } from 'vue-good-table'
 import flatPickr from 'flatpickr'
 
-import NavTable from '@core/components/datatable/NavTable.vue'
 import ColAction from '@core/components/datatable/ColAction.vue'
 import ColStatus from '@core/components/datatable/ColStatus.vue'
 import 'flatpickr/dist/flatpickr.css'
@@ -90,15 +92,14 @@ export default {
   components: {
     ColAction,
     ColStatus,
-    NavTable,
-    BCardSubTitle,
     BCardHeader,
+    BRow, BCol,
     BPagination,
-    BFormSelect,
     flatPickr,
     BCardTitle,
     BContainer,
     VueGoodTable,
+    BFormInput,
     BCard,
     BBadge,
   },
@@ -123,12 +124,37 @@ export default {
           width: '100px',
         },
         {
-          label: 'Tên Nguồn đơn',
+          label: 'Mã vận đơn/ Mã đơn hàng',
           field: 'name',
           sortable: true,
         },
         {
-          label: 'Mặc định',
+          label: 'Thông tin vận chuyển',
+          sortable: true,
+          field: 'default',
+        },
+        {
+          label: 'Thông tin kiện hàng',
+          sortable: true,
+          field: 'default',
+        },
+        {
+          label: 'Phí vận chuyển',
+          sortable: true,
+          field: 'default',
+        },
+        {
+          label: 'Tổng tiền',
+          sortable: true,
+          field: 'default',
+        },
+        {
+          label: 'Trạng thái',
+          sortable: true,
+          field: 'default',
+        },
+        {
+          label: 'Ngày tháng',
           sortable: true,
           field: 'default',
         },

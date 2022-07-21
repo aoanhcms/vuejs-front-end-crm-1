@@ -3,12 +3,16 @@
     <b-container
       fluid
     >
-      <b-card title="Danh sách đơn hàng">
-        <nav-filter @filterDone="navFilterFetch" />
-        <date-filter @filterDone="dateFilterFetch"/>
+      <b-card no-body class="ft-order-card">
+        <b-card-header>
+          <nav-filter @filterDone="navFilterFetch" />
+        </b-card-header>
+        <b-card-body>
+          <date-filter @filterDone="dateFilterFetch"/>
         <status-filter @filterDone="statusFilterFetch"/>
         <form-filter @filterDone="formFilterFetch" />
         <vue-good-table
+          theme="black-rhino"
           mode="remote"
           :columns="columnFilterEnabled"
           :rows="rows"
@@ -134,13 +138,14 @@
           :list-data="orders_columns"
           @FilterFetch="filterFetch"
         />
+        </b-card-body>
       </b-card>
     </b-container>
   </div>
 </template>
 
 <script>
-import { BContainer, BPagination, BFormSelect, BCard, BBadge,} from 'bootstrap-vue'
+import { BCardBody, BCardHeader, BContainer, BPagination, BFormSelect, BCard, BBadge } from 'bootstrap-vue'
 import Ripple from 'vue-ripple-directive'
 import { VueGoodTable } from 'vue-good-table'
 
@@ -164,6 +169,8 @@ export default {
   watch: {
   },
   components: {
+    BCardBody,
+    BCardHeader,
     SortColumnTable,
     NavFilter,
     FormFilter,
@@ -274,42 +281,48 @@ export default {
           label: 'Địa chỉ',
           field: 'dia_chi',
           sortable: true,
+          width: '300px',
           enabled: true,
         },
         {
           label: 'NV được chia',
           field: 'nv_duoc_chia',
           sortable: true,
-          width: '100px',
+          width: '300px',
           enabled: true,
         },
         {
           label: 'Mã VĐ',
           sortable: true,
           field: 'ma_vd',
+          width: '200px',
           enabled: true,
         },
         {
           label: 'Số DT',
           sortable: true,
+          width: '200px',
           field: 'so_dt',
           enabled: true,
         },
         {
           label: 'Nguồn',
           sortable: true,
+          width: '300px',
           field: 'nguon',
           enabled: true,
         },
         {
           label: 'Sản phẩm',
           sortable: true,
+          width: '300px',
           field: 'san_pham',
           enabled: true,
         },
         {
           label: 'Tên KH',
           sortable: true,
+          width: '300px',
           field: 'ten_kh',
           enabled: true,
         },
@@ -317,30 +330,35 @@ export default {
           label: 'FB KH',
           sortable: true,
           field: 'fb_kh',
+          width: '300px',
           enabled: true,
         },
         {
           label: 'Tỉnh/Thành',
           sortable: true,
           field: 'tinh_thanh',
+          width: '300px',
           enabled: true,
         },
         {
           label: 'Mã',
           sortable: true,
           field: 'ma',
+          width: '300px',
           enabled: true,
         },
         {
           label: 'Bài Post',
           sortable: true,
           field: 'bai_post',
+          width: '300px',
           enabled: true,
         },
         {
           label: 'Page',
           sortable: true,
           field: 'page',
+          width: '300px',
           enabled: true,
         },
         {
@@ -348,11 +366,13 @@ export default {
           sortable: true,
           field: 'note_chung',
           enabled: true,
+          width: '300px',
         },
         {
           label: 'Note 2',
           sortable: true,
           field: 'note_2',
+          width: '300px',
           enabled: true,
         },
         {
@@ -360,15 +380,18 @@ export default {
           sortable: true,
           field: 'ngay_tao',
           enabled: true,
+          width: '300px',
         },
         {
           label: 'Trạng thái',
           sortable: true,
           field: 'trang_thai',
+          width: '100px',
           enabled: true,
         },
         {
           label: 'Tổng tiền',
+          width: '200px',
           sortable: true,
           field: 'tong_tien',
           enabled: true,
@@ -376,17 +399,20 @@ export default {
         {
           label: 'Trùng đơn',
           sortable: true,
+          width: '300px',
           field: 'trung_don',
           enabled: true,
         },
         {
           label: 'NV Xác Nhận',
           sortable: true,
+          width: '300px',
           field: 'nv_xac_nhan',
           enabled: true,
         },
         {
           label: 'Ngày XN',
+          width: '200px',
           sortable: true,
           field: 'ngay_xn',
           enabled: true,
@@ -394,18 +420,21 @@ export default {
         {
           label: 'Ngày Chuyển',
           sortable: true,
+          width: '200px',
           field: 'ngay_chuyen',
           enabled: true,
         },
         {
           label: 'Người Chuyển',
           sortable: true,
+          width: '300px',
           field: 'nguoi_chuyen',
           enabled: true,
         },
         {
           label: 'Người Tạo',
           sortable: true,
+          width: '300px',
           field: 'nguoi_tao',
           enabled: true,
         },
@@ -413,16 +442,19 @@ export default {
           label: 'Mã Bưu điện',
           sortable: true,
           field: 'ma_buu_dien',
+          width: '300px',
           enabled: true,
         },
         {
           label: 'Note Giao hàng',
+          width: '300px',
           sortable: true,
           field: 'note_giao_hang',
           enabled: true,
         },
         {
           label: 'Công ty',
+          width: '300px',
           sortable: true,
           field: 'cong_ty',
           enabled: true,
@@ -430,12 +462,14 @@ export default {
         {
           label: 'Nguồn Up Sale',
           sortable: true,
+          width: '300px',
           field: 'nguon_up_sale',
           enabled: true,
         },
         {
           label: 'Email KH',
           sortable: true,
+          width: '300px',
           field: 'email_kh',
           enabled: true,
         },
@@ -443,6 +477,7 @@ export default {
           label: 'Thành Tiền',
           sortable: true,
           field: 'thanh_tien',
+          width: '300px',
           enabled: true,
         },
         {
@@ -450,17 +485,20 @@ export default {
           sortable: true,
           field: 'nv_da_tra_hang_ve_kho',
           enabled: true,
+          width: '300px',
         },
         {
           label: 'Ngày đã trả hàng về Kho',
           sortable: true,
           field: 'ngay_da_tra_hang_ve_kho',
+          width: '300px',
           enabled: true,
         },
         {
           label: 'NV kế toán mặc định',
           sortable: true,
           field: 'nv_ke_toan_mac_dinh',
+          width: '300px',
           enabled: true,
         },
         {
@@ -468,10 +506,12 @@ export default {
           sortable: true,
           field: 'ngay_ke_toan_mac_dinh',
           enabled: true,
+          width: '300px',
         },
         {
           label: 'Ngày chuyển hoàn',
           sortable: true,
+          width: '300px',
           field: 'ngay_chuyen_hoan',
           enabled: true,
         },
@@ -479,11 +519,13 @@ export default {
           label: 'NV đã thu tiền',
           sortable: true,
           field: 'nv_da_thu_tien',
+          width: '300px',
           enabled: true,
         },
         {
           label: 'Ngày đã thu tiền',
           sortable: true,
+          width: '300px',
           field: 'ngay_da_thu_tien',
           enabled: true,
         },
@@ -491,11 +533,13 @@ export default {
           label: 'NV thành công',
           sortable: true,
           field: 'nv_thanh_cong',
+          width: '300px',
           enabled: true,
         },
         {
           label: 'Ngày thành công',
           sortable: true,
+          width: '300px',
           field: 'ngay_thanh_cong',
           enabled: true,
         },
@@ -503,12 +547,14 @@ export default {
           label: 'Phí VC',
           sortable: true,
           field: 'phi_vc',
+          width: '300px',
           enabled: true,
         },
         {
           label: 'Phụ Thu',
           sortable: true,
           field: 'phu_thu',
+          width: '300px',
           enabled: true,
         },
         {
@@ -516,21 +562,25 @@ export default {
           sortable: true,
           field: 'ma_kh',
           enabled: true,
+          width: '300px',
         },
         {
           label: 'Nhóm KH',
           sortable: true,
           field: 'nhom_kh',
           enabled: true,
+          width: '300px',
         },
         {
           label: 'Lý Do Hủy',
           sortable: true,
           field: 'ly_do_huy',
+          width: '300px',
           enabled: true,
         },
         {
           label: 'SĐT phụ',
+          width: '300px',
           sortable: true,
           field: 'sdt_phu',
           enabled: true,
@@ -538,6 +588,7 @@ export default {
         {
           label: 'Trả trước',
           sortable: true,
+          width: '300px',
           field: 'tra_truoc',
           enabled: true,
         },
@@ -545,10 +596,12 @@ export default {
           label: 'Còn Nợ',
           sortable: true,
           field: 'con_no',
+          width: '300px',
           enabled: true,
         },
         {
           label: 'SĐT Chính/Phụ',
+          width: '300px',
           sortable: true,
           field: 'sdt_chinh_phu',
           enabled: true,
@@ -556,11 +609,13 @@ export default {
         {
           label: 'Giao hàng',
           sortable: true,
+          width: '300px',
           field: 'giao_hang',
           enabled: true,
         },
         {
           label: 'Phân Loại sản phẩm',
+          width: '300px',
           sortable: true,
           field: 'phan_loai_san_pham',
           enabled: true,
@@ -568,6 +623,7 @@ export default {
         {
           label: 'Loại đơn',
           sortable: true,
+          width: '300px',
           field: 'loai_don',
           enabled: true,
         },
@@ -575,18 +631,21 @@ export default {
           label: 'Nguồn Shop',
           sortable: true,
           field: 'nguon_shop',
+          width: '300px',
           enabled: true,
         },
         {
           label: 'Nguồn Người Tạo',
           sortable: true,
           field: 'nguon_nguoi_tao',
+          width: '300px',
           enabled: true,
         },
         {
           label: 'Nguồn Người UpSale',
           sortable: true,
           field: 'nguon_nguoi_upsale',
+          width: '300px',
           enabled: true,
         },
         {
@@ -594,11 +653,13 @@ export default {
           sortable: true,
           field: 'ma_san_pham',
           enabled: true,
+          width: '300px',
         },
         {
           label: 'Nhà Mạng',
           sortable: true,
           field: 'nha_mang',
+          width: '300px',
           enabled: true,
         },
       ],
@@ -720,6 +781,13 @@ export default {
   },
 }
 </script>
+<style>
+  .ft-order-card .card-header {
+    padding: 0.3;
+    background-color: #d2d6de;
+    margin-bottom: 1rem;
+  }
+</style>
 <style lang="scss" >
   @import '@core/scss/vue/libs/vue-good-table.scss';
 </style>

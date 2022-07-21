@@ -5,16 +5,7 @@
     >
       <b-card>
         <b-card-header>
-          <b-card-title>Quản lý nguồn đơn hàng</b-card-title>
-          <b-card-sub-title>
-            <nav-table
-              :to="{ name: 'orders-source-create'}"
-              name="Thêm Nguồn đơn mới"
-              :exports="exports_row"
-              :selectedChanged="selectedProductItems"
-              @confirmDeleteSelected="confirmDeleteSelected"
-            />
-          </b-card-sub-title>
+          <b-card-title>Trạng thái kết nối giữa TUHA và đơn vị Vận chuyển</b-card-title>
         </b-card-header>
         <vue-good-table
           :columns="orders_columns"
@@ -72,14 +63,12 @@
 </template>
 
 <script>
-import {
-  BCardSubTitle, BContainer, BCardTitle, BPagination, BFormSelect, BCard, BBadge, BCardHeader,
+import { BContainer, BCardTitle, BCard, BBadge, BCardHeader,
 } from 'bootstrap-vue'
 import Ripple from 'vue-ripple-directive'
 import { VueGoodTable } from 'vue-good-table'
 import flatPickr from 'flatpickr'
 
-import NavTable from '@core/components/datatable/NavTable.vue'
 import ColAction from '@core/components/datatable/ColAction.vue'
 import ColStatus from '@core/components/datatable/ColStatus.vue'
 import 'flatpickr/dist/flatpickr.css'
@@ -90,11 +79,7 @@ export default {
   components: {
     ColAction,
     ColStatus,
-    NavTable,
-    BCardSubTitle,
     BCardHeader,
-    BPagination,
-    BFormSelect,
     flatPickr,
     BCardTitle,
     BContainer,
@@ -121,20 +106,73 @@ export default {
           label: 'ID',
           field: 'id',
           width: '100px',
+          filterOptions: {
+            enabled: true,
+            placeholder: 'Tìm Id',
+          },
         },
         {
-          label: 'Tên Nguồn đơn',
-          field: 'name',
+          label: 'Mã đơn hàng',
+          field: 'order_code',
           sortable: true,
+          filterOptions: {
+            enabled: true,
+            placeholder: 'Tìm Mã đơn hàng',
+          },
         },
         {
-          label: 'Mặc định',
+          label: 'Mã vận đơn',
           sortable: true,
-          field: 'default',
+          field: 'shipping_code',
+          filterOptions: {
+            enabled: true,
+            placeholder: 'Tìm Mã vận đơn',
+            trigger: 'enter',
+          },
         },
         {
-          label: 'Tác vụ',
-          field: 'act',
+          label: 'Hãng vận chuyển',
+          sortable: true,
+          field: 'company_shipping',
+          filterOptions: {
+            enabled: true,
+            placeholder: 'Tìm Hãng',
+            trigger: 'enter',
+          },
+        },
+        {
+          label: 'Trạng thái',
+          sortable: true,
+          field: 'status',
+          filterOptions: {
+            enabled: true,
+            placeholder: 'Tìm trạng thái',
+            filterDropdownItems: [
+              { value: '1', text: 'Đang xử lý'},
+              { value: '1', text: 'Thành công'},
+              { value: '1', text: 'Thất bại'},
+            ],
+          },
+        },
+        {
+          label: 'Nội dung',
+          sortable: true,
+          field: 'content',
+          filterOptions: {
+            enabled: true,
+            placeholder: 'Tìm Id',
+            trigger: 'enter',
+          },
+        },
+        {
+          label: 'Ngày tạo',
+          sortable: true,
+          field: 'created_at',
+          filterOptions: {
+            enabled: true,
+            placeholder: 'Search date',
+            trigger: 'enter',
+          },
         },
       ],
       rows: [],
@@ -172,8 +210,7 @@ export default {
   },
   created() {
     this.rows = [
-      { name: 'FB Comment', default: true },
-      { name: 'FB inbox', default: true },
+      {id: 1, order_code: '11111', shipping_code: '1111', status: '1', },
     ]
   },
   methods: {

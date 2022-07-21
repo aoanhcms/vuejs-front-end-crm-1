@@ -1,5 +1,10 @@
 <template>
   <div>
+    <b-row>
+      <b-col>
+        <filter-date />
+      </b-col>
+    </b-row>
     <b-row cols="12">
       <b-col cols="3">
         <statistic-card
@@ -49,11 +54,13 @@
 <script>
 import { BCol, BRow, BCard } from 'bootstrap-vue'
 import StatisticCard from '@core/components/statistics-cards/StatisticCardHorizontal.vue'
-
+import FilterDate from '@core/components/dashboard/FilterDate.vue'
 import EChart from '@core/components/charts/echart/AppEchartStackedArea.vue'
 
 export default {
-  components: {
+  components: 
+  {
+    FilterDate,
     BCard,
     BCol,
     BRow,

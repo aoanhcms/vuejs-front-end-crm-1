@@ -19,7 +19,7 @@ export default [
   },
   {
     title: 'Q.l Hình thức giao hàng',
-    route: 'orders-manage-shipping-service',
+    route: 'orders-status',
     icon: 'CheckCircleIcon',
   },
   {
@@ -29,32 +29,32 @@ export default [
   },
   {
     title: 'Q.lý xuất excel',
-    route: 'orders-manage-columns-export-excel',
+    route: 'orders-source',
     icon: 'DatabaseIcon',
   },
   {
     title: 'Q.lý mẩu in',
-    route: 'orders-manage-print',
+    route: 'orders-source',
     icon: 'DatabaseIcon',
   },
   {
     title: 'Địa chỉ lấy hàng',
-    route: 'orders-manage-address',
+    route: 'orders-source',
     icon: 'DatabaseIcon',
   },
   {
-    title: 'Đơn vận chuyển',
-    route: 'orders-manage-shipping',
+    title: 'Đơn vị vận chuyển',
+    route: 'orders-source',
     icon: 'DatabaseIcon',
   },
   {
     title: 'Tình trạng vận chuyển',
-    route: 'orders-manage-shipping-processing',
+    route: 'orders-source',
     icon: 'DatabaseIcon',
   },
   {
     title: 'Import mã bưu điện',
-    route: 'orders-manage-import-postal-code',
+    route: 'orders-source',
     icon: 'DatabaseIcon',
   },
   {
@@ -81,70 +81,35 @@ export default [
     icon: 'UsersIcon',
   },
   {
-    header: 'Sản Phẩm',
+    header: 'Quản lý Lớp Học',
   },
   {
-    title: 'Danh sách Sản Phẩm',
+    title: 'Danh sách Lớp Học',
     route: 'classes',
     icon: 'HomeIcon',
   },
   {
-    title: 'Phân Loại',
+    title: 'Quản lý Giáo Viên',
     route: 'teacher',
     icon: 'TypeIcon',
   },
   {
-    title: 'Đơn Vị',
-    route: 'teacher',
-    icon: 'TypeIcon',
+    header: 'Quản lý Marketing',
   },
   {
-    header: 'Hồ Sơ',
-  },
-  {
-    title: 'Tùy Chỉnh Shop',
+    title: 'Q.Lý Platform Marketing',
     route: 'platform-marketing',
     icon: 'PackageIcon',
   },
   {
-    title: 'Tùy Chỉnh Shop',
-    route: 'platform-marketing',
-    icon: 'PackageIcon',
+    title: 'Quản lý Hóa Đơn',
+    route: 'facebook-invoice',
+    icon: 'FacebookIcon',
   },
   {
-    title: 'Trang cá nhân',
-    route: 'platform-marketing',
-    icon: 'PackageIcon',
-  },
-  {
-    title: 'Quản trị người dùng',
-    route: 'platform-marketing',
-    icon: 'PackageIcon',
-  },
-  {
-    title: 'Khai báo đội nhóm',
-    route: 'platform-marketing',
-    icon: 'PackageIcon',
-  },
-  {
-    title: 'Quản lý quyền',
-    route: 'platform-marketing',
-    icon: 'PackageIcon',
-  },
-  {
-    title: 'Khai báo tiền quảng cáo',
-    route: 'platform-marketing',
-    icon: 'PackageIcon',
-  },
-  {
-    title: 'Lịch sử xuất Excel',
-    route: 'platform-marketing',
-    icon: 'PackageIcon',
-  },
-  {
-    title: 'Lịch sử gửi email',
-    route: 'platform-marketing',
-    icon: 'PackageIcon',
+    title: 'Chi Phí Tài Nguyên',
+    route: 'billing-resource',
+    icon: 'ActivityIcon',
   },
   {
     header: 'Báo cáo số liệu',

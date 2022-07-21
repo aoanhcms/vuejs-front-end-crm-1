@@ -31,10 +31,10 @@
         >
           <b-row no-gutters>
             <b-col>
-              <b-form-input placeholder="Tên sản phẩm" disabled />
+              <b-form-input placeholder="Tên sản phẩm" disabled v-model="product.name" />
             </b-col>
             <b-col>
-              <b-form-select />
+              <b-form-select v-model="product_select" :options="products_list" @change="updateProduct($event, i)" />
             </b-col>
             <b-col cols="1" style="text-align: right">
               <b-button variant="danger" @click="Delete(i)"><feather-icon icon="DeleteIcon" /></b-button>
@@ -43,7 +43,7 @@
           <b-row no-gutters>
             <b-col>
               <b-form-group label="Kho">
-                <b-form-select />
+                <b-form-select v-model="product.kho" :options="[{text: 'Kho Tổng', value: 'kho_tong'}]"/>
               </b-form-group>
             </b-col>
             <b-col >
@@ -68,7 +68,7 @@
             </b-col>
             <b-col>
               <b-form-group label="Số lượng">
-                <b-form-input />
+                <b-form-input v-model="product.so_luong" />
               </b-form-group>
             </b-col>
             <b-col>
@@ -89,8 +89,15 @@ import FeatherIcon from '../feather-icon/FeatherIcon.vue'
 
 export default {
   methods: {
+    updateProduct(v, i) {
+      this.$set(this.products, i, { ...v })
+    },
     addProduct() {
-      this.products.push({})
+      this.products.push({
+        kho: 'kho_tong',
+        so_luong: 1,
+        name: '',
+      })
     },
     Delete(k) {
       this.products = this.products.filter((p, kk) => kk !== k)
@@ -99,7 +106,30 @@ export default {
   data() {
     return {
       products: [],
+      product_select: null,
+      products_list: [
+        {
+          text: 'Chọn sản phẩm',
+          value: null,
+          disabled: true,
+        },
+        {
+          text: 'Tên sản phẩm 1',
+          value: { kho: 'kho_tong', so_luong: 2, name: 'Tên sản phẩm 1' },
+        },
+        {
+          text: 'Tên sản phẩm 2',
+          value: { kho: 'kho_tong', so_luong: 3, name: 'Tên sản phẩm 2' },
+        },
+      ],
     }
+  },
+  mounted() {
+    this.$nextTick(() => {
+      console.log('nextTick')
+      // The whole view is rendered,
+      // so I can safely access or query the DOM. ¯\_(ツ)_/¯
+    })
   },
   components: {
     BFormSelect,

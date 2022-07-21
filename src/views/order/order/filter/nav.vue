@@ -23,7 +23,7 @@
       </b-col>
       <b-col cols="3" offset="1" style="text-align: right">
         <b-button size="md" variant="info">Chia đơn nhanh</b-button>
-        <b-button size="md" variant="success" v-b-modal.modal-1 >Sắp xếp cột</b-button>
+        <b-button size="md" variant="success" v-b-modal.modal-1 style="margin-left: 15px">Sắp xếp cột</b-button>
       </b-col>
     </b-row>
   </b-container>

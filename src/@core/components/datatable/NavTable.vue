@@ -15,7 +15,7 @@
     </b-button>
     <b-button
       v-ripple.400="'rgba(113, 102, 240, 0.15)'"
-      variant="outline-primary"
+      variant="success"
       style="margin-right: 10px;"
       :to="to"
     >

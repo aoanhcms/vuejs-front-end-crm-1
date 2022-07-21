@@ -1,40 +1,37 @@
 <template>
   <div class="custom-search">
-    <!-- advance search input -->
     <b-row>
-      <b-col>
-        <table>
-          <th
-            v-for="(th, k) in date_filter"
-            :key="k"
-            class="date_filter_th"
-          >
-            <b-form-checkbox v-model="th.allow" @change="filteDone">{{ th.label }}</b-form-checkbox>
-
-          </th>
-          <tbody>
-            <tr >
-              <td v-for="(td, k) in date_filter" :key="k" class="date_filter_td">
+      <b-col cols="12" class="date-option">
+        <b-row>
+          <b-col v-for="(td, k) in date_filter" :key="k" >
+            <b-card class="filter-card">
+              <b-card-header class="filter-card-header">
+                <b-form-group>
+                  <b-form-checkbox v-model="td.allow" @change="filteDone">{{ td.label }}</b-form-checkbox>
+                </b-form-group>
+              </b-card-header>
+              <b-card-body>
                 <b-form-group>
                   <b-form-input placeholder="Search" v-model="td.filter_date_from" @change="filteDone"/>
                   <b-form-input placeholder="Search" v-model="td.filter_date_to" @change="filteDone"/>
                 </b-form-group>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+              </b-card-body>
+            </b-card>
+          </b-col>
+        </b-row>
       </b-col>
     </b-row>
+
   </div>
 </template>
 
 <script>
 
-import { BFormGroup, BFormInput, BRow, BCol, BFormCheckbox, } from 'bootstrap-vue'
+import {BCard, BCardHeader, BCardText, BCardBody, BCardTitle, BFormGroup, BFormInput, BRow, BCol, BFormCheckbox } from 'bootstrap-vue'
 
 export default {
   components: {
-    BFormGroup, BFormInput, BRow, BCol, BFormCheckbox, 
+    BFormGroup, BFormInput, BRow, BCol, BFormCheckbox, BCard, BCardHeader, BCardText, BCardBody, BCardTitle,
   },
   data() {
     return {
@@ -117,12 +114,34 @@ export default {
 </script>
 <style>
   .date_filter_th {
+    margin-right: 10px;
     background-color: antiquewhite;
     border: 1px solid rgb(199, 197, 197);
     padding: 3px;
+    width: 10%;
+  }
+  .table-form-date {
+    width: 100%;
   }
   .date_filter_td {
     border: 1px solid rgb(236, 233, 230);
     padding: 3px;
+  }
+  .table-scroll {
+      overflow-x:auto;
+    }
+  .filter-card {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 5px;
+  }
+  .filter-card .card-header {
+    padding:0.5rem;
+  }
+  .filter-card .card-body {
+    padding:0;
+  }
+  .filter-card-header {
+    background-color: #f5f5f5!important;
   }
 </style>

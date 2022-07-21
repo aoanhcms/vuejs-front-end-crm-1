@@ -1,9 +1,11 @@
 <template>
   <div>
-    <b-row no-gutters>
-      <b-col cols="4">
+    <b-row>
+    <!--left-->
+      <b-col>
+        <!--hang 1 left-->
         <b-row no-gutters>
-          <b-col>
+          <b-col cols="3">
             <b-form-group
               label="Nguồn Shop"
             >
@@ -15,7 +17,8 @@
               />
             </b-form-group>
           </b-col>
-          <b-col cols="4">
+
+          <b-col cols="3">
             <b-form-group
               label="Nguồn đơn hàng"
               label-class="labelNguonDonHang"
@@ -28,7 +31,8 @@
               />
             </b-form-group>
           </b-col>
-          <b-col>
+
+          <b-col cols="3">
             <b-form-group
               label="Giao hàng"
             >
@@ -40,7 +44,8 @@
               />
             </b-form-group>
           </b-col>
-          <b-col>
+
+          <b-col cols="3">
             <b-form-group>
               <b-dropdown id="dropdown-form" text="Tỉnh thành" ref="dropdown" style="padding-top: 27px;">
                 <div class="tinh_thanh_dropdown">
@@ -62,9 +67,131 @@
               </b-dropdown>
             </b-form-group>
           </b-col>
+
+        </b-row>
+        <!--hang 2 left-->
+
+        <b-row no-gutters>
+          <b-col cols="3">
+            <b-form-group
+              label="Mã Vạch"
+            >
+              <b-form-input
+                v-model="form.codebar_options.selected"
+                class="select_filter"
+                @change="filterDone"
+              />
+            </b-form-group>
+          </b-col>
+          <b-col cols="3">
+            <b-form-group
+              label="Phân loại"
+            >
+              <b-form-select
+                v-model="form.category_options.selected"
+                :options="constantOptions.CategoryOptions"
+                class="select_filter"
+                @change="filterDone"
+              />
+            </b-form-group>
+          </b-col>
+          <b-col cols="3">
+            <b-form-group
+              label="Nhóm KH"
+            >
+              <b-form-select
+                v-model="form.group_customer_options.selected"
+                :options="constantOptions.groupCustomerOptions"
+                class="select_filter"
+                @change="filterDone"
+              />
+            </b-form-group>
+          </b-col>
+        </b-row>
+        <!-- hang 3 left-->
+        <b-row no-gutters>
+          <b-col cols="3">
+            <b-form-group
+              label="In đơn hàng"
+            >
+              <b-form-select
+                v-model="form.print_options.selected"
+                :options="constantOptions.PrintOptions"
+                class="select_filter"
+                @change="filterDone"
+              />
+            </b-form-group>
+          </b-col>
+          <b-col cols="3">
+            <b-form-group
+              label="Đơn trùng"
+            >
+              <b-form-select
+                v-model="form.match_options.selected"
+                :options="constantOptions.MatchOptions"
+                class="select_filter"
+                @change="filterDone"
+              />
+            </b-form-group>
+          </b-col>
+          <b-col cols="3">
+            <b-form-group
+              label="Nhà Mạng"
+            >
+              <v-select multiple v-model="form.telco_options.selected" :options="constantOptions.TelcoOptions">
+                <template v-slot:option="option">
+                  {{ option.text }}
+                </template>
+                <template v-slot:selected-option="option">
+                  {{ option.text }}
+                </template>
+              </v-select>
+            </b-form-group>
+          </b-col>
+        </b-row>
+        <!-- hang 4 left-->
+        <b-row>
+          <b-col>
+            <b-row no-gutters>
+              <b-col cols="3">
+                <b-form-group label="Khoảng giá từ ">
+                  <cleave
+                    id="number"
+                    v-model="form.price_from"
+                    class="form-control"
+                    :raw="false"
+                    placeholder="10,000"
+                    :options="{
+                      numeral: true,
+                      numeralThousandsGroupStyle: 'thousand',
+                    }"
+                    @change="filterDone"
+                  />
+                </b-form-group>
+              </b-col>
+              <b-col cols="3">
+                <b-form-group label="đến">
+                  <cleave
+                    id="number"
+                    v-model="form.price_to"
+                    class="form-control"
+                    :raw="false"
+                    placeholder="10,000"
+                    :options="{
+                      numeral: true,
+                      numeralThousandsGroupStyle: 'thousand',
+                    }"
+                    @change="filterDone"
+                  />
+                </b-form-group>
+              </b-col>
+            </b-row>
+          </b-col>
         </b-row>
       </b-col>
-      <b-col cols="7" offset="1">
+      <!--right-->
+      <b-col>
+        <!-- hang 1-->
         <b-row no-gutters>
           <b-col>
             <b-form-group
@@ -113,192 +240,82 @@
               />
             </b-form-group>
           </b-col>
-          <b-col>
-            <b-form-group
-              label="Sale"
-            >
-              <b-form-select
-                v-model="form.sale_options.selected"
-                :options="form.sale_options.options"
-                class="select_filter"
-                @change="filterDone"
-              />
-            </b-form-group>
-          </b-col>
-          <b-col>
-            <b-form-group
-              label="NV Chốt"
-            >
-              <b-form-select
-                v-model="form.staff_confirmed_options.selected"
-                :options="form.staff_confirmed_options.options"
-                class="select_filter"
-                @change="filterDone"
-              />
-            </b-form-group>
-          </b-col>
-          <b-col>
-            <b-form-group
-              label="Nguồn Upsale"
-            >
-              <b-form-select
-                v-model="form.upsale_options.selected"
-                :options="constantOptions.UpSaleOptions"
-                class="select_filter"
-                @change="filterDone"
-              />
-            </b-form-group>
-          </b-col>
         </b-row>
-      </b-col>
-    </b-row>
-    <b-row no-gutters>
-      <b-col cols="8">
-        <b-row  no-gutters>
-          <b-col>
-            <b-form-group
-              label="Mã Vạch"
-            >
-              <b-form-input
-                v-model="form.codebar_options.selected"
-                class="select_filter"
-                @change="filterDone"
-              />
-            </b-form-group>
-          </b-col>
-          <b-col>
-            <b-form-group
-              label="Phân loại"
-            >
-              <b-form-select
-                v-model="form.category_options.selected"
-                :options="constantOptions.CategoryOptions"
-                class="select_filter"
-                @change="filterDone"
-              />
-            </b-form-group>
-          </b-col>
-          <b-col>
-            <b-form-group
-              label="Nhóm KH"
-            >
-              <b-form-select
-                v-model="form.group_customer_options.selected"
-                :options="constantOptions.groupCustomerOptions"
-                class="select_filter"
-                @change="filterDone"
-              />
-            </b-form-group>
-          </b-col>
-          <b-col>
-            <b-form-group
-              label="In đơn hàng"
-            >
-              <b-form-select
-                v-model="form.print_options.selected"
-                :options="constantOptions.PrintOptions"
-                class="select_filter"
-                @change="filterDone"
-              />
-            </b-form-group>
-          </b-col>
-          <b-col>
-            <b-form-group
-              label="Đơn trùng"
-            >
-              <b-form-select
-                v-model="form.match_options.selected"
-                :options="constantOptions.MatchOptions"
-                class="select_filter"
-                @change="filterDone"
-              />
-            </b-form-group>
-          </b-col>
-          <b-col>
-            <b-form-group
-              label="Nhà Mạng"
-            >
-              <v-select multiple v-model="form.telco_options.selected" :options="constantOptions.TelcoOptions">
-                <template v-slot:option="option">
-                  {{ option.text }}
-                </template>
-                <template v-slot:selected-option="option">
-                  {{ option.text }}
-                </template>
-              </v-select>
-            </b-form-group>
-          </b-col>
-        </b-row>
-      </b-col>
-      <b-col cols="1"></b-col>
-      <b-col cols="3" style="text-align: right">
         <b-row>
           <b-col>
-            <b-form-group>
+            <b-row no-gutters>
+              <b-col>
+                <b-form-group
+                  label="Sale"
+                >
+                  <b-form-select
+                    v-model="form.sale_options.selected"
+                    :options="form.sale_options.options"
+                    class="select_filter"
+                    @change="filterDone"
+                  />
+                </b-form-group>
+              </b-col>
+              <b-col>
+                <b-form-group
+                  label="NV Chốt"
+                >
+                  <b-form-select
+                    v-model="form.staff_confirmed_options.selected"
+                    :options="form.staff_confirmed_options.options"
+                    class="select_filter"
+                    @change="filterDone"
+                  />
+                </b-form-group>
+              </b-col>
+              <b-col>
+                <b-form-group
+                  label="Nguồn Upsale"
+                >
+                  <b-form-select
+                    v-model="form.upsale_options.selected"
+                    :options="constantOptions.UpSaleOptions"
+                    class="select_filter"
+                    @change="filterDone"
+                  />
+                </b-form-group>
+              </b-col>
+              <b-col>
+                <b-form-group
+                  label="Chọn Kho"
+                >
+                  <b-form-select
+                    v-model="form.upsale_options.selected"
+                    :options="form.upsale_options.options"
+                    @change="filterDone"
+                  />
+                </b-form-group>
+              </b-col>
+            </b-row>
+          </b-col>
+        </b-row>
+        <!--hang 2-->
+        <b-row>
+          <b-col></b-col>
+        </b-row>
+        <!--hang 3-->
+        <b-row no-gutters>
+          <b-col cols="3">
+            <b-form-group
+              label="Tùy Chọn Hiển Thị"
+            >
               <b-form-checkbox
                 switch
                 v-model="form.staff_allow_all"
                 @change="filterDone">Hiển thị toàn bộ NV</b-form-checkbox>
             </b-form-group>
           </b-col>
-          <b-col>
-            <b-form-group>
-              <b-form-select
-                v-model="form.upsale_options.selected"
-                :options="form.upsale_options.options"
-                style="width: 100px"
-                @change="filterDone"
-              />
-            </b-form-group>
-          </b-col>
-        </b-row>
-      </b-col>
-    </b-row>
-    <b-row>
-      <b-col cols="6">
-        <b-row>
-          <b-col cols="4">
-            <b-form-group label="Khoảng giá từ ">
-              <cleave
-                id="number"
-                v-model="form.price_from"
-                class="form-control"
-                :raw="false"
-                placeholder="10,000"
-                :options="{
-                  numeral: true,
-                  numeralThousandsGroupStyle: 'thousand',
-                }"
-                @change="filterDone"
-              />
-            </b-form-group>
-          </b-col>
-          <b-col cols="4">
-            <b-form-group label="đến">
-              <cleave
-                id="number"
-                v-model="form.price_to"
-                class="form-control"
-                :raw="false"
-                placeholder="10,000"
-                :options="{
-                  numeral: true,
-                  numeralThousandsGroupStyle: 'thousand',
-                }"
-                @change="filterDone"
-              />
-            </b-form-group>
-          </b-col>
-        </b-row>
-      </b-col>
-      <b-col cols="6">
-        <b-row>
-          <b-col cols="4" offset="4">
+          <b-col cols="3" offset="3">
             <b-form-group label="ID facebook">
               <b-form-input />
             </b-form-group>
           </b-col>
-          <b-col cols="4">
+          <b-col cols="3">
             <b-form-group label="Chọn Page">
               <b-form-select :options="['Tất cả page']" />
             </b-form-group>
@@ -451,5 +468,8 @@ export default {
   }
   .vs__dropdown-toggle {
     min-height: 37px;
+  }
+  #dropdown-form {
+    margin-left: 10px;
   }
 </style>
